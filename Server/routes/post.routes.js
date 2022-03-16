@@ -1,0 +1,25 @@
+const postRouter = require('express').Router();
+const { container } = require('../app-container');
+const postController = container.resolve('postController');
+const commentController = container.resolve('commentController');
+const postLikeController = container.resolve('postLikeController');
+const authMiddleware = require('../middlewares/auth-user');
+
+postRouter.use(authMiddleware);
+
+postRouter.get('/', postController.getAllPosts);
+postRouter.post('/', postController.addPost);
+postRouter.get('/search/:searchParams', postController.searchPosts);
+postRouter.get('/:postId', postController.getPost);
+
+postRouter.get('/:postId/comments', commentController.getAllComments);
+postRouter.post('/:postId/comments', commentController.addComment);
+
+postRouter.delete('/comments/:commentId/likes', commentController.removeCommentLike);
+postRouter.get('/comments/:commentId/likes', commentController.addCommentLike);
+
+postRouter.get('/:postId/likes', postLikeController.getPostLikes);
+postRouter.post('/:postId/likes', postLikeController.addPostLike);
+postRouter.delete('/:postId/likes', postLikeController.removePostLike);
+
+module.exports = postRouter;
