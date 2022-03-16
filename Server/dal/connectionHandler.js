@@ -1,6 +1,6 @@
 const sql = require('mssql/msnodesqlv8');
 
-const connectionString = "server=(localdb)\\MSSQLLocalDB;Database=FakeLook;Trusted_Connection=True;";
+const connectionString = "server=(localdb)\\MSSQLLocalDB;Database=FakeLook;Trusted_Connection=Yes;";
 
 const poolPromise = new sql.ConnectionPool(connectionString)
     .connect()
@@ -10,6 +10,4 @@ const poolPromise = new sql.ConnectionPool(connectionString)
     })
     .catch(err => console.log('Database connection faild!', err));
 
-module.exports = {
-    sql, poolPromise
-}
+module.exports = { sql, poolPromise }

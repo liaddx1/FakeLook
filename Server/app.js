@@ -3,7 +3,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const app = express();
-const mainRouter = require('./routes/main.routes.js')
+const mainRouter = require('./routes/main.routes.js');
 
 app.use(cookieParser());
 app.use(cors());

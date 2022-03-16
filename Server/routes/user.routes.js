@@ -1,6 +1,6 @@
 const userRouter = require('express').Router();
 const { container } = require('../app-container');
-const authMiddleware = container.resolve('authMiddleware');
+const authMiddleware = require('../middlewares/auth-user');
 const userController = container.resolve('userController');
 
 userRouter.use(authMiddleware);
