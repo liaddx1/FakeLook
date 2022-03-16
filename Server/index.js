@@ -13,8 +13,3 @@ const app = require('./app');
 //server-startup
 app.listen(port, () => console.log(`Server is running on PORT: ${port}`));
 
-
-// PORT = 8080
-// domain = "localhost"
-// db_name = "FakeLook"
-// SqlConnectionString = "server=(localdb)\\MSSQLLocalDB;Database=FakeLook;Trusted_Connection=True;"

@@ -1,6 +1,6 @@
 const sql = require('mssql/msnodesqlv8');
 
-const connectionString = "server=DESKTOP-7DMF7GM;Database=FakeLook;Trusted_Connection=Yes;";
+const connectionString = process.env.SqlConnectionString;
 
 const poolPromise = new sql.ConnectionPool(connectionString)
     .connect()
