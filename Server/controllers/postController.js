@@ -1,7 +1,7 @@
-const { container } = require('../app-container');
-const postRepository = container.resolve('postRepository');
-
 class PostController{
+    constructor(postRepository){
+        this.postRepository = postRepository;
+    }
     async getAllPosts(req,res){
         try{
           const result = await postRepository.getAllPosts(req);
