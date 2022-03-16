@@ -5,7 +5,7 @@ class CommentController {
     
     async getAllComments(req, res) {
         try {
-            const result = await commentRepository.getAllComments(req);
+            const result = await this.commentRepository.getAllComments(req);
             res.json(result.recordset);
         }
         catch (error) {
@@ -15,7 +15,7 @@ class CommentController {
     }
     async addComment(req, res) {
         try {
-            const result = await commentRepository.addComment(req);
+            const result = await this.commentRepository.addComment(req);
             res.json(result);
         }
         catch (error) {
@@ -26,7 +26,7 @@ class CommentController {
 
     async addCommentLike(req, res) {
         try {
-            const result = await commentRepository.addCommentLike(req);
+            const result = await this.commentRepository.addCommentLike(req);
             res.json(result);
             // console.log(res);
         }
@@ -37,7 +37,7 @@ class CommentController {
     }
     async removeCommentLike(req, res) {
         try {
-            const result = await commentRepository.removeCommentLike(req);
+            const result = await this.commentRepository.removeCommentLike(req);
             res.json(result);
             // console.log(res);
         }

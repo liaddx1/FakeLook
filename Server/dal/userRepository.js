@@ -1,7 +1,6 @@
 const { sql, poolPromise } = require('./connectionHandler');
 
 class UserRepository {
-
     async getAllUsers() {
         const pool = await poolPromise;
         const result = await pool.request()

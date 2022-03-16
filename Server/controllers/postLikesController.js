@@ -4,7 +4,7 @@ class PostLikesController {
     }
     async getPostLikes(req, res) {
         try {
-            const result = await postLikeRepository.getPostLikes(req);
+            const result = await this.postLikesRepository.getPostLikes(req);
             res.json(result.recordset);
         }
         catch (error) {
@@ -14,7 +14,7 @@ class PostLikesController {
     }
     async addPostLike(req, res) {
         try {
-            const result = await postLikeRepository.addPostLike(req);
+            const result = await this.postLikesRepository.addPostLike(req);
             res.json(result);
         }
         catch (error) {
@@ -23,7 +23,7 @@ class PostLikesController {
         }
     } async removePostLike(req, res) {
         try {
-            const result = await postLikeRepository.removePostLike(req);
+            const result = await this.postLikesRepository.removePostLike(req);
             res.json(result);
         }
         catch (error) {

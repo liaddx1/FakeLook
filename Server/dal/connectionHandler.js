@@ -8,6 +8,6 @@ const poolPromise = new sql.ConnectionPool(connectionString)
         console.log('Connected to Mssql');
         return pool;
     })
-    .catch(err => console.log('Database connection faild!', err));
+    .catch(err => console.log('Database Connection Failed: ', err));
 
 module.exports = { sql, poolPromise }

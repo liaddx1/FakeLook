@@ -7,7 +7,7 @@ class UserController {
 
     async getAllUsers(req, res) {
         try {
-            const result = await userRepository.getAllUsers();
+            const result = await this.userRepository.getAllUsers();
             res.json(result.recordset);
         }
         catch (error) {
@@ -17,7 +17,7 @@ class UserController {
     }
     async changeUserPicture(req, res) {
         try {
-            const result = await userRepository.ChangeUserPicture(req);
+            const result = await this.userRepository.ChangeUserPicture(req);
             res.send(result.rowsAffected);
         }
         catch (error) {
@@ -27,7 +27,7 @@ class UserController {
     }
     async searchUsers(req, res) {
         try {
-            const result = await userRepository.SearchUsers(req);
+            const result = await this.userRepository.SearchUsers(req);
             res.json(result.recordset);
         }
         catch (error) {
@@ -38,7 +38,7 @@ class UserController {
 
     async getUserById(req, res) {
         try {
-            const result = await userRepository.getUserById(req);
+            const result = await this.userRepository.getUserById(req);
             res.json(result.recordset);
         }
         catch (error) {
@@ -50,7 +50,7 @@ class UserController {
         try {
             let hashedPassword = bcrypt.hashSync(req.body.password);
             req.body.password = hashedPassword;
-            const result = await userRepository.changePassword(req);
+            const result = await this.userRepository.changePassword(req);
             res.json(result.rowsAffected);
         }
         catch (error) {
@@ -61,7 +61,7 @@ class UserController {
 
     async changePassword(req, res) {
         try {
-            const result = await userRepository.changePassword(req);
+            const result = await this.userRepository.changePassword(req);
             res.json(result.rowsAffected);
         }
         catch (error) {

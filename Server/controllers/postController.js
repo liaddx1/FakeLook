@@ -4,7 +4,7 @@ class PostController{
     }
     async getAllPosts(req,res){
         try{
-          const result = await postRepository.getAllPosts(req);
+          const result = await this.postRepository.getAllPosts(req);
           res.json(result.recordset);
         }
         catch(error){
@@ -14,7 +14,7 @@ class PostController{
     }
     async addPost(req,res){
         try {
-            const result = await postRepository.addPost(req);
+            const result = await this.postRepository.addPost(req);
             res.send(result.rowsAffected);        } 
         catch (error) {
             res.status(500)
@@ -23,7 +23,7 @@ class PostController{
     }
     async getPost(req,res){
         try {
-            const result = await postRepository.getPost(req);
+            const result = await this.postRepository.getPost(req);
             res.json(result.recordset);
         }
         catch{
@@ -33,7 +33,7 @@ class PostController{
     }
     async searchPosts(req,res){
         try{
-            const result = await postRepository.SearchPosts(req);
+            const result = await this.postRepository.SearchPosts(req);
             res.json(result.recordset);
         }
         catch(error){
