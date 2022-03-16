@@ -1,7 +1,7 @@
-const { container } = require('../app-container');
-const postLikeRepository = container.resolve('postLikeRepository');
-
 class PostLikesController {
+    constructor(postLikesRepository) {
+        this.postLikesRepository = postLikesRepository;
+    }
     async getPostLikes(req, res) {
         try {
             const result = await postLikeRepository.getPostLikes(req);

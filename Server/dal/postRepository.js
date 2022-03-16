@@ -1,4 +1,4 @@
-const { sql, poolPromise } = require('./SQLconnection');
+const { sql, poolPromise } = require('./connectionHandler');
 
 class PostRepository {
 
