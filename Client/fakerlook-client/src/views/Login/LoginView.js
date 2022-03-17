@@ -1,13 +1,18 @@
+import { faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons';
 import { FacebookLoginButton, GoogleLoginButton } from 'react-social-login-buttons';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import UserService from '../../services/ServicesFolder/UserService';
+import { Button, Form, FormGroup, Label, Input, InputGroup, InputGroupText } from 'reactstrap';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import fontawesome from '@fortawesome/fontawesome';
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import './LoginView.css';
-import { useNavigate } from 'react-router-dom';
-import UserService from '../../services/ServicesFolder/UserService';
 
 const LogInView = (props) => {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState('');
+
+  fontawesome.library.add(faEnvelope, faKey);
 
   const formValidation = (email, password) => {
     if (email.value.trim().length === 0) {
@@ -33,9 +38,11 @@ const LogInView = (props) => {
     if (formValidation(email, password)) {
       console.log('Logging in..');
       const response = await UserService.LogIn({ email: email.value, password: password.value });
+
       if (response.data.message)
         setErrorMessage(response.data.message);
       console.log(response.data);
+
       if (!response.data.message)
         navigate('/map');
 
@@ -56,13 +63,23 @@ const LogInView = (props) => {
         </p>
 
         <FormGroup>
-          <Label>Email</Label>
-          <Input id="email" type="text" placeholder='Enter your Email' />
+          <InputGroup >
+            <InputGroupText className='col-3'>
+              <FontAwesomeIcon icon={faEnvelope} />
+              &nbsp;Email
+            </InputGroupText>
+            <Input id="email" type="text" placeholder="Enter Your Email" className="form-control" />
+          </InputGroup>
         </FormGroup>
 
         <FormGroup>
-          <Label>Password</Label>
-          <Input id='password' type='password' placeholder='Enter your password' />
+          <InputGroup >
+            <InputGroupText className='col-3'>
+              <FontAwesomeIcon icon={faKey} />
+              &nbsp;Passowrd
+            </InputGroupText>
+            <Input id='password' type='password' placeholder='Enter your password' />
+          </InputGroup>
         </FormGroup>
 
         {errorMessage.trim().length !== 0 && <div className='text-center alert alert-danger'>{errorMessage}</div>}

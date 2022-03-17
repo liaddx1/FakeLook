@@ -62,7 +62,7 @@ const RegisterView = props => {
 
                 <FormGroup>
                     <InputGroup>
-                        <InputGroupText>
+                        <InputGroupText className='col-3'>
                             <FontAwesomeIcon icon={faUserAlt} />
                             &nbsp;Name
                         </InputGroupText>
@@ -73,61 +73,61 @@ const RegisterView = props => {
 
                 <FormGroup>
                     <InputGroup>
-                        <InputGroupText>
+                        <InputGroupText className='col-3'>
                             <FontAwesomeIcon icon={faEnvelope} />
                             &nbsp;Email
                         </InputGroupText>
-                        <Input id="email" type="text" placeholder="Email Address" />
+                        <Input id="email" type="text" placeholder="Email Address" className="form-control" />
                     </InputGroup>
                 </FormGroup>
 
                 <FormGroup>
                     <InputGroup>
-                        <InputGroupText>
+                        <InputGroupText className='col-3'>
                             <FontAwesomeIcon icon={faHome} />
                             &nbsp;Address
                         </InputGroupText>
-                        <Input id="address" type="text" placeholder="Home Address" />
+                        <Input id="address" type="text" placeholder="Home Address" className="form-control" />
                     </InputGroup>
                 </FormGroup>
 
                 <FormGroup>
                     <InputGroup>
-                        <InputGroupText>
+                        <InputGroupText className='col-3'>
                             <FontAwesomeIcon icon={faCalendar} />
                             &nbsp;Birth Date
                         </InputGroupText>
-                        <Input id="birthDate" type="date" placeholder="Birth Date" />
+                        <Input id="birthDate" type="date" placeholder="Birth Date" className="form-control" />
                     </InputGroup>
                 </FormGroup>
 
                 <FormGroup>
                     <InputGroup>
-                        <InputGroupText>
+                        <InputGroupText className='col-3'>
                             <FontAwesomeIcon icon={faUserMd} />
                             &nbsp;Job
                         </InputGroupText>
-                        <Input id="job" type="text" placeholder="Job" />
+                        <Input id="job" type="text" placeholder="Job" className="form-control" />
                     </InputGroup>
                 </FormGroup>
 
                 <FormGroup>
                     <InputGroup>
-                        <InputGroupText>
+                        <InputGroupText className='col-3'>
                             <FontAwesomeIcon icon={faLock} />
                             &nbsp;Password
                         </InputGroupText>
-                        <Input id="password" type="password" placeholder="Create Password" />
+                        <Input id="password" type="password" placeholder="Create Password" className="form-control" />
                     </InputGroup>
                 </FormGroup>
 
                 <FormGroup>
                     <InputGroup>
-                        <InputGroupText>
+                        <InputGroupText className='col-3'>
                             <FontAwesomeIcon icon={faLock} />
                             &nbsp;Repeat
                         </InputGroupText>
-                        <Input id="repeatedPassword" type="password" placeholder="Repeat Passowrd" />
+                        <Input id="repeatedPassword" type="password" placeholder="Repeat Passowrd" className="form-control" />
                     </InputGroup>
                 </FormGroup>
                 {errorMessage.trim().length !== 0 && <div className='text-center alert alert-danger'>{errorMessage}</div>}
