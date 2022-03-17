@@ -29,10 +29,10 @@ class AuthController {
         try {
             const result = await this.userRepository.userLogIn(req);
             console.log(result);
-            if (!result.recordset[0]) return res.status(401).send({ message: 'User Was Not Found', auth: false });
+            if (!result.recordset[0]) return res.status(200).send({ message: 'User Was Not Found In Our System.', auth: false });
             let passwordIsValid = bcrypt.compareSync(req.body.password, result.recordset[0].password);
 
-            if (!passwordIsValid) return res.status(401).send({ auth: false });
+            if (!passwordIsValid) return res.status(200).send({ message: 'Password Incorrect.', auth: false });
             let token = jwt.sign({ userId: result.recordset[0].userId }, key, {
                 expiresIn: 600
             });

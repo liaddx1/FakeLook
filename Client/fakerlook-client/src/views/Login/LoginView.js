@@ -1,10 +1,9 @@
-import { FacebookLoginButton, GoogleLoginButton, LinkedInLoginButton } from 'react-social-login-buttons';
+import { FacebookLoginButton, GoogleLoginButton } from 'react-social-login-buttons';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { useState } from 'react';
 import './LoginView.css';
 import { useNavigate } from 'react-router-dom';
 import UserService from '../../services/ServicesFolder/UserService';
-import axios from 'axios';
 
 const LogInView = (props) => {
   const navigate = useNavigate();
@@ -33,9 +32,13 @@ const LogInView = (props) => {
     const { email, password } = e.target.elements;
     if (formValidation(email, password)) {
       console.log('Logging in..');
-      const response = await  UserService.LogIn( { email: email.value, password: password.value });
+      const response = await UserService.LogIn({ email: email.value, password: password.value });
+      if (response.data.message)
+        setErrorMessage(response.data.message);
       console.log(response.data);
-      // navigate('/map');
+      if (!response.data.message)
+        navigate('/map');
+
     }
   }
 
@@ -47,7 +50,6 @@ const LogInView = (props) => {
 
         <FacebookLoginButton className='mt-3 mb-3' />
         <GoogleLoginButton className='mt-3 mb-3' />
-        <LinkedInLoginButton className='mt-3 mb-3' />
 
         <p className="divider-text">
           <span className="bg-white">OR</span>
