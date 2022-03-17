@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, FormGroup, Input, InputGroup, InputGroupText, Button } from "reactstrap";
@@ -40,10 +41,11 @@ const RegisterView = props => {
 
         if (value && formValidation(password.value, repeatedPassword.value)) {
             const response = await UserService.Register(newUser);
+
             if (response.data.auth) {
                 localStorage.setItem("authToken", response.data.authToken);
+                navigate('/login');
             }
-            navigate('/login');
         }
     }
     return (

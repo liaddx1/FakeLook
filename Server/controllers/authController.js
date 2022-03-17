@@ -21,14 +21,13 @@ class AuthController {
         catch (error) {
             res.status(500);
             console.log(error.stack);
-            res.send("There was a problem registering the user.");
+            res.send("There Was a Problem Registering The User.");
         }
     }
     userLogIn = async (req, res) => {
         console.log('In user login');
         try {
             const result = await this.userRepository.userLogIn(req);
-            console.log(result);
             if (!result.recordset[0]) return res.status(200).send({ message: 'User Was Not Found In Our System.', auth: false });
             let passwordIsValid = bcrypt.compareSync(req.body.password, result.recordset[0].password);
 
@@ -36,7 +35,7 @@ class AuthController {
             let token = jwt.sign({ userId: result.recordset[0].userId }, key, {
                 expiresIn: 600
             });
-            // res.cookie("x-access-token", token); //secure:true
+
             res.status(200).send({ auth: true, userId: result.recordset[0].userId, authToken: token });
         }
         catch (error) {

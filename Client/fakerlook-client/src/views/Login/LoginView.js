@@ -1,7 +1,8 @@
+import React from "react";
 import { faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons';
 import { FacebookLoginButton, GoogleLoginButton } from 'react-social-login-buttons';
 import UserService from '../../services/ServicesFolder/UserService';
-import { Button, Form, FormGroup, Label, Input, InputGroup, InputGroupText } from 'reactstrap';
+import { Button, Form, FormGroup, Input, InputGroup, InputGroupText } from 'reactstrap';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import fontawesome from '@fortawesome/fontawesome';
 import { useNavigate } from 'react-router-dom';
@@ -34,9 +35,10 @@ const LogInView = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const { email, password } = e.target.elements;
+
     if (formValidation(email, password)) {
-      console.log('Logging in..');
       const response = await UserService.LogIn({ email: email.value, password: password.value });
 
       if (response.data.message)
