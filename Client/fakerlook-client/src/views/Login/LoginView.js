@@ -3,6 +3,7 @@ import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { useState } from 'react';
 import './LoginView.css';
 import { useNavigate } from 'react-router-dom';
+import UserService from '../../services/ServicesFolder/UserService';
 import axios from 'axios';
 
 const LogInView = (props) => {
@@ -32,7 +33,7 @@ const LogInView = (props) => {
     const { email, password } = e.target.elements;
     if (formValidation(email, password)) {
       console.log('Logging in..');
-      const response = await axios.post('http://localhost:8080/api/auth/login', { email: email.value, password: password.value })
+      const response = await  UserService.LogIn( { email: email.value, password: password.value });
       console.log(response.data);
       // navigate('/map');
     }
