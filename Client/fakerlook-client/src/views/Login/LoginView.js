@@ -1,10 +1,8 @@
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { FacebookLoginButton, GoogleLoginButton, LinkedInLoginButton } from 'react-social-login-buttons';
-import { useNavigate } from 'react-router-dom';
 import './LoginView.css';
 
 const LogInView = (props) => {
-  const navigate = useNavigate();
 
   return (
     <div>
@@ -14,6 +12,11 @@ const LogInView = (props) => {
         <FacebookLoginButton className='mt-3 mb-3' />
         <GoogleLoginButton className='mt-3 mb-3' />
         <LinkedInLoginButton className='mt-3 mb-3' />
+
+        <p class="divider-text">
+          <span class="bg-white">OR</span>
+        </p>
+
         <FormGroup>
           <Label>Email</Label>
           <Input type='email' placeholder='Enter your Email' />
