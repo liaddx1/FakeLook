@@ -25,9 +25,11 @@ class AuthController {
         }
     }
     userLogIn = async (req, res) => {
+        console.log('In user login');
         try {
             const result = await this.userRepository.userLogIn(req);
-            if (!result.recordset[0]) return res.status(401).send({ auth: false });
+            console.log(result);
+            if (!result.recordset[0]) return res.status(401).send({ message: 'User Was Not Found', auth: false });
             let passwordIsValid = bcrypt.compareSync(req.body.password, result.recordset[0].password);
 
             if (!passwordIsValid) return res.status(401).send({ auth: false });

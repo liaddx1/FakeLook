@@ -3,6 +3,7 @@ import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { useState } from 'react';
 import './LoginView.css';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const LogInView = (props) => {
   const navigate = useNavigate();
@@ -26,12 +27,14 @@ const LogInView = (props) => {
     return true;
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const { email, password } = e.target.elements;
     if (formValidation(email, password)) {
       console.log('Logging in..');
-      navigate('/map');
+      const response = await axios.post('http://localhost:8080/api/auth/login', { email: email.value, password: password.value })
+      console.log(response.data);
+      // navigate('/map');
     }
   }
 
@@ -51,15 +54,15 @@ const LogInView = (props) => {
 
         <FormGroup>
           <Label>Email</Label>
-          <Input id="email" name="email" type="text" placeholder='Enter your Email' required={true} />
+          <Input id="email" type="text" placeholder='Enter your Email' />
         </FormGroup>
 
         <FormGroup>
           <Label>Password</Label>
-          <Input id='password' type='password' placeholder='Enter your password' required={true} />
+          <Input id='password' type='password' placeholder='Enter your password' />
         </FormGroup>
 
-        <span>{errorMessage}</span>
+        {errorMessage.trim().length !== 0 && <div className='text-center alert alert-danger'>{errorMessage}</div>}
 
         <Button type='submit' className='btn btn-primary col-12'>Log in</Button>
 
