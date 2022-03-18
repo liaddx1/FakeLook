@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { InfoWindow, useLoadScript, GoogleMap, Marker, } from "@react-google-maps/api";
+import './MapView.css';
 
 const libraries = ["places"];
 const mapContainerStyle = {
@@ -10,6 +11,9 @@ const center = {
     lat: 31.726870,
     lng: 34.992470,
 }
+const options = {
+
+}
 
 export default function MapView() {
     const { isLoaded, loadError } = useLoadScript({
@@ -17,13 +21,24 @@ export default function MapView() {
         libraries,
     })
 
+    const [markers, setMarkers] = useState([]);
+
     if (loadError) return "Error Loading Maps";
     if (!isLoaded) return "Loadng Maps";
     return (
-        <GoogleMap
-            mapContainerStyle={mapContainerStyle}
-            zoom={8}
-            center={center}
-        ></GoogleMap>
+        <div>
+            <h1>FakeLook</h1>
+            <GoogleMap
+                mapContainerStyle={mapContainerStyle}
+                zoom={8}
+                center={center}
+                options={options}
+                onClick={(event) => {
+                    setMarkers(current => [...current, {
+                        lat: 
+                    }])
+                }}
+            ></GoogleMap>
+        </div>
     );
 }
