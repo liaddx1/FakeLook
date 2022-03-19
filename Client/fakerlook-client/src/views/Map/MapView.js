@@ -34,9 +34,10 @@ export default function MapView() {
                 center={center}
                 options={options}
                 onClick={(event) => {
-                    setMarkers(current => [...current, {
-                        lat: 
-                    }])
+                    console.log('click')
+                    // setMarkers(current => [...current, {
+                    //     lat: 
+                    // }])
                 }}
             ></GoogleMap>
         </div>
