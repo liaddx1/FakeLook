@@ -1,6 +1,7 @@
 import React from "react";
 import { faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons';
 import { FacebookLoginButton, GoogleLoginButton } from 'react-social-login-buttons';
+import GoogleLogin from "react-google-login";
 import UserService from '../../services/ServicesFolder/UserService';
 import { Button, Form, FormGroup, Input, InputGroup, InputGroupText } from 'reactstrap';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,8 +14,10 @@ const LogInView = (props) => {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState('');
 
+  //icons library
   fontawesome.library.add(faEnvelope, faKey);
 
+  //validations
   const formValidation = (email, password) => {
     if (email.value.trim().length === 0) {
       setErrorMessage('Email Cannot Be Empty!');
@@ -33,6 +36,7 @@ const LogInView = (props) => {
     return true;
   }
 
+  //handlers
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -51,14 +55,31 @@ const LogInView = (props) => {
     }
   }
 
+
+  const responseGoogle = (response) => {
+    // console.log(response);
+
+    const pic = response.profileObj.imageUrl;
+    const email = response.profileObj.email;
+    const firstName = response.profileObj.name;
+    const lastName = response.profileObj.familyName;
+    console.log(firstName, lastName, email);
+  }
+
   return (
     <div>
       <h1>FakeLook</h1>
       <Form className='login-form' onSubmit={handleSubmit}>
         <h2 className='text-center'>Log in</h2>
 
-        <FacebookLoginButton className='mt-3 mb-3' />
-        <GoogleLoginButton className='mt-3 mb-3' />
+        <FacebookLoginButton id="facebookLoginButton" className='mt-3 mb-3' />
+        <GoogleLogin
+          className='mt-3 mb-3'
+          clientId='831225005582-6pqgsdml92hthg0bhf15f71dp0vknav5.apps.googleusercontent.com'
+          render={renderProps => (<GoogleLoginButton onClick={renderProps.onClick} disabled={renderProps.disabled} >Log In with Google</GoogleLoginButton>)}
+          onSuccess={responseGoogle}
+          onFailure={responseGoogle}
+        />
 
         <p className="divider-text">
           <span className="bg-white">OR</span>

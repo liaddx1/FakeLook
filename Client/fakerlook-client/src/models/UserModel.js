@@ -1,5 +1,5 @@
 class User {
-    constructor(firstName, lastName, email, address, birthDate, job, password) {
+    constructor(firstName, lastName, email, address, birthDate, job, password, picture) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -7,6 +7,7 @@ class User {
         this.birthDate = birthDate;
         this.job = job;
         this.password = password;
+        this.picture = picture;
     }
 
     validate() {
