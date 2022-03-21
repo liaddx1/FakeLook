@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons';
 import { FacebookLoginButton, GoogleLoginButton } from 'react-social-login-buttons';
 import GoogleLogin from "react-google-login";
@@ -49,12 +49,14 @@ const LogInView = (props) => {
         setErrorMessage(response.data.message);
       console.log(response.data);
 
-      if (!response.data.message)
+      if (response.data.auth) {
+        localStorage.setItem("authToken", response.data.authToken);
+
         navigate('/map');
+      }
 
     }
   }
-
 
   const responseGoogle = (response) => {
     // console.log(response);
@@ -77,7 +79,7 @@ const LogInView = (props) => {
         <FacebookLoginButton id="facebookLoginButton" className='mt-3 mb-3' />
         <GoogleLogin
           className='mt-3 mb-3'
-          clientId='831225005582-6pqgsdml92hthg0bhf15f71dp0vknav5.apps.googleusercontent.com'
+          clientId={process.env.REACT_APP_LOGIN_GOOGLE_CLIENT_ID}
           render={renderProps => (<GoogleLoginButton onClick={renderProps.onClick} disabled={renderProps.disabled} >Log In with Google</GoogleLoginButton>)}
           onSuccess={responseGoogle}
           onFailure={responseGoogle}
