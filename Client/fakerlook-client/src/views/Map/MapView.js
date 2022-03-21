@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { InfoWindow, useLoadScript, GoogleMap, Marker, } from "@react-google-maps/api";
 import './MapView.css';
+import { useNavigate } from "react-router-dom";
 
 const libraries = ["places"];
 const mapContainerStyle = {
@@ -16,10 +17,19 @@ const options = {
 }
 
 export default function MapView() {
+    const navigate = useNavigate();
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey: 'AIzaSyAj0XIcENjviv-vfhvA1slF3mpdrARUAic',
         libraries,
     })
+    const isAuthorazied = () => {
+        if (!localStorage.getItem("authToken"))
+            navigate('/login');
+    }
+
+    useEffect(() => {
+        isAuthorazied();
+    }, [])
 
     const [markers, setMarkers] = useState([]);
 
@@ -27,10 +37,11 @@ export default function MapView() {
     if (!isLoaded) return "Loadng Maps";
     return (
         <div>
+            {isAuthorazied()}
             <h1>FakeLook</h1>
             <GoogleMap
                 mapContainerStyle={mapContainerStyle}
-                zoom={8}
+                zoom={11}
                 center={center}
                 options={options}
                 onClick={(event) => {
