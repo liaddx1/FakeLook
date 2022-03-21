@@ -26,6 +26,7 @@ export default function MapView() {
     const isAuthorazied = () => {
         const token = localStorage.getItem("authToken");
         let decodedToken = jwtDecode(token);
+        
         let currentDate = new Date();
 
         if (!token) {

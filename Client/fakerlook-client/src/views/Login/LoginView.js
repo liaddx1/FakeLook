@@ -2,7 +2,7 @@ import React from "react";
 import { faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons';
 import { FacebookLoginButton, GoogleLoginButton } from 'react-social-login-buttons';
 import GoogleLogin from "react-google-login";
-import FacebookLogin from "react-facebook-login";
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import UserService from '../../services/ServicesFolder/UserService';
 import { Button, Form, FormGroup, Input, InputGroup, InputGroupText } from 'reactstrap';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -71,6 +71,11 @@ const LogInView = (props) => {
   }
 
   const responseFacebook = (response) => {
+    if (response.accessToken) {
+      localStorage.clear();
+      localStorage.setItem('authToken', response.accessToken)
+      navigate('map');
+    }
     console.log(response);
   }
 
@@ -83,9 +88,8 @@ const LogInView = (props) => {
         <FacebookLogin
           className='mt-3 mb-3'
           appId={process.env.REACT_APP_LOGIN_FACEBOOK_APP_ID}
-          autoLoad={true}
           fields="name,email,picture"
-          render={renderProps => (<FacebookLoginButton onClick={renderProps.onClick } disabled={renderProps.disabled}>This is my custom FB button</FacebookLoginButton>)}
+          render={renderProps => (<FacebookLoginButton onClick={renderProps.onClick} disabled={renderProps.disabled}>Log In with Facebook</FacebookLoginButton>)}
           onClick={responseFacebook}
           callback={responseFacebook}
         />

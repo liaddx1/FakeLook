@@ -1,12 +1,24 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import ProfileComponent from './components/ProfileComponent';
 import LoginComponent from './views/Login/LoginView';
 import RegisterView from './views/Register/RegisterView';
 import MapView from './views/Map/MapView';
 import './App.css';
+import { useDispatch } from "react-redux";
+import { fetchUser } from "./Store/actions/user";
 
 function App() {
+  const dispatch = useDispatch();
+
+  const loadData = useCallback(() => {
+    dispatch(fetchUser());
+  }, [dispatch]);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData])
+
   return (
     <Router>
       <Routes>
