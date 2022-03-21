@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { InfoWindow, useLoadScript, GoogleMap, Marker, } from "@react-google-maps/api";
 import './MapView.css';
 import { useNavigate } from "react-router-dom";
+import jwtDecode from "jwt-decode";
 
 const libraries = ["places"];
 const mapContainerStyle = {
@@ -23,8 +24,21 @@ export default function MapView() {
         libraries,
     })
     const isAuthorazied = () => {
-        if (!localStorage.getItem("authToken"))
+        const token = localStorage.getItem("authToken");
+        let decodedToken = jwtDecode(token);
+        let currentDate = new Date();
+
+        if (!token) {
             navigate('/login');
+            return;
+        }
+        if (decodedToken) {
+            console.log(decodedToken.exp * 1000, "<", currentDate.getTime());
+            if (decodedToken.exp * 1000 < currentDate.getTime()) {
+                localStorage.removeItem("authToken");
+                navigate('/login');
+            }
+        }
     }
 
 

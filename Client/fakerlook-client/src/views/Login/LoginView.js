@@ -59,13 +59,14 @@ const LogInView = (props) => {
   }
 
   const responseGoogle = (response) => {
-    // console.log(response);
-
     // const pic = response.profileObj.imageUrl;
     // const email = response.profileObj.email;
     // const firstName = response.profileObj.name;
     // const lastName = response.profileObj.familyName;
-    localStorage.setItem("authToken", response.tokenObj.id_token);
+    if (response.tokenObj.id_token) {
+      localStorage.setItem("authToken", response.tokenObj.id_token);
+      navigate('/map');
+    }
     // localStorage.setItem(response.tokenObj.token_type, response.tokenObj.id_token);
     console.log(response);
   }
