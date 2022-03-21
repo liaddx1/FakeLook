@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const key = process.env.KEY;
 const container = require("../app-container");
-const userService = container.resolve('authService');
+const userService = container.resolve('userService');
 
 
 class UserController {
