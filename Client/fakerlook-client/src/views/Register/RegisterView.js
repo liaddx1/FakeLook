@@ -48,6 +48,7 @@ const RegisterView = props => {
             }
         }
     }
+    
     return (
         <div>
             <h1>FakeLook</h1>

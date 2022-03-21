@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons';
 import { FacebookLoginButton, GoogleLoginButton } from 'react-social-login-buttons';
 import GoogleLogin from "react-google-login";
@@ -59,11 +59,13 @@ const LogInView = (props) => {
   const responseGoogle = (response) => {
     // console.log(response);
 
-    const pic = response.profileObj.imageUrl;
-    const email = response.profileObj.email;
-    const firstName = response.profileObj.name;
-    const lastName = response.profileObj.familyName;
-    console.log(firstName, lastName, email);
+    // const pic = response.profileObj.imageUrl;
+    // const email = response.profileObj.email;
+    // const firstName = response.profileObj.name;
+    // const lastName = response.profileObj.familyName;
+    localStorage.setItem("authToken", response.tokenObj.id_token);
+    // localStorage.setItem(response.tokenObj.token_type, response.tokenObj.id_token);
+    console.log(response);
   }
 
   return (
