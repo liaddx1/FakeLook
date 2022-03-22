@@ -3,6 +3,7 @@ import { InfoWindow, useLoadScript, GoogleMap, Marker, } from "@react-google-map
 import './MapView.css';
 import { useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
+import MapNavigator from "../../components/MapNavigator";
 
 const libraries = ["places"];
 const mapContainerStyle = {
@@ -13,9 +14,6 @@ const center = {
     lat: 31.726870,
     lng: 34.992470,
 }
-const options = {
-
-}
 
 export default function MapView() {
     const navigate = useNavigate();
@@ -23,50 +21,76 @@ export default function MapView() {
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
         libraries,
     })
+
+    //states
+    const [markers, setMarkers] = useState([]);
+
+    //handlers
     const isAuthorazied = () => {
         const token = localStorage.getItem("authToken");
-        let decodedToken = jwtDecode(token);
-        
-        let currentDate = new Date();
-
-        if (!token) {
+        const facebookExp = localStorage.getItem('facebookExp')
+        if (!token && !facebookExp) {
             navigate('/login');
             return;
         }
-        if (decodedToken) {
-            console.log(decodedToken.exp * 1000, "<", currentDate.getTime());
-            if (decodedToken.exp * 1000 < currentDate.getTime()) {
-                localStorage.removeItem("authToken");
+
+        let currentDate = new Date();
+        if (token) {
+            let decodedToken = jwtDecode(token);
+            if (decodedToken) {
+                // console.log(decodedToken.exp * 1000, "<", currentDate.getTime());
+                if (decodedToken.exp * 1000 < currentDate.getTime()) {
+                    localStorage.clear();
+                    navigate('/login');
+                }
+            }
+        }
+
+        if (facebookExp) {
+            if (facebookExp * 1000 < currentDate.getTime()) {
+                localStorage.clear();
                 navigate('/login');
             }
         }
     }
 
+    const logOutHandler = () => {
+        localStorage.clear();
+        isAuthorazied();
+    }
 
+    //side effects
     useEffect(() => {
         isAuthorazied();
     }, [])
 
-    const [markers, setMarkers] = useState([]);
 
     if (loadError) return "Error Loading Maps";
     if (!isLoaded) return "Loadng Maps";
     return (
-        <div>
-            {isAuthorazied()}
-            <h1>FakeLook</h1>
-            <GoogleMap
-                mapContainerStyle={mapContainerStyle}
-                zoom={11}
-                center={center}
-                options={options}
-                onClick={(event) => {
-                    console.log('click')
-                    // setMarkers(current => [...current, {
-                    //     lat: 
-                    // }])
-                }}
-            ></GoogleMap>
-        </div>
+        <>
+            <MapNavigator logOut={logOutHandler}/>
+            <div className="mt-5">
+                {isAuthorazied()}
+                <GoogleMap
+                    mapContainerStyle={mapContainerStyle}
+                    zoom={10}
+                    center={center}
+                    scrollWheelZoom={true}
+                    onClick={(event) => {
+                        setMarkers(current => [...current, {
+                            lat: event.latLng.lat(),
+                            lng: event.latLng.lng(),
+                            time: new Date()
+                        }])
+                    }}
+                >
+
+                    {markers.map(marker => <Marker key={Math.random().toString()} position={{ lat: marker.lat, lng: marker.lng }}></Marker>)}
+
+                </GoogleMap>
+
+            </div>
+        </>
     );
 }

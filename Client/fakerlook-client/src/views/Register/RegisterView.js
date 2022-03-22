@@ -9,6 +9,7 @@ import { faCalendar, faEnvelope, faHome, faLock, faUserAlt, faUserMd } from '@fo
 import './RegisterView.css';
 import UserService from "../../services/ServicesFolder/UserService";
 import User from "../../models/UserModel";
+import Navigator from "../../components/Navigator";
 
 const RegisterView = props => {
     const navigate = useNavigate();
@@ -48,10 +49,11 @@ const RegisterView = props => {
             }
         }
     }
-    
+
     return (
         <div>
-            <h1>FakeLook</h1>
+            <Navigator />
+
             <Form className="register-form" onSubmit={handleSubmit}>
                 <h2 className='card-title mt-3 text-center'>Create Account</h2>
                 <p className="text-center">Get Started With FakeLook Today!</p>

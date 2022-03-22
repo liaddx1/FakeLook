@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import fontawesome from '@fortawesome/fontawesome';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import Navigator from "../../components/Navigator";
 import './LoginView.css';
 
 const LogInView = (props) => {
@@ -65,23 +66,26 @@ const LogInView = (props) => {
     // const firstName = response.profileObj.name;
     // const lastName = response.profileObj.familyName;
     if (response.tokenObj.id_token) {
+      localStorage.clear();
       localStorage.setItem("authToken", response.tokenObj.id_token);
       navigate('/map');
     }
   }
 
   const responseFacebook = (response) => {
+    // const pic = response.picture;
+    // const email = response.email;
+    // const name = response.name;
     if (response.accessToken) {
       localStorage.clear();
-      localStorage.setItem('authToken', response.accessToken)
-      navigate('map');
+      localStorage.setItem('facebookExp', response.data_access_expiration_time);
+      navigate('/map');
     }
-    console.log(response);
   }
 
   return (
     <div>
-      <h1>FakeLook</h1>
+      <Navigator />
       <Form className='login-form' onSubmit={handleSubmit}>
         <h2 className='text-center'>Log in</h2>
 
@@ -89,7 +93,7 @@ const LogInView = (props) => {
           className='mt-3 mb-3'
           appId={process.env.REACT_APP_LOGIN_FACEBOOK_APP_ID}
           fields="name,email,picture"
-          render={renderProps => (<FacebookLoginButton onClick={renderProps.onClick} disabled={renderProps.disabled}>Log In with Facebook</FacebookLoginButton>)}
+          render={renderProps => (<FacebookLoginButton onClick={renderProps.onClick} disabled={renderProps.disabled}>Log In With Facebook</FacebookLoginButton>)}
           onClick={responseFacebook}
           callback={responseFacebook}
         />
