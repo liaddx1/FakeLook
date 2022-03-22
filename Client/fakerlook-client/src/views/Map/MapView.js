@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { InfoWindow, useLoadScript, GoogleMap, Marker, } from "@react-google-maps/api";
 import './MapView.css';
 import { useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import MapNavigator from "../../components/MapNavigator";
+import { formatRelative } from "date-fns";
 
 const libraries = ["places"];
 const mapContainerStyle = {
@@ -24,6 +25,8 @@ export default function MapView() {
 
     //states
     const [markers, setMarkers] = useState([]);
+    const [selected, setSelected] = useState(null);
+    const [pages, setPages] = useState(0);
 
     //handlers
     const isAuthorazied = () => {
@@ -54,47 +57,78 @@ export default function MapView() {
         }
     }
 
+    const onMapClick = useCallback((event) => {
+        setMarkers(current => [...current, {
+            lat: event.latLng.lat(),
+            lng: event.latLng.lng(),
+            time: new Date()
+        }]);
+    }, []);
+
+    const mapRef = useRef();
+    const onMapLoad = useCallback((map) => {
+        mapRef.current = map;
+    }, []);
+
+
     const logOutHandler = () => {
         localStorage.clear();
         isAuthorazied();
     }
 
+    const getCurrentLocation = () => {
+
+    }
+
+    const changePageHandler = (pageNumber) => {
+        setPages(pageNumber);
+    }
+
     //side effects
     useEffect(() => {
         isAuthorazied();
+        getCurrentLocation();
     }, [])
 
     //renders
     const renderMap = () => {
         return (<div className="mt-5">
-            {isAuthorazied()}
+
             <GoogleMap
                 mapContainerStyle={mapContainerStyle}
                 zoom={10}
                 center={center}
                 scrollWheelZoom={true}
-                onClick={(event) => {
-                    setMarkers(current => [...current, {
-                        lat: event.latLng.lat(),
-                        lng: event.latLng.lng(),
-                        time: new Date()
-                    }])
-                }}
+                onClick={onMapClick}
+                onLoad={onMapLoad}
             >
+                {markers.map(marker =>
+                    <Marker
+                        key={Math.random().toString()}
+                        position={{ lat: marker.lat, lng: marker.lng }}
+                        onClick={() => {
+                            setSelected(marker);
+                        }}
+                    />)}
 
-                {markers.map(marker => <Marker key={Math.random().toString()} position={{ lat: marker.lat, lng: marker.lng }}></Marker>)}
-
+                {selected ?
+                    (<InfoWindow position={{ lat: selected.lat, lng: selected.lng }}>
+                        <div>
+                            <h2>Post Something Here?</h2>
+                            <p>Current Time: {formatRelative(selected.time, new Date())}</p>
+                        </div>
+                    </InfoWindow>) : null}
             </GoogleMap>
 
         </div>);
     }
 
     if (loadError) return "Error Loading Maps";
-    if (!isLoaded) return "Loadng Maps";
+    if (!isLoaded) return "Loading Maps";
     return (
         <>
-            <MapNavigator logOut={logOutHandler} />
-            {renderMap()}
+            <MapNavigator onChangePage={changePageHandler} logOut={logOutHandler} />
+            {pages === 0 && renderMap()}
         </>
     );
 }

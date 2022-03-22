@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons';
 import { FacebookLoginButton, GoogleLoginButton } from 'react-social-login-buttons';
 import GoogleLogin from "react-google-login";
@@ -65,6 +65,7 @@ const LogInView = (props) => {
     // const email = response.profileObj.email;
     // const firstName = response.profileObj.name;
     // const lastName = response.profileObj.familyName;
+    console.log(response);
     if (response.tokenObj.id_token) {
       localStorage.clear();
       localStorage.setItem("authToken", response.tokenObj.id_token);
@@ -82,6 +83,10 @@ const LogInView = (props) => {
       navigate('/map');
     }
   }
+
+  //side effects
+  useEffect(() => {
+  }, []);
 
   return (
     <div>
