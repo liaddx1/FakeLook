@@ -64,33 +64,37 @@ export default function MapView() {
         isAuthorazied();
     }, [])
 
+    //renders
+    const renderMap = () => {
+        return (<div className="mt-5">
+            {isAuthorazied()}
+            <GoogleMap
+                mapContainerStyle={mapContainerStyle}
+                zoom={10}
+                center={center}
+                scrollWheelZoom={true}
+                onClick={(event) => {
+                    setMarkers(current => [...current, {
+                        lat: event.latLng.lat(),
+                        lng: event.latLng.lng(),
+                        time: new Date()
+                    }])
+                }}
+            >
+
+                {markers.map(marker => <Marker key={Math.random().toString()} position={{ lat: marker.lat, lng: marker.lng }}></Marker>)}
+
+            </GoogleMap>
+
+        </div>);
+    }
 
     if (loadError) return "Error Loading Maps";
     if (!isLoaded) return "Loadng Maps";
     return (
         <>
-            <MapNavigator logOut={logOutHandler}/>
-            <div className="mt-5">
-                {isAuthorazied()}
-                <GoogleMap
-                    mapContainerStyle={mapContainerStyle}
-                    zoom={10}
-                    center={center}
-                    scrollWheelZoom={true}
-                    onClick={(event) => {
-                        setMarkers(current => [...current, {
-                            lat: event.latLng.lat(),
-                            lng: event.latLng.lng(),
-                            time: new Date()
-                        }])
-                    }}
-                >
-
-                    {markers.map(marker => <Marker key={Math.random().toString()} position={{ lat: marker.lat, lng: marker.lng }}></Marker>)}
-
-                </GoogleMap>
-
-            </div>
+            <MapNavigator logOut={logOutHandler} />
+            {renderMap()}
         </>
     );
 }
