@@ -15,6 +15,7 @@ const CommentRepository = require('./dal/commentRepository');
 const PostLikesController = require('./controllers/postLikesController');
 const PostLikesRepository = require('./dal/postLikesRepository');
 
+
 const setup = () => {
     container.register({
         userController: awilix.asClass(UserController).singleton(),
@@ -29,7 +30,8 @@ const setup = () => {
         commentRepository: awilix.asClass(CommentRepository).singleton(),
 
         postLikesController: awilix.asClass(PostLikesController).singleton(),
-        postLikesRepository: awilix.asClass(PostLikesRepository).singleton()
+        postLikesRepository: awilix.asClass(PostLikesRepository).singleton(),
+
 
     });
 }

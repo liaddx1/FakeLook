@@ -1,12 +1,10 @@
-const { container } = require("../app-container");
-const postLikesService = container.resolve('postLikesService');
-
-
 class PostLikesController {
-
+    constructor(postLikesRepository) {
+        this.postLikesRepository = postLikesRepository;
+    }
     async getPostLikes(req, res) {
         try {
-            const result = await postLikesService.getPostLikes(req);
+            const result = await this.postLikesRepository.getPostLikes(req);
             res.json(result.recordset);
         }
         catch (error) {
@@ -16,7 +14,7 @@ class PostLikesController {
     }
     async addPostLike(req, res) {
         try {
-            const result = await postLikesService.addPostLike(req);
+            const result = await this.postLikesRepository.addPostLike(req);
             res.json(result);
         }
         catch (error) {
@@ -25,7 +23,7 @@ class PostLikesController {
         }
     } async removePostLike(req, res) {
         try {
-            const result = await postLikesService.removePostLike(req);
+            const result = await this.postLikesRepository.removePostLike(req);
             res.json(result);
         }
         catch (error) {

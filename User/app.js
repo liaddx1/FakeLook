@@ -3,8 +3,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const app = express();
-const container = require('./app-container').setup();
-const userController = container.resolve('userController')
+const userController = require('./controllers/userController');
 
 
 
@@ -14,10 +13,6 @@ app.use(bodyParser.json({ limit: '10mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
 
-//config
-require("dotenv").config();
-const port = process.env.PORT ? process.env.PORT : 8085;
-require('./app-container');
 
 app.get('/all', function(req, res) {
     const result = userController.getAllUsers(req);
@@ -43,9 +38,6 @@ app.post('/changePassword', function(req, res) {
     const result = userController.changePassword(req);
     res.status(200).send(String(result));
  });
-
-//server-startup
-app.listen(port, () => console.log(`Server is running on PORT: ${port}`));
 
 
 module.exports = app;

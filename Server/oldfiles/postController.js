@@ -1,12 +1,10 @@
-const { container } = require("../app-container");
-const postService = container.resolve('postService');
-
-
-class PostController {
-
+class PostController{
+    constructor(postRepository){
+        this.postRepository = postRepository;
+    }
     async getAllPosts(req,res){
         try{
-          const result = await postService.getAllPosts(req);
+          const result = await this.postRepository.getAllPosts(req);
           res.json(result.recordset);
         }
         catch(error){
@@ -16,7 +14,7 @@ class PostController {
     }
     async addPost(req,res){
         try {
-            const result = await postService.addPost(req);
+            const result = await this.postRepository.addPost(req);
             res.send(result.rowsAffected);        } 
         catch (error) {
             res.status(500)
@@ -25,7 +23,7 @@ class PostController {
     }
     async getPost(req,res){
         try {
-            const result = await postService.getPost(req);
+            const result = await this.postRepository.getPost(req);
             res.json(result.recordset);
         }
         catch{
@@ -35,7 +33,7 @@ class PostController {
     }
     async searchPosts(req,res){
         try{
-            const result = await postService.SearchPosts(req);
+            const result = await this.postRepository.SearchPosts(req);
             res.json(result.recordset);
         }
         catch(error){

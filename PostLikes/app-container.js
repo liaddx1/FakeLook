@@ -1,11 +1,12 @@
 const awilix = require("awilix");
 const container = awilix.createContainer();
-const postLikesService = require("./services/postLikesService");
-const postLikesController = require("./controllers/postLikesController");
+const PostLikesService = require("./services/postLikesService");
 
-container.register({
-  postLikesService: awilix.asClass(postLikesService).singleton(),
-  postLikesController: awilix.asClass(postLikesController).singleton(),
-});
+const setup = () => {
+  console.log('container');
+  container.register({
+    postLikesService: awilix.asClass(PostLikesService).singleton()
+  });
+}
 
-module.exports = container;
+module.exports = { setup, container};

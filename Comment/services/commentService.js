@@ -1,6 +1,6 @@
 const { sql, poolPromise } = require('./connectionHandler');
 
-class CommentService {
+class commentService {
     async getAllComments(req) {
         const pool = await poolPromise;
         const result = await pool.request()
@@ -41,4 +41,4 @@ class CommentService {
 
 }
 
-module.exports = CommentService;
+module.exports = commentService;
