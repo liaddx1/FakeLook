@@ -1,50 +1,48 @@
-const { container } = require('../app-container');
-const commentService = container.resolve('commentService');
-
-
 class CommentController {
-
+    constructor({ commentService }) {
+        this.commentService = commentService;
+    }
     async getAllComments(req, res) {
         try {
-            const result = await commentService.getAllComments(req);
-            res.json(result.recordset);
+            const result = await this.commentService.getAllComments(req);
+            return JSON.stringify(result.recordset);
         }
         catch (error) {
-            res.status(500)
-            res.send(error.message) //make it send error.stack in dev
+            console.log(`There Was a Problem getting comments. error: ${error.message}`);
+            return ( `failed to get comments, error: ${error.message}`)
         }
     }
     async addComment(req, res) {
         try {
-            const result = await commentService.addComment(req);
-            res.json(result);
+            const result = await this.commentService.addComment(req);
+            return JSON.stringify(result);
         }
         catch (error) {
-            res.status(500)
-            res.send(error.message)
+            console.log(`There Was a Problem adding comment. error: ${error.message}`);
+            return ( `failed to add comment, error: ${error.message}`)
         }
     }
 
     async addCommentLike(req, res) {
         try {
-            const result = await commentService.addCommentLike(req);
-            res.json(result);
+            const result = await this.commentService.addCommentLike(req);
+            return JSON.stringify(result);
             // console.log(res);
         }
         catch (error) {
-            res.status(500)
-            res.send(error.message)
+            console.log(`There Was a Problem adding comment like. error: ${error.message}`);
+            return ( `failed to add comment like, error: ${error.message}`)
         }
     }
     async removeCommentLike(req, res) {
         try {
-            const result = await commentService.removeCommentLike(req);
-            res.json(result);
+            const result = await this.commentService.removeCommentLike(req);
+            return JSON.stringify(result);
             // console.log(res);
         }
         catch (error) {
-            res.status(500)
-            res.send(error.message)
+            console.log(`There Was a Problem removing comment like. error: ${error.message}`);
+            return ( `failed to remove comment like, error: ${error.message}`)
         }
     }
 }

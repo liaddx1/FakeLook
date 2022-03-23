@@ -1,46 +1,46 @@
-const { container } = require("../app-container");
-const postService = container.resolve('postService');
-
-
 class PostController {
+    constructor({postService}) {
+        this.postService = postService;
+    }
 
     async getAllPosts(req,res){
         try{
-          const result = await postService.getAllPosts(req);
-          res.json(result.recordset);
+          const result = await this.postService.getAllPosts(req);
+          return JSON.stringify(result.recordset);
         }
         catch(error){
-            res.status(500)
-            res.send(error.message)
+            console.log(`There Was a Problem getting the posts. error: ${error.message}`);
+            return (`Failed to get posts, error: ${error.message}`);
         }
     }
     async addPost(req,res){
         try {
-            const result = await postService.addPost(req);
-            res.send(result.rowsAffected);        } 
+            const result = await this.postService.addPost(req);
+            JSON.stringify(result.rowsAffected);
+        }
         catch (error) {
-            res.status(500)
-            res.send(error.message)
+            console.log(`There Was a Problem adding the post. error: ${error.message}`);
+            return (`Failed to add the post, error: ${error.message}`);
       }
     }
     async getPost(req,res){
         try {
-            const result = await postService.getPost(req);
-            res.json(result.recordset);
+            const result = await this.postService.getPost(req);
+            return JSON.stringify(result.recordset);
         }
         catch{
-            res.status(500)
-            res.send(error.message)
+            console.log(`There Was a Problem getting the post. error: ${error.message}`);
+            return (`Failed to getting the post, error: ${error.message}`);
         }
     }
     async searchPosts(req,res){
         try{
-            const result = await postService.SearchPosts(req);
-            res.json(result.recordset);
+            const result = await this.postService.SearchPosts(req);
+            return JSON.stringify(result.recordset);
         }
         catch(error){
-            res.status(500);
-            res.send(error.message);
+            console.log(`There Was a Problem searching for posts. error: ${error.message}`);
+            return (`Failed to search for posts, error: ${error.message}`);
         }
     }
 }

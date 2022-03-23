@@ -1,36 +1,35 @@
-const { container } = require("../app-container");
-const postLikesService = container.resolve('postLikesService');
-
-
 class PostLikesController {
+    constructor({ postLikesService }) {
+        this.postLikesService = postLikesService;
+    }
 
     async getPostLikes(req, res) {
         try {
-            const result = await postLikesService.getPostLikes(req);
-            res.json(result.recordset);
+            const result = await this.postLikesService.getPostLikes(req);
+            return JSON.stringify(result);
         }
         catch (error) {
-            res.status(500)
-            res.send(error.message)
+            console.log(`There Was a Problem getting post likes. error: ${error.message}`);
+            return (`Failed to get post likes, error: ${error.message}`);
         }
     }
     async addPostLike(req, res) {
         try {
-            const result = await postLikesService.addPostLike(req);
-            res.json(result);
+            const result = await this.postLikesService.addPostLike(req);
+            return JSON.stringify(result);
         }
         catch (error) {
-            res.status(500)
-            res.send(error.message)
+            console.log(`There Was a Problem getting post likes. error: ${error.message}`);
+            return (`Failed to add post likes, error: ${error.message}`);
         }
     } async removePostLike(req, res) {
         try {
-            const result = await postLikesService.removePostLike(req);
-            res.json(result);
+            const result = await this.postLikesService.removePostLike(req);
+            return JSON.stringify(result);
         }
         catch (error) {
-            res.status(500)
-            res.send(error.message)
+            console.log(`There Was a Problem getting post likes. error: ${error.message}`);
+            return (`Failed to remove post likes, error: ${error.message}`);
         }
     }
 }

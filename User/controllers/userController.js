@@ -1,72 +1,70 @@
-const bcrypt = require('bcryptjs');
-const { container } = require("../app-container");
-const userService = container.resolve('userService');
-
-
 class UserController {
+    constructor({userService}) {
+        this.userService = userService;
+    }
 
     async getAllUsers(req, res) {
         try {
-            const result = await userService.getAllUsers();
-            res.json(result.recordset);
+            const result = await this.userService.getAllUsers();
+            return JSON.stringify(result.recordset);
         }
         catch (error) {
-            res.status(500);
-            res.send(error.message);
+            console.log(`There Was a Problem Getting The Users. error: ${error.message}`);
+            return (`Failed to Get Users, error: ${error.message}`);
         }
     }
     async changeUserPicture(req, res) {
         try {
-            const result = await userService.ChangeUserPicture(req);
-            res.send(result.rowsAffected);
+            const result = await this.userService.ChangeUserPicture(req);
+            return JSON.stringify(result.rowsAffected);
         }
         catch (error) {
-            res.status(500);
-            res.send(error.message);
+            console.log(`There Was a Problem Changing Picture. error: ${error.message}`);
+            return (`Failed to change picture, error: ${error.message}`);
         }
     }
     async searchUsers(req, res) {
         try {
-            const result = await userService.SearchUsers(req);
-            res.json(result.recordset);
+            const result = await this.userService.SearchUsers(req);
+            return JSON.stringify(result.recordset);
         }
         catch (error) {
-            res.status(500);
-            res.send(error.message);
+            console.log(`There Was a Problem Searching Users. error: ${error.message}`);
+            return (`Failed to Search , error: ${error.message}`);
         }
     }
 
     async getUserById(req, res) {
         try {
-            const result = await userService.getUserById(req);
-            res.json(result.recordset);
+            const result = await this.userService.getUserById(req);
+            return JSON.stringify(result.recordset);
         }
         catch (error) {
-            res.status(500);
-            res.send(error.message);
+            console.log(`There Was a Problem Getting User. error: ${error.message}`);
+            return (`Failed to get user, error: ${error.message}`);
         }
     }
     async changePassword(req, res) {
         try {
             let hashedPassword = bcrypt.hashSync(req.body.password);
             req.body.password = hashedPassword;
-            const result = await userService.changePassword(req);
-            res.json(result.rowsAffected);
+            const result = await this.userService.changePassword(req);
+            return JSON.stringify(result.rowsAffected);
         }
         catch (error) {
-            res.status(500);
-            res.send(error.message);
+            console.log(`There Was a Problem Changing Password. error: ${error.message}`);
+            return (`Failed to Change Password, error: ${error.message}`);
         }
     }
 
     async changePassword(req, res) {
         try {
-            const result = await userService.changePassword(req);
-            res.json(result.rowsAffected);
+            const result = await this.userService.changePassword(req);
+            return JSON.stringify(result.rowsAffected);
         }
         catch (error) {
-            res.status(500);
-            res.send(error.message);
+            console.log(`There Was a Problem Changing Password. error: ${error.message}`);
+            return (`Failed to Change Password, error: ${error.message}`);
         }
     }
 }

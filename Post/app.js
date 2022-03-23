@@ -3,7 +3,8 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const app = express();
-const PostController = require('./controllers/postController');
+const { container } = require('./app-container');
+const postController = container.resolve('postController');
 
 
 
@@ -14,24 +15,20 @@ app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
 
 
-app.get('/getAllPosts', function(req, res) {
-    const result = PostController.getAllPosts(req);
-    res.status(200).send(String(result));
+app.get('/getAllPosts', async function(req, res) {
+    res.send(await postController.getAllPosts(req)).status(200);
  });
 
-app.post('/addPost', function(req, res) {
-    const result = PostController.addPost(req);
-    res.status(200).send(String(result));
+app.post('/addPost', async function(req, res) {
+    res.send(await postController.addPost(req)).status(200);
  });
 
-app.post('/searchPost', function(req, res) {
-    const result = PostController.searchPosts(req);
-    res.status(200).send(String(result));
+app.post('/searchPost', async function(req, res) {
+    res.send(await postController.searchPosts(req)).status(200);
  });
 
-app.get('/getPost', function(req, res) {
-    const result = PostController.getPost(req);
-    res.status(200).send(result);
+app.get('/getPost', async function(req, res) {
+    res.send(await postController.getPost(req)).status(200);
  });
 
 
