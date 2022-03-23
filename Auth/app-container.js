@@ -1,12 +1,15 @@
-const awilix = require("awilix");
+const awilix = require('awilix');
 const container = awilix.createContainer();
-const authService = require("./services/authService");
+
+const AuthController = require("./controllers/authController");
+const AuthService = require('./services/authService');
+
 
 const setup = () => {
-  console.log('container');
   container.register({
-    authService: awilix.asClass(authService).singleton()
+    authController: awilix.asClass(AuthController).singleton(),
+    authService: awilix.asClass(AuthService).singleton(),
   });
 }
 
-module.exports = { setup, container};
+module.exports = { setup, container };

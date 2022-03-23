@@ -3,7 +3,8 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const app = express();
-const authController = require('./controllers/authController');
+const { container } = require('./app-container');
+const authController = container.resolve('authController');
 
 
 

@@ -1,8 +1,8 @@
 //config
 require("dotenv").config();
-require('./app-container').setup();
 const port = process.env.PORT ? process.env.PORT : 8081;
 
+require('./app-container').setup();
 
 //app
 const app = require('./app');
@@ -11,5 +11,5 @@ const app = require('./app');
 
 
 //server-startup
-app.listen(port, () => console.log(`Server is running on PORT: ${port}`));
+app.listen(port, () => console.log(`Auth Service is running on PORT: ${port}`));
 

@@ -1,6 +1,6 @@
 const { sql, poolPromise } = require('./connectionHandler');
 
-class authService {
+class AuthService {
     async getAllUsers() {
         const pool = await poolPromise;
         const result = await pool.request()
@@ -66,4 +66,4 @@ class authService {
     }
 }
 
-module.exports = authService;
+module.exports = AuthService;
