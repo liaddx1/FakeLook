@@ -64,6 +64,8 @@ class AuthService {
             .execute('addUser');
         return result;
     }
+
+    returnShit = (req) => console.log(req);
 }
 
 module.exports = AuthService;

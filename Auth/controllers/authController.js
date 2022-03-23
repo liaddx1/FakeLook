@@ -3,13 +3,12 @@ const bcrypt = require('bcryptjs');
 const key = process.env.KEY;
 
 class AuthController {
-    constructor(authService) {
+    constructor({authService}) {
         this.authService = authService;
     }
 
     addUser = async (req) => {
         console.log('in adding a user');
-        console.log(AuthService);
         try {
             let hashedPassword = bcrypt.hashSync(req.body.password);
             req.body.password = hashedPassword;
@@ -41,8 +40,8 @@ class AuthController {
             return { auth: true, userId: result.recordset[0].userId, authToken: token };
         }
         catch (error) {
-            console.log(error.message);
-            // retrurn error.message;
+            console.log('Failed to Log in, error: ',error.message);
+            // return error.message;
         }
     }
 }
