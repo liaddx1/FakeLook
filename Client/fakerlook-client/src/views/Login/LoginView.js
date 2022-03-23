@@ -65,7 +65,7 @@ const LogInView = (props) => {
     if (response.tokenObj.id_token) {
       const pic = response.profileObj.imageUrl;
       const email = response.profileObj.email;
-      const firstName = response.profileObj.name;
+      const firstName = response.profileObj.givenName;
       const lastName = response.profileObj.familyName;
       const name = [firstName, lastName].join(' ');
       localStorage.clear();
