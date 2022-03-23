@@ -49,8 +49,11 @@ const LogInView = (props) => {
         setErrorMessage(response.data.message);
       console.log(response.data);
 
-      if (!response.data.message)
+      if (response.data.auth) {
+        localStorage.setItem("authToken", response.data.authToken);
+
         navigate('/map');
+      }
 
     }
   }
