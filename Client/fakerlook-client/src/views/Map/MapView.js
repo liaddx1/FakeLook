@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { InfoWindow, useLoadScript, GoogleMap, Marker, } from "@react-google-maps/api";
+import "@reach/combobox/styles.css";
 import './MapView.css';
 import { useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
@@ -28,8 +29,11 @@ export default function MapView() {
     const [selected, setSelected] = useState(null);
     const [pages, setPages] = useState(0);
 
+    //refs
+    const mapRef = useRef();
+
     //handlers
-    const isAuthorazied = () => {
+    const isAuthorazied = useCallback(() => {
         const token = localStorage.getItem("authToken");
         const facebookExp = localStorage.getItem('facebookExp')
         if (!token && !facebookExp) {
@@ -55,7 +59,7 @@ export default function MapView() {
                 navigate('/login');
             }
         }
-    }
+    }, [navigate]);
 
     const onMapClick = useCallback((event) => {
         setMarkers(current => [...current, {
@@ -65,30 +69,21 @@ export default function MapView() {
         }]);
     }, []);
 
-    const mapRef = useRef();
     const onMapLoad = useCallback((map) => {
         mapRef.current = map;
     }, []);
-
 
     const logOutHandler = () => {
         localStorage.clear();
         isAuthorazied();
     }
 
-    const getCurrentLocation = () => {
-
-    }
-
-    const changePageHandler = (pageNumber) => {
-        setPages(pageNumber);
-    }
+    const changePageHandler = (pageNumber) => setPages(pageNumber);
 
     //side effects
     useEffect(() => {
         isAuthorazied();
-        getCurrentLocation();
-    }, [])
+    }, [isAuthorazied])
 
     //renders
     const renderMap = () => {
@@ -112,7 +107,7 @@ export default function MapView() {
                     />)}
 
                 {selected ?
-                    (<InfoWindow position={{ lat: selected.lat, lng: selected.lng }}>
+                    (<InfoWindow position={{ lat: selected.lat, lng: selected.lng }} onCloseClick={() => { setSelected(null); }}>
                         <div>
                             <h2>Post Something Here?</h2>
                             <p>Current Time: {formatRelative(selected.time, new Date())}</p>
@@ -132,3 +127,4 @@ export default function MapView() {
         </>
     );
 }
+

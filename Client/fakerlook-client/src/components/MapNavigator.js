@@ -1,7 +1,14 @@
-import React from 'react';
-import { Container, Navbar, Nav, Form, FormControl, Button, NavDropdown } from "react-bootstrap";
+import React, { useState } from 'react';
+import { Container, Navbar, Nav, Form, NavDropdown } from "react-bootstrap";
+import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
+import { Combobox, ComboboxInput, ComboboxPopover, ComboboxOption, } from "@reach/combobox";
+import './MapNavigator.css';
+
 
 const MapNavigator = props => {
+  const [searchString, setSearchString] = useState('');
+
+  const onSearchChanged = (e) => setSearchString(e.target.value);
 
   return (
     <Navbar bg="dark" variant='dark' fixed='top' expand="lg">
@@ -26,13 +33,9 @@ const MapNavigator = props => {
             </NavDropdown>
           </Nav>
           <Form className="d-flex">
-            <FormControl
-              type="search"
-              placeholder="Search"
-              className="me-2"
-              aria-label="Search"
-            />
-            <Button variant="outline-success">Search</Button>
+            <div className='search center-text'>
+              <Search />
+            </div>
           </Form>
         </Navbar.Collapse>
       </Container>
@@ -40,3 +43,37 @@ const MapNavigator = props => {
   );
 }
 export default MapNavigator;
+
+const Search = (props) => {
+  const { ready, value, suggestions: { status, data }, setValue, clearSuggestions } = usePlacesAutocomplete({
+    requestOptions: {
+      location: { lat: () => 31.726870, lng: () => 34.992470, },
+      radius: 100 * 1000,
+
+    },
+  });
+
+  return (
+    <Combobox onSelect={async (address) => {
+      try {
+        const results = await getGeocode({ address });
+        console.log(results[0]);
+      } catch (error) {
+        console.log('Error!');
+      }
+    }}>
+      <ComboboxInput
+        value={value}
+        onChange={(e) => {
+          setValue(e.target.value);
+        }}
+        disabled={!ready}
+        placeholder="Enter an address"
+      />
+      <ComboboxPopover className='mt-2'>
+        {status === "OK" && data.map(({ id, description }) => (<ComboboxOption key={Math.random().toString()} value={description} />))}
+      </ComboboxPopover>
+
+    </Combobox>
+  );
+}
