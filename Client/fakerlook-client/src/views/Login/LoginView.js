@@ -70,7 +70,7 @@ const LogInView = (props) => {
       const name = [firstName, lastName].join(' ');
       localStorage.clear();
       localStorage.setItem("name", name);
-      localStorage.setItem("authToken", response.tokenObj.id_token);
+      localStorage.setItem("authToken", response.tokenId);
       navigate('/map');
     }
   }

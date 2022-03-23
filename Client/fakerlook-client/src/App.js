@@ -27,7 +27,8 @@ function App() {
           <Route path="/register" element={<RegisterView />} />
           <Route path="/login" element={<LogInView />} />
           <Route path="/map" element={<MapView />} />
-          <Route path="/profile" element={<LogInView />} />
+          <Route path="/home" element={<MapView />} />
+          {/* <Route path="/profile" element={<LogInView />} /> */}
         </Routes>
       </Router>
     </div>

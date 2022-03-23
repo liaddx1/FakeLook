@@ -22,7 +22,7 @@ const MapNavigator = props => {
             navbarScroll
           >
             <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="#" className='link-primary'><span className="link-primary">{localStorage.getItem('name')}</span></Nav.Link>
+            <Nav.Link href="#" disabled><span className="link-primary">{localStorage.getItem('name')}</span></Nav.Link>
             <NavDropdown title="Options" id="navbarScrollingDropdown">
               <NavDropdown.Item href="#action3">Update Profile Picture</NavDropdown.Item>
               <NavDropdown.Item href="#action4">Change Password</NavDropdown.Item>
@@ -68,7 +68,8 @@ const Search = (props) => {
           setValue(e.target.value);
         }}
         disabled={!ready}
-        placeholder="Enter an address"
+        placeholder="Enter An Address"
+        className='center-text'
       />
       <ComboboxPopover className='mt-2'>
         {status === "OK" && data.map(({ id, description }) => (<ComboboxOption key={Math.random().toString()} value={description} />))}
