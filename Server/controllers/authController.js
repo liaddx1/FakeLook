@@ -12,8 +12,7 @@ class AuthController {
             await httpService.post(`${authRoute}/register`, req.body).then((response) => {
                 res.status(200).send({ auth: true, userId: response.data.userId, authToken: response.data.authToken });
             })
-            .catch((error) => {console.log(error)})
-            console.log(result);
+                .catch((error) => { console.log(error) })
         }
         catch (error) {
             res.status(500);
@@ -24,10 +23,9 @@ class AuthController {
         console.log('In user login');
         try {
             await axios.post('http://localhost:8081/login', req.body).then((response) => {
-                console.log(response);
                 res.status(200).send({ auth: true, userId: response.data.userId, authToken: response.data.authToken });
             })
-            .catch((error) => {console.log(error)})
+                .catch((error) => { console.log(error) })
         }
         catch (error) {
             res.status(500);
