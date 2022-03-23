@@ -3,11 +3,11 @@ const bcrypt = require('bcryptjs');
 const key = process.env.KEY;
 
 class AuthController {
-    constructor({authService}) {
+    constructor({ authService }) {
         this.authService = authService;
     }
 
-    addUser = async (req) => {
+    addUser = async (req, res) => {
         console.log('in adding a user');
         try {
             let hashedPassword = bcrypt.hashSync(req.body.password);
@@ -17,14 +17,14 @@ class AuthController {
             let token = jwt.sign({ userId: result.recordset[0].userId }, key, {
                 expiresIn: 600
             });
-            return { auth: true, userId: result.recordset[0].userId, authToken: token };
+            res.status(200).send({ auth: true, userId: response.recordset[0].userId, authToken: token });
         }
         catch (error) {
-            console.log(error.message);
-            return 'There Was a Problem Registering The User.';
+            res.status(500).send(`Failed to Log in, error: ${error.message}`)
+            console.log(`There Was a Problem Registering The User. error: ${error.message}`);
         }
     }
-    userLogIn = async (req) => {
+    userLogIn = async (req, res) => {
         console.log('In user login');
         try {
             const result = await this.authService.userLogIn(req);
@@ -36,12 +36,11 @@ class AuthController {
             let token = jwt.sign({ userId: result.recordset[0].userId }, key, {
                 expiresIn: 600
             });
-
-            return { auth: true, userId: result.recordset[0].userId, authToken: token };
+            res.status(200).send({ auth: true, userId: response.recordset[0].userId, authToken: token });
         }
         catch (error) {
-            console.log('Failed to Log in, error: ',error.message);
-            // return error.message;
+            res.status(500).send(`Failed to Log in, error: ${error.message}`)
+            console.log('Failed to Log in, error: ', error.message);
         }
     }
 }
