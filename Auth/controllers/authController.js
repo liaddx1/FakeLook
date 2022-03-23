@@ -17,18 +17,17 @@ class AuthController {
             let token = jwt.sign({ userId: result.recordset[0].userId }, key, {
                 expiresIn: 600
             });
-            res.status(200).send({ auth: true, userId: response.recordset[0].userId, authToken: token });
+            return ({ auth: true, userId: response.recordset[0].userId, authToken: token });
         }
         catch (error) {
-            res.status(500).send(`Failed to Log in, error: ${error.message}`)
             console.log(`There Was a Problem Registering The User. error: ${error.message}`);
+            return (`Failed to Log in, error: ${error.message}`);
         }
     }
     userLogIn = async (req, res) => {
         console.log('In user login');
         try {
             const result = await this.authService.userLogIn(req);
-            console.log(result);
             if (!result.recordset[0]) return { message: 'User Was Not Found In Our System.', auth: false };
             let passwordIsValid = bcrypt.compareSync(req.body.password, result.recordset[0].password);
 
@@ -36,11 +35,11 @@ class AuthController {
             let token = jwt.sign({ userId: result.recordset[0].userId }, key, {
                 expiresIn: 600
             });
-            res.status(200).send({ auth: true, userId: response.recordset[0].userId, authToken: token });
+            return { auth: true, userId: result.recordset[0].userId, authToken: token };
         }
         catch (error) {
-            res.status(500).send(`Failed to Log in, error: ${error.message}`)
             console.log('Failed to Log in, error: ', error.message);
+            return `Failed to Log in, error: ${error.message}`;
         }
     }
 }

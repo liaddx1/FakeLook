@@ -15,16 +15,12 @@ app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
 
 
-app.post('/register', function(req, res) {
-    const result = authController.addUser(req);
-    res.status(200).send(String(result));
- });
+app.post('/register', async function (req, res) {
+    res.send(await authController.addUser(req)).status(200);
+});
 
-app.post('/login', function(req, res) {
-    const result = authController.userLogIn(req);
-    res.status(200).send(String(result));
- });
-
-
+app.post('/login', async function (req, res) {
+    res.send(await authController.userLogIn(req)).status(200);
+});
 
 module.exports = app;
