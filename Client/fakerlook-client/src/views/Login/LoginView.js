@@ -61,24 +61,27 @@ const LogInView = (props) => {
   }
 
   const responseGoogle = (response) => {
-    // const pic = response.profileObj.imageUrl;
-    // const email = response.profileObj.email;
-    // const firstName = response.profileObj.name;
-    // const lastName = response.profileObj.familyName;
     console.log(response);
     if (response.tokenObj.id_token) {
+      const pic = response.profileObj.imageUrl;
+      const email = response.profileObj.email;
+      const firstName = response.profileObj.name;
+      const lastName = response.profileObj.familyName;
+      const name = [firstName, lastName].join(' ');
       localStorage.clear();
+      localStorage.setItem("name", name);
       localStorage.setItem("authToken", response.tokenObj.id_token);
       navigate('/map');
     }
   }
 
   const responseFacebook = (response) => {
-    // const pic = response.picture;
-    // const email = response.email;
-    // const name = response.name;
     if (response.accessToken) {
+      const pic = response.picture;
+      const email = response.email;
+      const name = response.name;
       localStorage.clear();
+      localStorage.setItem("name", name);
       localStorage.setItem('facebookExp', response.data_access_expiration_time);
       navigate('/map');
     }
@@ -91,7 +94,7 @@ const LogInView = (props) => {
   return (
     <div>
       <Navigator />
-      <Form className='login-form' onSubmit={handleSubmit}>
+      <Form className='login-form mt-5' onSubmit={handleSubmit}>
         <h2 className='text-center'>Log in</h2>
 
         <FacebookLogin
@@ -146,7 +149,7 @@ const LogInView = (props) => {
         </div>
 
       </Form>
-    </div >
+    </div>
   )
 }
 

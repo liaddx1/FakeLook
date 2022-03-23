@@ -15,6 +15,7 @@ const MapNavigator = props => {
             navbarScroll
           >
             <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="#" className='link-primary'><span className="link-primary">{localStorage.getItem('name')}</span></Nav.Link>
             <NavDropdown title="Options" id="navbarScrollingDropdown">
               <NavDropdown.Item href="#action3">Update Profile Picture</NavDropdown.Item>
               <NavDropdown.Item href="#action4">Change Password</NavDropdown.Item>
