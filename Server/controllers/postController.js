@@ -1,44 +1,53 @@
+const httpService = require('../Services/httpService')
+const postRoute = `${process.env.BASEURL}:${process.env.POSTPORT}`;
+const axios = require('axios');
 class PostController{
-    constructor(postRepository){
-        this.postRepository = postRepository;
-    }
     async getAllPosts(req,res){
-        try{
-          const result = await this.postRepository.getAllPosts(req);
-          res.json(result.recordset);
+        try {
+            await httpService.get(`${postRoute}/getAllPosts`, req.body).then((response) => {
+                res.status(200).send(response.data);
+            })
+                .catch((error) => { console.log(error) })
         }
-        catch(error){
-            res.status(500)
-            res.send(error.message)
+        catch (error) {
+            res.status(500);
+            res.send(error.message)        
         }
     }
     async addPost(req,res){
         try {
-            const result = await this.postRepository.addPost(req);
-            res.send(result.rowsAffected);        } 
+            await httpService.post(`${postRoute}/addPost`, req.body).then((response) => {
+                res.status(200).send(response.data);
+            })
+                .catch((error) => { console.log(error) })
+        }
         catch (error) {
-            res.status(500)
-            res.send(error.message)
-      }
+            res.status(500);
+            res.send(error.message)        
+        }
     }
     async getPost(req,res){
         try {
-            const result = await this.postRepository.getPost(req);
-            res.json(result.recordset);
+            await httpService.post(`${postRoute}/getPost`, req.body).then((response) => {
+                res.status(200).send(response.data);
+            })
+                .catch((error) => { console.log(error) })
         }
-        catch{
-            res.status(500)
-            res.send(error.message)
+        catch (error) {
+            res.status(500);
+            res.send(error.message)        
         }
     }
     async searchPosts(req,res){
-        try{
-            const result = await this.postRepository.SearchPosts(req);
-            res.json(result.recordset);
+        try {
+            await httpService.post(`${postRoute}/searchPost`, req.body).then((response) => {
+                res.status(200).send(response.data);
+            })
+                .catch((error) => { console.log(error) })
         }
-        catch(error){
+        catch (error) {
             res.status(500);
-            res.send(error.message);
+            res.send(error.message)        
         }
     }
 }
