@@ -4,6 +4,7 @@ import ProfileComponent from './components/ProfileComponent';
 import LoginComponent from './views/Login/LoginView';
 import RegisterView from './views/Register/RegisterView';
 import MapView from './views/Map/MapView';
+import ForgotPasswordComponent from './views/ForgotPassword/ForgotPasswordView';
 import './App.css';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path="/login" element={<LoginComponent />} />
         <Route path="/map" element={<MapView />} />
         <Route path="/profile" element={<ProfileComponent />} />
+        <Route path="/forgotpassword" element={<ForgotPasswordComponent />} />
       </Routes>
     </Router>
   );

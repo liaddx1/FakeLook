@@ -8,6 +8,7 @@ userRouter.use(authMiddleware);
 userRouter.get('/all', userController.getAllUsers);
 userRouter.get('/:userId', userController.getUserById);
 userRouter.get('/:searchParams', userController.searchUsers);
+userRouter.get('/getUserByEmail', userController.getUserByEmail);
 userRouter.post('/changePic', userController.changeUserPicture);
 userRouter.post('/changePassword', userController.changePassword);
 
