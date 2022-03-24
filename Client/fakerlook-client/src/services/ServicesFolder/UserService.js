@@ -13,6 +13,14 @@ const UserService = {
 
   async getUserById(userId) {
     return await apiClient.get(`http://localhost:8080/api/users/${userId}`)
+  },
+
+  async getUserByEmail(email) {
+    return await apiClient.get(`http://localhost:8080/api/users/getUserByEmail`, email)
+  },
+
+  async changePassword(creds) {
+    return await apiClient.post(`http://localhost:8080/api/users/changePassword`, creds)
   }
 
 };

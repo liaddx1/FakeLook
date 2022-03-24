@@ -52,6 +52,19 @@ class UserController {
             res.send(error.message)        
         }
     }
+
+    async getUserByEmail(req, res) {
+        try {
+            await httpService.get(`${userRoute}/getUserByEmail`, req.body).then((response) => {
+                res.status(200).send(response.data);
+            })
+                .catch((error) => { console.log(error) })
+        }
+        catch (error) {
+            res.status(500);
+            res.send(error.message)        
+        }
+    }
     async changePassword(req, res) {
         try {
             let hashedPassword = bcrypt.hashSync(req.body.password);

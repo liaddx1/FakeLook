@@ -3,6 +3,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import LogInView from './views/Login/LoginView';
 import RegisterView from './views/Register/RegisterView';
 import MapView from './views/Map/MapView';
+import ForgotPasswordComponent from './views/ForgotPassword/ForgotPasswordView';
 import { useDispatch } from "react-redux";
 import { fetchUser } from "./Store/actions/user";
 import './App.css';

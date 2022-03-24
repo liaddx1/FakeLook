@@ -67,6 +67,17 @@ class UserController {
             return (`Failed to Change Password, error: ${error.message}`);
         }
     }
+
+    async getUserByEmail(req, res) {
+        try {
+            const result = await this.userService.getUserByEmail(req);
+            return JSON.stringify(result.recordset);
+        }
+        catch (error) {
+            console.log(`There Was a Problem Getting The User. error: ${error.message}`);
+            return (`Failed to Get The User, error: ${error.message}`);
+        }
+    }
 }
 
 module.exports = UserController;
