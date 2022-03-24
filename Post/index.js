@@ -11,5 +11,5 @@ const app = require('./app');
 
 
 //server-startup
-app.listen(port, () => console.log(`Server is running on PORT: ${port}`));
+app.listen(port, () => console.log(`Posts Service is running on PORT: ${port}`));
 
