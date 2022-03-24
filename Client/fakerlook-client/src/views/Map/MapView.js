@@ -1,15 +1,16 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { InfoWindow, useLoadScript, GoogleMap, Marker, } from "@react-google-maps/api";
-import "@reach/combobox/styles.css";
-import './MapView.css';
+import { InfoWindow, useLoadScript, GoogleMap, Marker } from "@react-google-maps/api";
 import { useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import MapNavigator from "../../components/MapNavigator";
 import { formatRelative } from "date-fns";
+import Options from "./Options";
+import "@reach/combobox/styles.css";
+import './MapView.css';
 
 const libraries = ["places"];
 const mapContainerStyle = {
-    width: `100vw`,
+    width: `70vw`,
     height: `94vh`,
 }
 const center = {
@@ -96,7 +97,7 @@ export default function MapView() {
 
             <GoogleMap
                 mapContainerStyle={mapContainerStyle}
-                zoom={10}
+                zoom={9}
                 center={center}
                 scrollWheelZoom={true}
                 onClick={onMapClick}
@@ -116,7 +117,7 @@ export default function MapView() {
                     (<InfoWindow position={{ lat: selected.lat, lng: selected.lng }} onCloseClick={() => { setSelected(null); }}>
                         <div>
                             <h2>Post Something Here?</h2>
-                            <p>Current Time: {formatRelative(selected.time, new Date())}</p>
+                            <p>Post Time: {formatRelative(selected.time, new Date())}</p>
                         </div>
                     </InfoWindow>) : null}
             </GoogleMap>
@@ -127,9 +128,14 @@ export default function MapView() {
     if (loadError) return "Error Loading Maps";
     if (!isLoaded) return "Loading Maps";
     return (
-        <div>
+        <div className="grid-container">
             <MapNavigator updateLocation={updateLocationHandler} onChangePage={changePageHandler} logOut={logOutHandler} />
-            {pages === 0 && renderMap()}
+            <div className="grid-item">
+                <Options />
+            </div>
+            <div className="grid-item">
+                {pages === 0 && renderMap()}
+            </div>
         </div>
     );
 }

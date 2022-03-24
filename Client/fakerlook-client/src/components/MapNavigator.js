@@ -33,7 +33,7 @@ const MapNavigator = props => {
                 <Locate updateLocation={props.updateLocation} />
               </div>
 
-              <div className='search'>
+              <div className='search form-control'>
                 <Search updateLocation={props.updateLocation} />
               </div>
 

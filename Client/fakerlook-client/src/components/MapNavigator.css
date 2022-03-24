@@ -9,9 +9,10 @@
     font-size: 1rem;
     width: 100%;
     border-radius: 5px;
-    border: none;
     text-align: center;
-    box-sizing: border-box;
+    outline: none;
+    border: none;
+    font-size: large;
 }
 
 .locate {
@@ -27,4 +28,9 @@
 .locate img {
     width: 30px;
     cursor: pointer;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 30% 70%;
 }
