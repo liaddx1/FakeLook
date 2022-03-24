@@ -145,7 +145,7 @@ const LogInView = (props) => {
         <div className='text-center mt-3'>
           <a href='/register'>Register</a>
           <span className='p-2'>|</span>
-          <a href='/register'>Forgot Passowrd</a>
+          <a href='/forgotPassword'>Forgot Passowrd</a>
         </div>
 
       </Form>

@@ -55,6 +55,7 @@ class UserController {
 
     async getUserByEmail(req, res) {
         try {
+            console.log(req.body)
             await httpService.get(`${userRoute}/getUserByEmail`, req.body).then((response) => {
                 res.status(200).send(response.data);
             })

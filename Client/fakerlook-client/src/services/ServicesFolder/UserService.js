@@ -16,7 +16,7 @@ const UserService = {
   },
 
   async getUserByEmail(email) {
-    return await apiClient.get(`http://localhost:8080/api/users/getUserByEmail`, email)
+    return await apiClient.get(`http://localhost:8080/api/unauthuser/getUserByEmail`, email)
   },
 
   async changePassword(creds) {
