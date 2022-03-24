@@ -80,8 +80,7 @@ export default function MapView() {
 
     const changePageHandler = (pageNumber) => setPages(pageNumber);
 
-    const updateLocationHandler = useCallback((lat, lng) => {
-        console.log(lat, lng);
+    const updateLocationHandler = useCallback(({ lat, lng }) => {
         mapRef.current.panTo({ lat, lng });
         mapRef.current.setZoom(12);
     }, []);
@@ -128,10 +127,10 @@ export default function MapView() {
     if (loadError) return "Error Loading Maps";
     if (!isLoaded) return "Loading Maps";
     return (
-        <>
+        <div>
             <MapNavigator updateLocation={updateLocationHandler} onChangePage={changePageHandler} logOut={logOutHandler} />
             {pages === 0 && renderMap()}
-        </>
+        </div>
     );
 }
 

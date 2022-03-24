@@ -1,5 +1,5 @@
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
-import { Combobox, ComboboxInput, ComboboxPopover, ComboboxOption, } from "@reach/combobox";
+import { Combobox, ComboboxInput, ComboboxPopover, ComboboxOption, ComboboxList } from "@reach/combobox";
 const Search = (props) => {
     const { ready, value, suggestions: { status, data }, setValue, clearSuggestions } = usePlacesAutocomplete({
         requestOptions: {
@@ -17,7 +17,7 @@ const Search = (props) => {
             try {
                 const results = await getGeocode({ address });
                 const { lat, lng } = await getLatLng(results[0]);
-                props.updateLocation(lat, lng);
+                props.updateLocation({ lat, lng });
             } catch (error) {
                 console.log('Error!');
             }
@@ -32,7 +32,9 @@ const Search = (props) => {
                 className='center-text'
             />
             <ComboboxPopover className='mt-2'>
-                {status === "OK" && data.map(({ id, description }) => (<ComboboxOption key={Math.random().toString()} value={description} />))}
+                <ComboboxList>
+                    {status === "OK" && data.map(({ id, description }) => (<ComboboxOption key={Math.random().toString()} value={description} />))}
+                </ComboboxList>
             </ComboboxPopover>
 
         </Combobox>
