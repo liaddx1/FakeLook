@@ -1,4 +1,4 @@
-.search{
+.search {
     /* position: fixed; */
     /* left: 50%; */
     /* transform: translate(-50%); */
@@ -11,5 +11,20 @@
     font-size: 1rem;
     width: 100%;
     border-radius: 5px;
+    border: none;
     box-sizing: border-box;
+}
+
+.locate {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    z-index: 10;
+}
+
+.locate img {
+    width: 30px;
+    cursor: pointer;
 }

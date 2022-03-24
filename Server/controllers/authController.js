@@ -10,7 +10,10 @@ class AuthController {
         console.log('in adding a user');
         try {
             await httpService.post(`${authRoute}/register`, req.body).then((response) => {
-                res.status(200).send({ auth: true, userId: response.data.userId, authToken: response.data.authToken });
+                if (!response.data.auth)
+                    res.status(200).send({ auth: false, message: "There Was a Problem Registering The User." })
+                if (response.data.auth)
+                    res.status(200).send({ auth: true, userId: response.data.userId, authToken: response.data.authToken });
             })
                 .catch((error) => { console.log(error) })
         }
@@ -23,7 +26,12 @@ class AuthController {
         console.log('In user login');
         try {
             await axios.post('http://localhost:8081/login', req.body).then((response) => {
-                res.status(200).send({ auth: true, userId: response.data.userId, authToken: response.data.authToken });
+                console.log(response.data);
+                if (!response.data.auth)
+                    res.status(200).send({ message: response.data.message, auth: false });
+
+                if (response.data.auth)
+                    res.status(200).send({ auth: true, userId: response.data.userId, authToken: response.data.authToken });
             })
                 .catch((error) => { console.log(error) })
         }

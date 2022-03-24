@@ -63,8 +63,8 @@ const LogInView = (props) => {
   const responseGoogle = (response) => {
     console.log(response);
     if (response.tokenObj.id_token) {
-      const pic = response.profileObj.imageUrl;
-      const email = response.profileObj.email;
+      // const pic = response.profileObj.imageUrl;
+      // const email = response.profileObj.email;
       const firstName = response.profileObj.givenName;
       const lastName = response.profileObj.familyName;
       const name = [firstName, lastName].join(' ');
@@ -77,8 +77,8 @@ const LogInView = (props) => {
 
   const responseFacebook = (response) => {
     if (response.accessToken) {
-      const pic = response.picture;
-      const email = response.email;
+      // const pic = response.picture;
+      // const email = response.email;
       const name = response.name;
       localStorage.clear();
       localStorage.setItem("name", name);

@@ -10,7 +10,7 @@ import { formatRelative } from "date-fns";
 const libraries = ["places"];
 const mapContainerStyle = {
     width: `100vw`,
-    height: `100vh`,
+    height: `94vh`,
 }
 const center = {
     lat: 31.726870,
@@ -80,6 +80,12 @@ export default function MapView() {
 
     const changePageHandler = (pageNumber) => setPages(pageNumber);
 
+    const updateLocationHandler = useCallback((lat, lng) => {
+        console.log(lat, lng);
+        mapRef.current.panTo({ lat, lng });
+        mapRef.current.setZoom(12);
+    }, []);
+
     //side effects
     useEffect(() => {
         isAuthorazied();
@@ -96,6 +102,7 @@ export default function MapView() {
                 scrollWheelZoom={true}
                 onClick={onMapClick}
                 onLoad={onMapLoad}
+                className="fixed-left"
             >
                 {markers.map(marker =>
                     <Marker
@@ -122,7 +129,7 @@ export default function MapView() {
     if (!isLoaded) return "Loading Maps";
     return (
         <>
-            <MapNavigator onChangePage={changePageHandler} logOut={logOutHandler} />
+            <MapNavigator updateLocation={updateLocationHandler} onChangePage={changePageHandler} logOut={logOutHandler} />
             {pages === 0 && renderMap()}
         </>
     );
