@@ -28,3 +28,7 @@
     width: 30px;
     cursor: pointer;
 }
+
+.container {
+    display: flex;
+}

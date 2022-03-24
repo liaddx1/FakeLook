@@ -1,5 +1,5 @@
 class UserController {
-    constructor({userService}) {
+    constructor({ userService }) {
         this.userService = userService;
     }
 
@@ -70,8 +70,7 @@ class UserController {
 
     async getUserByEmail(req, res) {
         try {
-            const result = await this.userService.getUserByEmail(req);
-            return JSON.stringify(result.recordset);
+            return JSON.stringify(await this.userService.getUserByEmail(req));
         }
         catch (error) {
             console.log(`There Was a Problem Getting The User. error: ${error.message}`);

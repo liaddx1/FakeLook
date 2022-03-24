@@ -4,10 +4,10 @@ const key = process.env.KEY;
 module.exports = verifyUser = (req, res, next) => {
     let token = req.header('authToken');
     console.log('in JWT');
-    if (!token) return res.status(401).send({ auth: false, message: "Token was not provided." });
+    if (!token) return ({ auth: false, message: "Token was not provided." });
 
     jwt.verify(token, key, (err, decoded) => {
-        if (err) return res.status(500).send({ auth: false, message: "Authintication Failed." });
+        if (err) return ({ auth: false, message: "Authintication Failed." });
 
         req.userId = decoded.userId;
         console.log(req.userId);

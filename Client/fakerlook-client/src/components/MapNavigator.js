@@ -29,9 +29,15 @@ const MapNavigator = props => {
             </NavDropdown>
           </Nav>
           <Form className="d-flex">
-            <Locate updateLocation={props.updateLocation} />
-            <div className='search center-text form-control'>
-              <Search updateLocation={props.updateLocation} />
+            <div className='container'>
+              <div>
+                <Locate updateLocation={props.updateLocation} />
+              </div>
+
+              <div className='search center-text'>
+                <Search updateLocation={props.updateLocation} />
+              </div>
+
             </div>
           </Form>
         </Navbar.Collapse>

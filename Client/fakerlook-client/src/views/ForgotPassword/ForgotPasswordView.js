@@ -32,8 +32,8 @@ const ForgotPasswordView = (props) => {
       return false;
     }
     if (password.value !== repeatedPassword.value) {
-        setErrorMessage('Passwords Do Not Match!');
-        return false;
+      setErrorMessage('Passwords Do Not Match!');
+      return false;
     }
 
 
@@ -48,20 +48,24 @@ const ForgotPasswordView = (props) => {
     const { email, password, repeatedPassword } = e.target.elements;
 
     if (formValidation(email, password, repeatedPassword)) {
-        debugger;
-      await UserService.getUserByEmail({email: email.value})
-        .then((user) => {
-            debugger;
-            return user.data
+
+      await UserService.getUserByEmail(email.value)
+        .then((response) => {
+          if (response.message)
+            setErrorMessage(response.message);
+
+          else {
+
+          }
+          return response;
         })
-        .then((user) => {
-            debugger;
-            const result = UserService.changePassword({user});
-            return result;
-        })
-        .then(() => setSuccessMessage('Password changed successfully.'))
+        // .then((user) => {
+        //     const result = UserService.changePassword({user});
+        //     return result;
+        // })
+        // .then(() => setSuccessMessage('Password changed successfully.'))
         .catch(error => {
-            setErrorMessage(error);
+          setErrorMessage(error.message);
         })
 
     }
@@ -106,20 +110,20 @@ const ForgotPasswordView = (props) => {
           <InputGroup >
             <InputGroupText className='col-5'>
               <FontAwesomeIcon icon={faKey} />
-              &nbsp;Reenter Password
+              &nbsp;Repeat Password
             </InputGroupText>
-            <Input id='repeatedPassword' type='password' placeholder='Reenter your password' />
+            <Input id='repeatedPassword' type='password' placeholder='Repeat your password' />
           </InputGroup>
         </FormGroup>
 
         {errorMessage.trim().length !== 0 && <div className='text-center alert alert-danger'>{errorMessage}</div>}
         {successMessage.trim().length !== 0 &&
-         <div className='text-center alert alert-success'>
+          <div className='text-center alert alert-success'>
             {successMessage}
             <p>
-                <a href="/login">Back to login</a>
+              <a href="/login">Back to login</a>
             </p>
-            </div>}
+          </div>}
 
         <Button type='submit' className='btn btn-primary col-12'>Submit</Button>
 

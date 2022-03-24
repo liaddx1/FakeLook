@@ -3,6 +3,6 @@ const { container } = require('../app-container');
 const userController = container.resolve('userController');
 
 noAuthUserRouter.post('/changePassword', userController.changePassword);
-noAuthUserRouter.get('/getUserByEmail', userController.getUserByEmail);
+noAuthUserRouter.get('/:userEmail', userController.getUserByEmail);
 
 module.exports = noAuthUserRouter;

@@ -4,7 +4,6 @@ const authMiddleware = require('../middlewares/auth-user');
 const userController = container.resolve('userController');
 
 
-
 userRouter.use(authMiddleware);
 
 userRouter.get('/all', userController.getAllUsers);

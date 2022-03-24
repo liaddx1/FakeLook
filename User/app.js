@@ -35,7 +35,7 @@ app.post('/changePassword', async function(req, res) {
     res.send(await userController.changePassword(req)).status(200);
  });
 
-app.get('/getUserByEmail', async function(req, res) {
+app.get('/getUserByEmail/:userEmail', async function(req, res) {
     res.send(await userController.getUserByEmail(req)).status(200);
  });
 

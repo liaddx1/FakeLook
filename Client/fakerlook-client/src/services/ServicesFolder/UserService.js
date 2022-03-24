@@ -12,15 +12,15 @@ const UserService = {
   },
 
   async getUserById(userId) {
-    return await apiClient.get(`http://localhost:8080/api/users/${userId}`)
+    return await apiClient.get(`http://localhost:8080/api/users/${userId}`);
   },
 
-  async getUserByEmail(email) {
-    return await apiClient.get(`http://localhost:8080/api/unauthuser/getUserByEmail`, email)
+  async getUserByEmail(userEmail) {
+    return (await apiClient.get(`http://localhost:8080/api/noAuthUser/${userEmail}`)).data;
   },
 
   async changePassword(creds) {
-    return await apiClient.post(`http://localhost:8080/api/users/changePassword`, creds)
+    return await apiClient.post(`http://localhost:8080/api/users/changePassword`, creds);
   }
 
 };

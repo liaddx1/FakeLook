@@ -27,7 +27,7 @@ class userService {
     async getUserByEmail(req) {
         const pool = await poolPromise;
         const result = await pool.request()
-            .input('email', sql.NVarChar(100), req.params.email)
+            .input('email', sql.NVarChar(100), req.params.userEmail)
             .execute('getUserByEmail');
         return result;
     }
