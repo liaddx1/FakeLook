@@ -6,14 +6,10 @@ const app = express();
 const { container } = require('./app-container');
 const authController = container.resolve('authController');
 
-
-
 app.use(cookieParser());
 app.use(cors());
 app.use(bodyParser.json({ limit: '10mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
-
-
 
 app.post('/register', async function (req, res) {
     res.send(await authController.addUser(req)).status(200);
