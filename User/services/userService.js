@@ -43,8 +43,8 @@ class userService {
     async changePassword(req) {
         const pool = await poolPromise;
         const result = await pool.request()
-            .input('userId', sql.Int, req.userId)
-            .input('password', sql.VarChar(sql.MAX), req.body.password)
+            .input('userId', sql.Int, req.body.user.userId)
+            .input('password', sql.VarChar(sql.MAX), req.body.user.password)
             .execute('updatePassword');
         return result;
     }

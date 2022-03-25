@@ -57,7 +57,7 @@ class UserController {
         try {
             console.log(req.params.userEmail);
             await httpService.get(`${userRoute}/getUserByEmail/${req.params.userEmail}`).then((response) => {
-                if (response.data.recordsets[0].length > 1)
+                if (response.data.recordsets[0].length > 0)
                     res.status(200).send(response.data.recordsets[0]);
                 else
                     res.status(200).send({ message: 'User Was Not Found In Our System!' });
@@ -70,10 +70,10 @@ class UserController {
         }
     }
 
-    async changePassword(req, res) {
+        async changePassword(req, res) {
         try {
-            let hashedPassword = bcrypt.hashSync(req.body.password);
-            req.body.password = hashedPassword;
+            let hashedPassword = bcrypt.hashSync(req.body.user.password);
+            req.body.user.password = hashedPassword;
             await httpService.post(`${userRoute}/changePassword`, req.body).then((response) => {
                 res.status(200).send(response.data);
             })

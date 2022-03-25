@@ -20,7 +20,7 @@ const UserService = {
   },
 
   async changePassword(creds) {
-    return await apiClient.post(`http://localhost:8080/api/unauthuser/changePassword`, creds)
+    return await apiClient.post(`http://localhost:8080/api/noAuthUser/changePassword`, creds)
   }
 
 };
