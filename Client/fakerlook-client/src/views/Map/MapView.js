@@ -7,6 +7,8 @@ import { formatRelative } from "date-fns";
 import Options from "./Options";
 import "@reach/combobox/styles.css";
 import './MapView.css';
+import PostFeed from "./PostFeedView";
+import AddPost from "./AddPostView";
 
 const libraries = ["places"];
 const mapContainerStyle = {
@@ -131,10 +133,12 @@ export default function MapView() {
             <MapNavigator updateLocation={updateLocationHandler} onChangePage={changePageHandler} logOut={logOutHandler} />
             <div name="grid-container" className="grid-container">
                 <div>
-                    <Options />
+                    <Options onChangePage={changePageHandler} />
                 </div>
-                <div className="map">
+                <div>
                     {pages === 0 && renderMap()}
+                    {pages === 1 && <PostFeed />}
+                    {pages === 2 && <AddPost onChangePage={changePageHandler} />}
                 </div>
             </div>
         </div>
