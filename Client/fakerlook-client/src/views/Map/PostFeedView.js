@@ -1,8 +1,10 @@
-import { useSelector } from "react-redux";
+import { useState } from "react";
 import Post from "../../components/Post";
+// import { useSelector } from "react-redux";
 
 const PostFeed = props => {
-    const posts = useSelector(state => state.posts.posts);
+    // const postsFromSelector = useSelector(state => state.posts.posts);
+    const [posts, setPosts] = useState([]);
 
     const renderPosts = () => {
         posts?.map((post, index) => <li key={post.id}><Post {...post} index={index} /></li>)
@@ -12,7 +14,7 @@ const PostFeed = props => {
         <div>
             <h1 className="text-center">Post Feed</h1>
             <ul>
-                {renderPosts()}
+                {!posts.length <= 0 ? renderPosts() : <h2 className="text-center">No Posts To Show Yet</h2>}
             </ul>
         </div >
     );
