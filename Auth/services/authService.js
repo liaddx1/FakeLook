@@ -65,7 +65,6 @@ class AuthService {
         return result;
     }
 
-    returnShit = (req) => console.log(req);
 }
 
 module.exports = AuthService;

@@ -1,6 +1,6 @@
 import React from "react";
 import { faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
-import UserService from "../../services/ServicesFolder/UserService";
+import UserService from "../../services/UserService";
 import { Button, Form, FormGroup, Input, InputGroup, InputGroupText, } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import fontawesome from "@fortawesome/fontawesome";

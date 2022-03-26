@@ -36,8 +36,7 @@ class UserController {
 
     async getUserById(req, res) {
         try {
-            const result = await this.userService.getUserById(req);
-            return JSON.stringify(result.recordset);
+            return JSON.stringify(await this.userService.getUserById(req));
         }
         catch (error) {
             console.log(`There Was a Problem Getting User. error: ${error.message}`);

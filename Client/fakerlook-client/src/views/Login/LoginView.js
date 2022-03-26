@@ -1,6 +1,6 @@
 import React from "react";
 import { faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons';
-import UserService from '../../services/ServicesFolder/UserService';
+import UserService from '../../services/UserService';
 import { Button, Form, FormGroup, Input, InputGroup, InputGroupText } from 'reactstrap';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import FacebookLoginBtn from "../../components/FacebookLoginBtn";
@@ -10,8 +10,11 @@ import { useState } from 'react';
 import Navigator from "../../components/Navigator";
 import './LoginView.css';
 import GoogleLoginBtn from "../../components/GoogleLoginBtn";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../Store/actions/user";
 
 const LogInView = (props) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -44,18 +47,21 @@ const LogInView = (props) => {
     const { email, password } = e.target.elements;
 
     if (formValidation(email, password)) {
-      const response = await UserService.LogIn({ email: email.value, password: password.value });
+      await UserService.LogIn({ email: email.value, password: password.value }).then(response => {
 
-      if (response.data.message)
-        setErrorMessage(response.data.message);
-      console.log(response.data);
+        if (response.data.message) {
+          setErrorMessage(response.data.message);
+          return;
+        }
 
-      if (response.data.auth) {
-        localStorage.setItem("authToken", response.data.authToken);
+        if (response.data.auth) {
+          localStorage.setItem("authToken", response.data.authToken);
+          dispatch(setUser(response.data.userId));
+          navigate('/map');
+        }
 
-        navigate('/map');
-      }
 
+      })
     }
   }
 
