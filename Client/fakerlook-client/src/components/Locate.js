@@ -1,3 +1,5 @@
+import "./Locate.css";
+
 const Locate = (props) => {
     return (
         <button className="locate" onClick={(e) => {

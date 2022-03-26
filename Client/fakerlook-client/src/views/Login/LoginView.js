@@ -1,16 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons';
-import { FacebookLoginButton, GoogleLoginButton } from 'react-social-login-buttons';
-import GoogleLogin from "react-google-login";
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import UserService from '../../services/ServicesFolder/UserService';
 import { Button, Form, FormGroup, Input, InputGroup, InputGroupText } from 'reactstrap';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import FacebookLoginBtn from "../../components/FacebookLoginBtn";
 import fontawesome from '@fortawesome/fontawesome';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Navigator from "../../components/Navigator";
 import './LoginView.css';
+import GoogleLoginBtn from "../../components/GoogleLoginBtn";
 
 const LogInView = (props) => {
   const navigate = useNavigate();
@@ -60,59 +59,14 @@ const LogInView = (props) => {
     }
   }
 
-  const responseGoogle = (response) => {
-    console.log(response);
-    if (response.tokenObj.id_token) {
-      // const pic = response.profileObj.imageUrl;
-      // const email = response.profileObj.email;
-      const firstName = response.profileObj.givenName;
-      const lastName = response.profileObj.familyName;
-      const name = [firstName, lastName].join(' ');
-      localStorage.clear();
-      localStorage.setItem("name", name);
-      localStorage.setItem("authToken", response.tokenId);
-      navigate('/map');
-    }
-  }
-
-  const responseFacebook = (response) => {
-    if (response.accessToken) {
-      // const pic = response.picture;
-      // const email = response.email;
-      const name = response.name;
-      localStorage.clear();
-      localStorage.setItem("name", name);
-      localStorage.setItem('facebookExp', response.data_access_expiration_time);
-      navigate('/map');
-    }
-  }
-
-  //side effects
-  useEffect(() => {
-  }, []);
-
   return (
     <div>
       <Navigator />
       <Form className='login-form mt-5' onSubmit={handleSubmit}>
         <h2 className='text-center'>Log in</h2>
 
-        <FacebookLogin
-          className='mt-3 mb-3'
-          appId={process.env.REACT_APP_LOGIN_FACEBOOK_APP_ID}
-          fields="name,email,picture"
-          render={renderProps => (<FacebookLoginButton onClick={renderProps.onClick} disabled={renderProps.disabled}>Log In With Facebook</FacebookLoginButton>)}
-          onClick={responseFacebook}
-          callback={responseFacebook}
-        />
-
-        <GoogleLogin
-          className='mt-3 mb-3'
-          clientId={process.env.REACT_APP_LOGIN_GOOGLE_CLIENT_ID}
-          render={renderProps => (<GoogleLoginButton onClick={renderProps.onClick} disabled={renderProps.disabled} >Log In with Google</GoogleLoginButton>)}
-          onSuccess={responseGoogle}
-          onFailure={responseGoogle}
-        />
+        <FacebookLoginBtn />
+        <GoogleLoginBtn />
 
         <p className="divider-text">
           <span className="bg-white">OR</span>

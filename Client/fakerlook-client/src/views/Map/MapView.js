@@ -10,8 +10,8 @@ import './MapView.css';
 
 const libraries = ["places"];
 const mapContainerStyle = {
-    width: `70vw`,
-    height: `94vh`,
+    height: `calc(100vh - 59px)`,
+    width: "100%",
 }
 const center = {
     lat: 31.726870,
@@ -93,48 +93,49 @@ export default function MapView() {
 
     //renders
     const renderMap = () => {
-        return (<div className="mt-5">
+        return (
+            <div>
+                <GoogleMap
+                    mapContainerStyle={mapContainerStyle}
+                    zoom={9}
+                    center={center}
+                    scrollWheelZoom={true}
+                    onClick={onMapClick}
+                    onLoad={onMapLoad}
+                    className="fixed-left"
+                >
+                    {markers.map(marker =>
+                        <Marker
+                            key={Math.random().toString()}
+                            position={{ lat: marker.lat, lng: marker.lng }}
+                            onClick={() => {
+                                setSelected(marker);
+                            }}
+                        />)}
 
-            <GoogleMap
-                mapContainerStyle={mapContainerStyle}
-                zoom={9}
-                center={center}
-                scrollWheelZoom={true}
-                onClick={onMapClick}
-                onLoad={onMapLoad}
-                className="fixed-left"
-            >
-                {markers.map(marker =>
-                    <Marker
-                        key={Math.random().toString()}
-                        position={{ lat: marker.lat, lng: marker.lng }}
-                        onClick={() => {
-                            setSelected(marker);
-                        }}
-                    />)}
-
-                {selected ?
-                    (<InfoWindow position={{ lat: selected.lat, lng: selected.lng }} onCloseClick={() => { setSelected(null); }}>
-                        <div>
-                            <h2>Post Something Here?</h2>
-                            <p>Post Time: {formatRelative(selected.time, new Date())}</p>
-                        </div>
-                    </InfoWindow>) : null}
-            </GoogleMap>
-
-        </div>);
+                    {selected ?
+                        (<InfoWindow position={{ lat: selected.lat, lng: selected.lng }} onCloseClick={() => { setSelected(null); }}>
+                            <div>
+                                <h2>Post Something Here?</h2>
+                                <p>Post Time: {formatRelative(selected.time, new Date())}</p>
+                            </div>
+                        </InfoWindow>) : null}
+                </GoogleMap>
+            </div>);
     }
 
     if (loadError) return "Error Loading Maps";
     if (!isLoaded) return "Loading Maps";
     return (
-        <div className="grid-container">
+        <div>
             <MapNavigator updateLocation={updateLocationHandler} onChangePage={changePageHandler} logOut={logOutHandler} />
-            <div className="grid-item">
-                <Options />
-            </div>
-            <div className="grid-item">
-                {pages === 0 && renderMap()}
+            <div name="grid-container" className="grid-container">
+                <div>
+                    <Options />
+                </div>
+                <div className="map">
+                    {pages === 0 && renderMap()}
+                </div>
             </div>
         </div>
     );

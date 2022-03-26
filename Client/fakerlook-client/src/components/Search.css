@@ -1,0 +1,15 @@
+.search {
+    left: 30%;
+    top: 1rem;
+    width: 100%;
+    z-index: 10;
+}
+
+.search input {
+    font-size: 1rem;
+    width: 100%;
+    text-align: center;
+    outline: none;
+    border: none;
+    font-size: large;
+}

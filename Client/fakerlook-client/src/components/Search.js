@@ -1,5 +1,6 @@
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 import { Combobox, ComboboxInput, ComboboxPopover, ComboboxOption, ComboboxList } from "@reach/combobox";
+import "./Search.css"
 const Search = (props) => {
     const { ready, value, suggestions: { status, data }, setValue, clearSuggestions } = usePlacesAutocomplete({
         requestOptions: {

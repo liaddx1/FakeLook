@@ -1,11 +1,14 @@
-import { ADD, FETCH, DELETE, UPDATE } from "../actions/user";
+import { SET, ADD, FETCH, DELETE, UPDATE } from "../actions/user";
 const initialState = {
-    users: []
+    currentUser: []
 }
 
 const reducer = (state = initialState, action) => {
 
     switch (action.type) {
+        case SET:
+
+            return { ...state, currentUser: action.newUser }
         case ADD:
 
             return { ...state, }

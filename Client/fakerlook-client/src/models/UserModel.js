@@ -35,6 +35,9 @@ class User {
         if (this.password.length === 0)
             return [false, 'Password Cannot Be Empty!'];
 
+        if (!this.picture)
+            return [false, "Must Upload A Picture!"];
+
         return [true, ''];
     }
 }

@@ -1,0 +1,20 @@
+.locate {
+    left: 50%;
+    position: absolute;
+    top: 0.7rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    z-index: 10;
+    width: 1rem;
+}
+
+.locate img {
+    width: 30px;
+    cursor: pointer;
+}
+
+.locate img:hover {
+    background-color: rgba(51, 102, 255, 0.144);
+    border-radius: 15px;
+}

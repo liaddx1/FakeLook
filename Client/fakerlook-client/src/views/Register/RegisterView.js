@@ -1,24 +1,23 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, FormGroup, Input, InputGroup, InputGroupText, Button } from "reactstrap";
-import { FacebookLoginButton, GoogleLoginButton } from 'react-social-login-buttons';
 import fontawesome from '@fortawesome/fontawesome';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendar, faEnvelope, faHome, faLock, faUserAlt, faUserMd } from '@fortawesome/free-solid-svg-icons';
-import './RegisterView.css';
+import { faCalendar, faEnvelope, faFile, faHome, faLock, faUserAlt, faUserMd } from '@fortawesome/free-solid-svg-icons';
 import UserService from "../../services/ServicesFolder/UserService";
 import User from "../../models/UserModel";
 import Navigator from "../../components/Navigator";
+import FacebookLoginBtn from "../../components/FacebookLoginBtn";
+import GoogleLoginBtn from "../../components/GoogleLoginBtn";
+import './RegisterView.css';
 
 const RegisterView = props => {
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState('');
 
-    fontawesome.library.add(faEnvelope, faLock, faCalendar, faHome, faUserAlt, faUserMd);
+    fontawesome.library.add(faEnvelope, faLock, faCalendar, faHome, faUserAlt, faUserMd, faFile);
 
     const formValidation = (password, repeatedPassword) => {
-
         if (repeatedPassword.trim().length === 0) {
             setErrorMessage('Please Repeat Password!');
             return false;
@@ -34,13 +33,21 @@ const RegisterView = props => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { firstName, lastName, email, address, birthDate, job, password, repeatedPassword } = e.target.elements;
+        const { firstName, lastName, email, address, birthDate, picture, job, password, repeatedPassword } = e.target.elements;
 
-        const newUser = new User(firstName.value, lastName.value, email.value, address.value, birthDate.value, job.value, password.value);
+        if (!(picture.files[0] && picture.files[0]['type'].split('/')[0] === 'image')) {
+            setErrorMessage('File Uploaded Is Not a Picture!');
+            return false;
+        }
+
+        const pic = await getBase64(picture.files[0]);
+
+        const newUser = new User(firstName.value, lastName.value, email.value, address.value, birthDate.value, job.value, password.value, pic);
+
         const [value, message] = newUser.validate();
         setErrorMessage(message);
 
-        if (value && formValidation(password.value, repeatedPassword.value)) {
+        if (value && formValidation(password.value, repeatedPassword.value, picture)) {
             const response = await UserService.Register(newUser);
 
             if (response.data.auth) {
@@ -48,6 +55,20 @@ const RegisterView = props => {
                 navigate('/login');
             }
         }
+    }
+
+    const getBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+
+            reader.onload = () => {
+                resolve(reader.result);
+            };
+            reader.onerror = (error) => {
+                reject(error);
+            };
+        });
     }
 
     return (
@@ -58,8 +79,8 @@ const RegisterView = props => {
                 <h2 className='card-title mt-3 text-center'>Create Account</h2>
                 <p className="text-center">Get Started With FakeLook Today!</p>
 
-                <FacebookLoginButton className='mt-3 mb-3' />
-                <GoogleLoginButton className='mt-3 mb-3' />
+                <FacebookLoginBtn />
+                <GoogleLoginBtn />
 
                 <p className="divider-text">
                     <span className="bg-white">OR</span>
@@ -103,6 +124,16 @@ const RegisterView = props => {
                             &nbsp;Birth Date
                         </InputGroupText>
                         <Input id="birthDate" type="date" placeholder="Birth Date" className="form-control" />
+                    </InputGroup>
+                </FormGroup>
+
+                <FormGroup>
+                    <InputGroup>
+                        <InputGroupText className='col-3'>
+                            <FontAwesomeIcon icon={faFile} />
+                            &nbsp;Picture
+                        </InputGroupText>
+                        <Input id="picture" type="file" className="form-control" />
                     </InputGroup>
                 </FormGroup>
 
