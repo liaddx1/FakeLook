@@ -18,9 +18,8 @@ app.get('/all', async function(req, res) {
     res.send(await userController.getAllUsers(req)).status(200);
  });
 
-app.get('/getUserId', async function(req, res) {
+app.get('/getUserId/:userId', async function(req, res) {
     res.send(await userController.getUserById(req)).status(200);
-
  });
 
 app.get('/searchUser', async function(req, res) {

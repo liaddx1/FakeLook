@@ -42,14 +42,14 @@ class UserController {
 
     async getUserById(req, res) {
         try {
-            await httpService.get(`${userRoute}/getUserId`, req.body).then((response) => {
-                res.status(200).send(response.data);
+            await httpService.get(`${userRoute}/getUserId/${req.params.userId}`).then((response) => {
+                res.status(200).send(response.data.recordset[0]);
             })
                 .catch((error) => { console.log(error) })
         }
         catch (error) {
             res.status(500);
-            res.send(error.message)
+            res.send(error.message);
         }
     }
 
@@ -70,7 +70,7 @@ class UserController {
         }
     }
 
-        async changePassword(req, res) {
+    async changePassword(req, res) {
         try {
             let hashedPassword = bcrypt.hashSync(req.body.user.password);
             req.body.user.password = hashedPassword;

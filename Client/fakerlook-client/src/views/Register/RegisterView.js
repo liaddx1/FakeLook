@@ -4,7 +4,7 @@ import { Form, FormGroup, Input, InputGroup, InputGroupText, Button } from "reac
 import fontawesome from '@fortawesome/fontawesome';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar, faEnvelope, faFile, faHome, faLock, faUserAlt, faUserMd } from '@fortawesome/free-solid-svg-icons';
-import UserService from "../../services/ServicesFolder/UserService";
+import UserService from "../../services/UserService";
 import User from "../../models/UserModel";
 import Navigator from "../../components/Navigator";
 import FacebookLoginBtn from "../../components/FacebookLoginBtn";
@@ -50,6 +50,11 @@ const RegisterView = props => {
         if (value && formValidation(password.value, repeatedPassword.value, picture)) {
             const response = await UserService.Register(newUser);
 
+            if (response.data.message)
+                setErrorMessage(response.data.message);
+
+            console.log(response);
+            
             if (response.data.auth) {
                 localStorage.setItem("authToken", response.data.authToken);
                 navigate('/login');
@@ -166,7 +171,9 @@ const RegisterView = props => {
                         <Input id="repeatedPassword" type="password" placeholder="Repeat Passowrd" className="form-control" />
                     </InputGroup>
                 </FormGroup>
+
                 {errorMessage.trim().length !== 0 && <div className='text-center alert alert-danger'>{errorMessage}</div>}
+
                 <Button type='submit' className='btn col-12'>Create Account</Button>
 
                 <p className="text-center">

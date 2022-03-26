@@ -21,11 +21,11 @@ const center = {
 }
 
 export default function MapView() {
-    const navigate = useNavigate();
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
         libraries,
     })
+    const navigate = useNavigate();
 
     //states
     const [markers, setMarkers] = useState([]);

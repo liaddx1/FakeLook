@@ -31,7 +31,7 @@ class AuthController {
                     res.status(200).send({ message: response.data.message, auth: false });
 
                 if (response.data.auth)
-                    res.status(200).send({ auth: true, userId: response.data.userId, authToken: response.data.authToken });
+                    res.status(200).send({ auth: true, userId: response.data.userId, authToken: response.data.authToken, user: response.data.user });
             })
                 .catch((error) => { console.log(error) })
         }

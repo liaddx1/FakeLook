@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const { process_params } = require('express/lib/router');
 const key = process.env.KEY;
 
 class AuthController {
@@ -35,6 +36,7 @@ class AuthController {
             let token = jwt.sign({ userId: result.recordset[0].userId }, key, {
                 expiresIn: 600
             });
+
             return { auth: true, userId: result.recordset[0].userId, authToken: token };
         }
         catch (error) {
