@@ -1,7 +1,7 @@
 //config
 require("dotenv").config();
 require('./app-container').setup();
-const port = process.env.PORT ? process.env.PORT : 8085;
+const port = process.env.USER_PORT ? process.env.USER_PORT : 8085;
 
 
 //app
