@@ -1,13 +1,10 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Container, Navbar, Nav, Form, NavDropdown } from "react-bootstrap";
 import Locate from './Locate';
 import Search from './Search';
 import './MapNavigator.css';
 
-
 const MapNavigator = props => {
-  const currentUser = useSelector(state => state.users.currentUser);
 
   return (
     <Navbar bg="dark" variant='dark' expand="lg">

@@ -1,5 +1,3 @@
-// import axios from 'axios';
-// import { runPostRequest } from '../../services/httpInvoker';
 import UserService from "../../services/UserService";
 export const SET = 'SETUSER';
 export const ADD = 'ADDUSER';
@@ -11,7 +9,6 @@ export const UPDATE = 'UPDATEUSER';
 
 export const setUser = (userId) => {
     return async (dispatch, getState) => {
-        console.log('setting user');
         const newUser = await UserService.getUserById(userId);
         console.log(newUser.data);
 
@@ -21,23 +18,20 @@ export const setUser = (userId) => {
 
 export const addUser = (newUser, userId) => {
     return async (dispatch, getState) => {
-
         dispatch({ type: ADD, newUser: { ...newUser, userId } })
     }
 }
 
 
-export const fetchUser = () => {
+export const fetchUsers = () => {
     return async (dispatch, getState) => {
-
-        // dispatch({ type: FETCH, newUsers: responseData })
+        const users = await UserService.getAllUsers();
+        dispatch({ type: FETCH, newUsers: users })
     }
 }
 
-export const editUser = (newUser, id) => {
+export const updateUser = (newUser) => {
     return async (dispatch) => {
-        try {
-
-        } catch { console.error('falied sending put request to server'); dispatch({ type: 'x' }) }
+        dispatch({ type: UPDATE, newUser: { ...newUser } })
     }
 }

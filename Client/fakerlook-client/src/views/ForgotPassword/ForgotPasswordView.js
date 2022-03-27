@@ -1,15 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
 import UserService from "../../services/UserService";
 import { Button, Form, FormGroup, Input, InputGroup, InputGroupText, } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import fontawesome from "@fortawesome/fontawesome";
-import { useState } from "react";
 import Navigator from "../../components/Navigator";
-import User from '../../models/UserModel'
 import "./ForgotPasswordView.css";
+import { useDispatch } from "react-redux";
+import { updateUser } from "../../Store/actions/user";
 
 const ForgotPasswordView = (props) => {
+  const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
@@ -56,23 +57,12 @@ const ForgotPasswordView = (props) => {
             setSuccessMessage('');
             setErrorMessage(response.message);
           }
-
-          //will be problematic if the response if empty or wrong
           return response;
         })
         .then(async (user) => {
-          const firstName = user[0].firstName;
-          const lastName = user[0].lastName;
-          const email = user[0].email;
-          const address = user[0].address;
-          const birthDate = user[0].birthDate;
-          const job = user[0].job;
-          const newPassword = repeatedPassword.value;
-          debugger;
-          const newUser = new User(firstName, lastName, email, address,
-            birthDate, job, newPassword);
-          newUser.userId = user[0].userId
-          return await UserService.changePassword({ user: newUser });
+          user[0].password = repeatedPassword.value;
+          dispatch(updateUser(user[0]));
+          return await UserService.changePassword({ user: user[0] });
         })
         .then(() => {
           setSuccessMessage("Password Changed Successfully.");
@@ -142,12 +132,14 @@ const ForgotPasswordView = (props) => {
         {errorMessage.trim().length !== 0 && (<div className="text-center alert alert-danger">{errorMessage}</div>)}
         {successMessage.trim().length !== 0 && (<div className="text-center alert alert-success">{successMessage}</div>)}
 
-        <Button type="submit" className="btn btn-primary col-12">Submit</Button>
+        <Button type="submit" color="primary" className="col-12">Submit</Button>
+
         <div className='text-center mt-3'>
           <a href='/login'>Login</a>
           <span className='p-2'>|</span>
           <a href='/register'>Register</a>
         </div>
+
       </Form>
     </div>
   );

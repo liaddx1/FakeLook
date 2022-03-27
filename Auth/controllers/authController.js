@@ -18,7 +18,7 @@ class AuthController {
             let token = jwt.sign({ userId: result.recordset[0].userId }, key, {
                 expiresIn: 600
             });
-            return ({ auth: true, userId: response.recordset[0].userId, authToken: token });
+            return ({ auth: true, userId: result.recordset[0].userId, authToken: token });
         }
         catch (error) {
             console.log(`There Was a Problem Registering The User. error: ${error.message}`);

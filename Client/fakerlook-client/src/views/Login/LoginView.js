@@ -59,8 +59,6 @@ const LogInView = (props) => {
           dispatch(setUser(response.data.userId));
           navigate('/map');
         }
-
-
       })
     }
   }
@@ -100,7 +98,7 @@ const LogInView = (props) => {
 
         {errorMessage.trim().length !== 0 && <div className='text-center alert alert-danger'>{errorMessage}</div>}
 
-        <Button type='submit' className='btn btn-primary col-12'>Log in</Button>
+        <Button type='submit' color="primary" className='col-12'>Log in</Button>
 
         <div className='text-center mt-3'>
           <a href='/register'>Register</a>

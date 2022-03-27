@@ -1,27 +1,34 @@
 import { SET, ADD, FETCH, DELETE, UPDATE } from "../actions/user";
 const initialState = {
-    currentUser: []
+    currentUser: [],
+    users: [],
 }
 
 const reducer = (state = initialState, action) => {
 
     switch (action.type) {
         case SET:
-            localStorage.setItem('name', `${action.newUser.firstName} ${action.newUser.lastName}`)
-            return { ...state, currentUser: action.newUser }
+            localStorage.setItem('name', `${action.newUser.firstName} ${action.newUser.lastName}`);
+            return { ...state, currentUser: action.newUser };
         case ADD:
-
-            return { ...state, }
+            const users = state.users;
+            users.push({ ...action.newUser, addedAt: new Date().toDateString() });
+            return { ...state, users: users };
 
         case FETCH:
-
-            return { ...state, }
+            if (action.newUsers) {
+                return { ...state, users: action.newUsers };
+            }
+            return state;
 
         case DELETE: return state;
 
         case UPDATE:
-
-            return { ...state, }
+            const tempUsers = state.users;
+            const index = tempUsers.findIndex(u => u.userId === action.newUser.userId);
+            const newUsersArray = tempUsers.filter(u => u.userId !== action.newUser.userId);
+            newUsersArray.splice(index, 0, { ...action.newUser });
+            return { ...state, users: newUsersArray };
         default: return state;
     }
 }

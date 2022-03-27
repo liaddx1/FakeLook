@@ -57,11 +57,11 @@ const AddPost = props => {
                 </FormGroup>
 
                 <div className="d-grid gap-2 mt-2">
-                    <Button className='btn col-12 mt-2' onAbort={() => props.onChangePage(0)}>Change Post Location</Button>
+                    <Button type='abort' className='btn col-12 mt-2' onAbort={() => props.onChangePage(0)}>Change Post Location</Button>
 
                     <Button type='submit' className='btn col-12'>Publish Post</Button>
 
-                    <Button className='btn col-12' onAbort={() => props.onChangePage(0)}>Cancel</Button>
+                    <Button type='abort' className='btn col-12' onAbort={() => props.onChangePage(0)}>Cancel</Button>
                 </div>
             </Form>
         </div>
