@@ -1,6 +1,5 @@
 //config
-require("dotenv").config();
-const port = process.env.PORT ? process.env.PORT : 8081;
+const port = process.env.AUTH_PORT ? process.env.AUTH_PORT : 8081;
 
 require('./app-container').setup();
 

@@ -1,6 +1,5 @@
 //config
-require("dotenv").config();
-const port = process.env.PORT ? process.env.PORT : 8080;
+const port = process.env.SERVER_PORT ? process.env.SERVER_PORT : 8080;
 
 require('./app-container').setup();
 
@@ -8,7 +7,6 @@ require('./app-container').setup();
 const app = require('./app');
 
 //swagger
-
 
 //server-startup
 app.listen(port, () => console.log(`Server is running on PORT: ${port}`));

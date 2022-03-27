@@ -1,7 +1,6 @@
 //config
-require("dotenv").config();
 require('./app-container').setup();
-const port = process.env.PORT ? process.env.PORT : 8082;
+const port = process.env.COMMENT_PORT ? process.env.COMMENT_PORT : 8082;
 
 
 //app

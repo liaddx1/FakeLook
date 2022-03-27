@@ -5,12 +5,9 @@ export const FETCH = 'FETCHUSER';
 export const DELETE = 'DELETEUSER';
 export const UPDATE = 'UPDATEUSER';
 
-// TODO update everything here basicly...
-
 export const setUser = (userId) => {
     return async (dispatch, getState) => {
         const newUser = await UserService.getUserById(userId);
-        console.log(newUser.data);
 
         dispatch({ type: SET, newUser: { ...newUser.data, userId } })
     }
@@ -21,7 +18,6 @@ export const addUser = (newUser, userId) => {
         dispatch({ type: ADD, newUser: { ...newUser, userId } })
     }
 }
-
 
 export const fetchUsers = () => {
     return async (dispatch, getState) => {

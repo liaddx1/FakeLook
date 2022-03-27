@@ -1,7 +1,6 @@
 //config
-require("dotenv").config();
 require('./app-container').setup();
-const port = process.env.PORT ? process.env.PORT : 8083;
+const port = process.env.POST_PORT ? process.env.POST_PORT : 8083;
 
 
 //app
