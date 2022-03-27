@@ -1,5 +1,5 @@
 const httpService = require('../Services/httpService')
-const commentRoute = `${process.env.BASEURL}:${process.env.COMMENTPORT}`;
+const commentRoute = `${process.env.BASE_URL}:${process.env.COMMENT_PORT}`;
 const axios = require('axios');
 
 class CommentController {

@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const { process_params } = require('express/lib/router');
 const key = process.env.KEY;
 
 class AuthController {

@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const httpService = require('../Services/httpService')
-const userRoute = `${process.env.BASEURL}:${process.env.USERPOSTPORT}`;
+const userRoute = `${process.env.BASE_URL}:${process.env.USER_PORT}`;
 const axios = require('axios');
 class UserController {
     async getAllUsers(req, res) {

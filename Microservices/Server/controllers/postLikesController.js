@@ -1,6 +1,5 @@
 const httpService = require('../Services/httpService')
-const postRoute = `${process.env.BASEURL}:${process.env.POSTPORT}`;
-const axios = require('axios');
+const postRoute = `${process.env.BASE_URL}:${process.env.POST_LIKES_PORT}`;
 
 class PostLikesController {
     async getPostLikes(req, res) {
