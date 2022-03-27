@@ -5,7 +5,7 @@ const axios = require('axios');
 class UserController {
     async getAllUsers(req, res) {
         try {
-            await httpService.get(`${userRoute}/all`, req.body).then((response) => {
+            await httpService.get(`${userRoute}/all`).then((response) => {
                 res.status(200).send(response.data);
             })
                 .catch((error) => { console.log(error) })

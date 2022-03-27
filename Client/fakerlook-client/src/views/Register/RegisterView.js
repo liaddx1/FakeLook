@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
 import { Form, FormGroup, Input, InputGroup, InputGroupText, Button } from "reactstrap";
 import fontawesome from '@fortawesome/fontawesome';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,8 +11,10 @@ import Navigator from "../../components/Navigator";
 import FacebookLoginBtn from "../../components/FacebookLoginBtn";
 import GoogleLoginBtn from "../../components/GoogleLoginBtn";
 import './RegisterView.css';
+import { addUser } from "../../Store/actions/user";
 
 const RegisterView = props => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -37,7 +40,7 @@ const RegisterView = props => {
 
         if (!(picture.files[0] && picture.files[0]['type'].split('/')[0] === 'image')) {
             setErrorMessage('File Uploaded Is Not a Picture!');
-            return false;
+            return;
         }
 
         const pic = await getBase64(picture.files[0]);
@@ -54,9 +57,11 @@ const RegisterView = props => {
                 setErrorMessage(response.data.message);
 
             console.log(response);
-            
+
             if (response.data.auth) {
                 localStorage.setItem("authToken", response.data.authToken);
+                dispatch(addUser(newUser, response.data.userId));
+
                 navigate('/login');
             }
         }
@@ -174,7 +179,7 @@ const RegisterView = props => {
 
                 {errorMessage.trim().length !== 0 && <div className='text-center alert alert-danger'>{errorMessage}</div>}
 
-                <Button type='submit' className='btn col-12'>Create Account</Button>
+                <Button type='submit' color="primary" className='col-12'>Create Account</Button>
 
                 <p className="text-center">
                     Already Have An Account? <a href="/login">Log In</a>
