@@ -9,6 +9,7 @@ import "@reach/combobox/styles.css";
 import './MapView.css';
 import PostFeed from "./PostFeedView";
 import AddPost from "./AddPostView";
+import { Button, Card } from "reactstrap";
 
 const libraries = ["places"];
 const mapContainerStyle = {
@@ -30,6 +31,7 @@ export default function MapView() {
     //states
     const [markers, setMarkers] = useState([]);
     const [selected, setSelected] = useState(null);
+    const [lastLocationClicked, setLastLocationClicked] = useState(null);
     const [pages, setPages] = useState(0);
 
     //refs
@@ -65,7 +67,8 @@ export default function MapView() {
     }, [navigate]);
 
     const onMapClick = useCallback((event) => {
-        setMarkers(current => [...current, {
+        setLastLocationClicked({ lat: event.latLng.lat(), lng: event.latLng.lng() });
+        setMarkers([{
             lat: event.latLng.lat(),
             lng: event.latLng.lng(),
             time: new Date()
@@ -110,18 +113,20 @@ export default function MapView() {
                         <Marker
                             key={Math.random().toString()}
                             position={{ lat: marker.lat, lng: marker.lng }}
-                            onClick={() => {
-                                setSelected(marker);
-                            }}
+                            onLoad={() => { setLastLocationClicked(marker); }}
+                            onClick={() => { setSelected(marker); setLastLocationClicked(marker); }}
                         />)}
 
-                    {selected ?
-                        (<InfoWindow position={{ lat: selected.lat, lng: selected.lng }} onCloseClick={() => { setSelected(null); }}>
-                            <div>
-                                <h2>Post Something Here?</h2>
-                                <p>Post Time: {formatRelative(selected.time, new Date())}</p>
-                            </div>
-                        </InfoWindow>) : null}
+                    {selected &&
+                        (
+                            <InfoWindow position={{ lat: selected.lat, lng: selected.lng }} onCloseClick={() => { setSelected(null); }}>
+                                <Card className="border-0">
+                                    <h3 className="text-center">Post Something Here?</h3>
+                                    <p className="text-center">Post Time: {formatRelative(selected.time, new Date())}</p>
+                                    <Button className="text-center" onClick={() => { changePageHandler(2) }}>Post Here</Button>
+                                </Card>
+                            </InfoWindow>
+                        )}
                 </GoogleMap>
             </div>);
     }
@@ -138,7 +143,7 @@ export default function MapView() {
                 <div>
                     {pages === 0 && renderMap()}
                     {pages === 1 && <PostFeed />}
-                    {pages === 2 && <AddPost onChangePage={changePageHandler} />}
+                    {pages === 2 && <AddPost location={lastLocationClicked} onChangePage={changePageHandler} />}
                 </div>
             </div>
         </div>

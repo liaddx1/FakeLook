@@ -8,7 +8,7 @@ export const UPDATE = 'UPDATEUSER';
 export const setUser = (userId) => {
     return async (dispatch, getState) => {
         const newUser = await UserService.getUserById(userId);
-
+        localStorage.setItem('userId', userId);
         dispatch({ type: SET, newUser: { ...newUser.data, userId } })
     }
 }
