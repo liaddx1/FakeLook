@@ -9,7 +9,7 @@
 | action                    | command                         |
 | ------------------------- | ------------------------------- |
 | create config script      | `$ pm2 init simple`             |
-| run all applications      | `$ pm2 start`                   |
+| run all applications      | `$ pm2 start all`               |
 | run specific app          | `$ pm2 start --only <app-name>` |
 | stop running all apps     | `$ pm2 delete all`              |
 | stop running specific app | `$ pm2 delete <app-name>`       |
