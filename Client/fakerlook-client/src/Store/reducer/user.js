@@ -8,7 +8,6 @@ const reducer = (state = initialState, action) => {
 
     switch (action.type) {
         case SET:
-            console.log('in setting');
             localStorage.setItem('name', `${action.newUser.firstName} ${action.newUser.lastName}`);
             return { ...state, currentUser: action.newUser };
         case ADD:

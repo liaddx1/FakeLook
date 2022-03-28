@@ -4,7 +4,6 @@ const PostService = require("./services/postService");
 const PostController = require("./controllers/postController");
 
 const setup = () => {
-  console.log('container');
   container.register({
     postService: awilix.asClass(PostService).singleton(),
     postController: awilix.asClass(PostController).singleton(),

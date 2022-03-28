@@ -31,8 +31,6 @@ const setup = () => {
 
         postLikesController: awilix.asClass(PostLikesController).singleton(),
         postLikesRepository: awilix.asClass(PostLikesRepository).singleton(),
-
-
     });
 }
 
