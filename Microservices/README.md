@@ -14,4 +14,6 @@
 | stop running all apps     | `$ pm2 delete all`              |
 | stop running specific app | `$ pm2 delete <app-name>`       |
 | see logs of an app        | `$ pm2 log <app-name>`          |
+| reload after changing shit| `$ pm2 stop all; pm2 relaod all`|
+| clear logs                | `$ pm2 flush`                   |
 | see apps status           | `$ pm2 list`                    |
