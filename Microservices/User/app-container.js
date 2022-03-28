@@ -4,7 +4,6 @@ const UserService = require("./services/userService");
 const UserController = require("./controllers/userController");
 
 const setup = () => {
-  console.log('container');
   container.register({
     userService: awilix.asClass(UserService).singleton(),
     userController: awilix.asClass(UserController).singleton()

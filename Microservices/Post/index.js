@@ -1,7 +1,7 @@
 //config
-require('./app-container').setup();
 const port = process.env.POST_PORT ? process.env.POST_PORT : 8083;
 
+require('./app-container').setup();
 
 //app
 const app = require('./app');

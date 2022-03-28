@@ -4,7 +4,6 @@ const baseUrl = process.env.REACT_APP_SERVER_URL;
 const serverAuthRoute = `${baseUrl}/auth`;
 const serverUsersRoute = `${baseUrl}/users`;
 const serverNoAuthRoute = `${baseUrl}/noAuthUser`;
-const headers = { 'authToken': `${localStorage.getItem('authToken')}` }
 
 const UserService = {
   async LogIn(creds) {
@@ -16,11 +15,11 @@ const UserService = {
   },
 
   async getUserById(userId) {
-    return await axios.get(`${serverUsersRoute}/${userId}`, headers);
+    return await axios.get(`${serverUsersRoute}/${userId}`, { headers: { 'authToken': `${localStorage.getItem('authToken')}` } });
   },
 
   async getAllUsers() {
-    return (await axios.get(`${serverNoAuthRoute}/all`, headers)).data;
+    return (await axios.get(`${serverNoAuthRoute}/all`, { headers: { 'authToken': `${localStorage.getItem('authToken')}` } })).data;
   },
 
   async getUserByEmail(userEmail) {

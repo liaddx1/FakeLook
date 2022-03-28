@@ -26,7 +26,6 @@ class AuthController {
         console.log('In user login');
         try {
             await axios.post('http://localhost:8081/login', req.body).then((response) => {
-                console.log(response.data);
                 if (!response.data.auth)
                     res.status(200).send({ message: response.data.message, auth: false });
 

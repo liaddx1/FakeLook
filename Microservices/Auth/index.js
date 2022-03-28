@@ -11,4 +11,3 @@ const app = require('./app');
 
 //server-startup
 app.listen(port, () => console.log(`Auth Service is running on PORT: ${port}`));
-
