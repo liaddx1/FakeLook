@@ -5,7 +5,6 @@ class PostController {
     async getAllPosts(req, res) {
         try {
             await httpService.get(`${postRoute}/getAllPosts`).then((response) => {
-                // console.log(response.data);
                 res.status(200).send(response.data);
             })
                 .catch((error) => { console.log(error) })

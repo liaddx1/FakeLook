@@ -4,6 +4,7 @@ const key = process.env.KEY;
 module.exports = verifyUser = (req, res, next) => {
     console.log('in JWT');
     let token = req.header('authToken');
+    console.log('token', token.length);
     if (!token) {
         console.log("Token was not provided.");
         return;

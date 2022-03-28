@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Card, Form } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { RiHeartFill, RiHeartLine, RiMessage2Fill, RiShareForwardFill, RiSendPlane2Fill, } from "react-icons/ri";
+import { RiHeartFill, RiHeartLine, RiMessage2Fill, RiSendPlane2Fill, } from "react-icons/ri";
 import './Post.css'
 import { formatRelative } from "date-fns";
 
@@ -19,7 +19,7 @@ const Post = props => {
             <Card className="border-0">
                 <div className="d-flex align-items-center mb-3">
                     <div className="mx-3">
-                        <img className="rounded-pill" src={user.picture} height="50px" alt="profile picture" />
+                        <img className="rounded-pill" src={user.picture} height="50px" alt="profile" />
                     </div>
                     <div className="d-flex flex-column">
                         <div className="fw-bold">{props.firstName + " " + props.lastName}</div>
@@ -32,7 +32,7 @@ const Post = props => {
                     </div>
                     {props.image !== null ? (
                         <div className="d-flex justify-content-center align-items-center mb-3">
-                            <img height={"300px"} src={props.picture} alt="posted-image" />
+                            <img height={"300px"} src={props.picture} alt="posted" />
                         </div>
                     ) : (
                         <span></span>

@@ -105,7 +105,7 @@ const AddPost = props => {
                 {imagePreview &&
                     <div className='mt-3'>
                         <h3>Image Preview:</h3>
-                        <img height={"400px"} src={imagePreview} alt="Image Preview" />
+                        <img height={"400px"} src={imagePreview} alt="Preview" />
                     </div>
                 }
 

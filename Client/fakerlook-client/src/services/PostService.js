@@ -2,10 +2,11 @@ import axios from "axios";
 const baseUrl = process.env.REACT_APP_SERVER_URL;
 
 const serverPostRoute = `${baseUrl}/posts`;
+const serverNoAuthPostRoute = `${baseUrl}/noAuthPosts`;
 
 const PostService = {
     async getAllPosts() {
-        return (await axios.get(`${serverPostRoute}/all`, { headers: { 'authToken': `${localStorage.getItem('authToken')}` } })).data;
+        return (await axios.get(`${serverNoAuthPostRoute}/all`)).data;
     },
 
     async getPost(postId) {
