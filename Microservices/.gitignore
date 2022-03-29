@@ -52,5 +52,5 @@ typings/
 .serverless
 # FuseBox cache
 .fusebox/
-Server/dal/connectionHandler.js
-Microservices/ecosystem.config.js
+# ecosystem config file
+.ecosystem.config.js

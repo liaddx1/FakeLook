@@ -5,11 +5,9 @@ export const FETCH = 'FETCHUSER';
 export const DELETE = 'DELETEUSER';
 export const UPDATE = 'UPDATEUSER';
 
-export const setUser = (userId) => {
+export const setUser = (newUser) => {
     return async (dispatch, getState) => {
-        const newUser = await UserService.getUserById(userId);
-
-        dispatch({ type: SET, newUser: { ...newUser.data, userId } })
+        dispatch({ type: SET, newUser: { newUser } })
     }
 }
 
