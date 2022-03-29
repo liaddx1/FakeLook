@@ -7,7 +7,7 @@ const authMiddleware = require('../middlewares/auth-user');
 
 postRouter.use(authMiddleware);
 
-postRouter.get('/all', postController.getAllPosts);
+postRouter.get('/', postController.getAllPosts);
 postRouter.post('/', postController.addPost);
 postRouter.get('/search/:searchParams', postController.searchPosts);
 postRouter.get('/:postId', postController.getPost);
