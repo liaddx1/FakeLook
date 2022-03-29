@@ -1,4 +1,4 @@
-export default class User {
+class User {
     constructor(firstName, lastName, email, address, birthDate, job, password, picture) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -41,3 +41,5 @@ export default class User {
         return [true, ''];
     }
 }
+
+export default User;

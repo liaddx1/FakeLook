@@ -1,4 +1,4 @@
-import { ADD, FETCH, DELETE, UPDATE } from "../actions/post";
+import { SET, ADD, FETCH, DELETE, UPDATE } from "../actions/post";
 const initialState = {
     posts: [],
 }
@@ -7,24 +7,24 @@ const reducer = (state = initialState, action) => {
 
     switch (action.type) {
         case ADD:
-            const posts = state.posts;
-            posts.push({ ...action.newPost, addedAt: new Date().toDateString() });
-            return { ...state, posts: posts };
+            const users = state.users;
+            users.push({ ...action.newUser, addedAt: new Date().toDateString() });
+            return { ...state, users: users };
 
         case FETCH:
-            if (action.newPosts) {
-                return { ...state, posts: action.newPosts };
+            if (action.newUsers) {
+                return { ...state, users: action.newUsers };
             }
             return state;
 
         case DELETE: return state;
 
         case UPDATE:
-            const tempPosts = state.posts;
-            const index = tempPosts.findIndex(u => u.postId === action.newPost.postId);
-            const newPostsArray = tempPosts.filter(u => u.postId !== action.newPost.postId);
-            newPostsArray.splice(index, 0, { ...action.newPost });
-            return { ...state, posts: newPostsArray };
+            const tempUsers = state.users;
+            const index = tempUsers.findIndex(u => u.userId === action.newUser.userId);
+            const newUsersArray = tempUsers.filter(u => u.userId !== action.newUser.userId);
+            newUsersArray.splice(index, 0, { ...action.newUser });
+            return { ...state, users: newUsersArray };
         default: return state;
     }
 }
