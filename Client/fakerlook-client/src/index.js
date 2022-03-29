@@ -7,12 +7,15 @@ import { Provider } from "react-redux";
 import ReduxThunk from 'redux-thunk';
 
 import userReducer from './Store/reducer/user';
+import postReducer from './Store/reducer/post';
 
 import "bootstrap/dist/css/bootstrap.css";
 import "./index.css";
 
 const rootReducer = combineReducers({
   users: userReducer,
+  posts: postReducer,
+
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));

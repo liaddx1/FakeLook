@@ -52,4 +52,10 @@ typings/
 .serverless
 # FuseBox cache
 .fusebox/
-Server/dal/connectionHandler.js
+# connection handler files
+Microservices/Server/dal/connectionHandler.js
+Microservices/Auth/services/connectionHandler.js
+Microservices/Comment/services/connectionHandler.js
+Microservices/Post/services/connectionHandler.js
+Microservices/PostLikes/services/connectionHandler.js
+Microservices/User/services/connectionHandler.js

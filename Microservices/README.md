@@ -17,3 +17,4 @@
 | reload after changing shit| `$ pm2 stop all; pm2 relaod all`|
 | clear logs                | `$ pm2 flush`                   |
 | see apps status           | `$ pm2 list`                    |
+| reload everything         | `$ pm2 reload ecosystem.config.js`|
