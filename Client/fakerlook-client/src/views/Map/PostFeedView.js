@@ -5,7 +5,7 @@ const PostFeed = props => {
     const posts = useSelector(state => state.posts.posts);
 
     const renderPosts = () => {
-        return posts?.map((post) => <Post key={Math.random().toString()} {...post} />)
+        return posts?.map((post) => <Post key={post.postId} {...post} />)
     }
 
     return (

@@ -23,12 +23,12 @@ const center = {
 }
 
 export default function MapView() {
+    const navigate = useNavigate();
     const postsData = useSelector(state => state.posts.posts);
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
         libraries,
     })
-    const navigate = useNavigate();
 
     //states
     const [markers, setMarkers] = useState([]);
@@ -68,7 +68,6 @@ export default function MapView() {
             }
         }
 
-        setPosts(postsData);
     }, [navigate, postsData]);
 
     const onMapClick = useCallback((event) => {
@@ -79,6 +78,22 @@ export default function MapView() {
             timePosted: new Date()
         }]);
     }, []);
+
+    const loadPosts = useCallback(() => {
+        return postsData.map(post =>
+            <Marker
+                key={post.postId}
+                position={{lat: post.lat , lng: post.long }}
+                icon={{
+                    url: post.picture,
+                    scaledSize: new window.google.maps.Size(45, 45),
+                    origin: new window.google.maps.Point(0, 0),
+                    anchor: new window.google.maps.Point(15, 15)
+                }}
+                onMouseOver={() => { setSelected(post); }}
+                onMouseOut={() => { setSelected(null); }}
+            />)
+    }, [postsData]);
 
     const onMapLoad = useCallback((map) => {
         mapRef.current = map;
@@ -116,32 +131,20 @@ export default function MapView() {
                     {markers.map(marker =>
                         <Marker
                             key={Math.random().toString()}
-                            position={{ lat: marker.lat ? marker.lat : marker.latGPS, lng: marker.long ? marker.long : marker.longGPS }}
+                            position={{ lat: marker.lat, lng: marker.long }}
                             icon={{
                                 url: marker.picture ? marker.picture : 'https://www.google.com/intl/en_us/mapfiles/ms/micons/red-dot.png',
                             }}
-                            onLoad={() => { setLastLocationClicked(marker); }}
                             onClick={() => { setSelected(marker); setLastLocationClicked(marker); }}
                         />)}
 
-                    {posts.map(post =>
-                        <Marker
-                            key={Math.random().toString()}
-                            position={{lat: post.lat ? post.lat : post.latGPS, lng: post.long ? post.long : post.longGPS }}
-                            icon={{
-                                url: post.picture,
-                                scaledSize: new window.google.maps.Size(45, 45),
-                                origin: new window.google.maps.Point(0, 0),
-                                anchor: new window.google.maps.Point(15, 15)
-                            }}
-                            onClick={() => { setSelected(post); }}
-                        />)}
+                    {loadPosts()}
 
                     {selected &&
-                        (<InfoWindow position={{ lat: selected.lat ? selected.lat : selected.latGPS, lng: selected.long ? selected.long : selected.longGPS }} onCloseClick={() => { setSelected(null); }}>
+                        (<InfoWindow position={{ lat: selected.lat, lng: selected.long }} onCloseClick={() => { setSelected(null); }}>
                                 {selected.picture ?
                                     <Card className="border-0">
-                                        <h3 className="text-center">Post Made By {selected.firstName? `${selected.firstName} ${selected.lastName}` : localStorage.getItem('name')}</h3>
+                                        <h3 className="text-center">Post Made By {`${selected.firstName} ${selected.lastName}`}</h3>
                                         <img className="m-1" height={"200px"} src={selected.picture} alt="preview" />
                                         <h4 className="text-center">Content: {selected.description}</h4>
                                         <p className="text-center">Post Time: {formatRelative(new Date(selected.timePosted), new Date())}</p>

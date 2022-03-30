@@ -1,4 +1,4 @@
-class PostLikes {
+class PostLike {
     constructor(postId, liked, postLikeAmount) {
         this.postId = postId;
         this.liked = liked;
@@ -6,4 +6,4 @@ class PostLikes {
     }
 }
 
-export default PostLikes;
+export default PostLike;

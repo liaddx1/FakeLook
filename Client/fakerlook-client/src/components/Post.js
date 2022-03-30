@@ -1,17 +1,37 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Button, Card, Form } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { RiHeartFill, RiHeartLine, RiMessage2Fill, RiSendPlane2Fill, } from "react-icons/ri";
 import { formatRelative } from "date-fns";
 import './Post.css'
+import PostLikeService from '../services/PostLikesService';
 
 const Post = props => {
     const user = useSelector(state => state.users.users).find(u => u.userId === props.userId);
     const [commentStatus, setCommentStatus] = useState(false);
+    const [likeStatus, setLikeStatus] = useState(props.liked);
+    const [likesCounter, setLikesCounter] = useState(props.postLikeAmount)
 
     const handleCommentButtonClick = () => {
         setCommentStatus(!commentStatus);
     }
+
+    const handleLoveButtonClick = useCallback(async () => {
+        if(props.liked){
+            setLikeStatus(!likeStatus);
+            setLikesCounter(previous => { return previous - 1 })
+            await PostLikeService.removeLike(props.postId, localStorage.getItem("userId")).then((response) => {
+                console.log(response);
+            });
+        }
+        setLikeStatus(!likeStatus);
+        setLikesCounter(previous => { return previous + 1 })
+
+        await PostLikeService.addLike(props.postId, localStorage.getItem("userId")).then((response) => {
+            console.log(response);
+        });
+
+    }, [])
 
     return (
         <div key={Math.random().toString()} className="shadow rounded-3 border-primary p-3 mt-3" >
@@ -43,7 +63,7 @@ const Post = props => {
                     <div className="mx-3">
                         <span
                             className={`loveButton mx-1 fs-4`}
-                        // onClick={handleLoveClick} // add like
+                        onClick={handleLoveButtonClick} // add like
                         >
                             {props.liked ? (
                                 <RiHeartFill className="text-danger" />

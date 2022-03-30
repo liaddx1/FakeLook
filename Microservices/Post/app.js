@@ -23,7 +23,7 @@ app.post('/searchPost', async function(req, res) {
     res.send(await postController.searchPosts(req)).status(200);
  });
 
-app.get('/getPost', async function(req, res) {
+app.get('/getPost/:postId', async function(req, res) {
     res.send(await postController.getPost(req)).status(200);
  });
 

@@ -24,7 +24,7 @@ class PostService {
     async getPost(req) {
         const pool = await poolPromise;
         const result = await pool.request()
-            .input('userId', sql.Int, req.userId)
+            .input('userId', sql.Int, req.params.userId)
             .input('postId', sql.Int, req.params.postId)
             .execute('getPostById');
         return result;

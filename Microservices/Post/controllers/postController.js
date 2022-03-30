@@ -23,8 +23,7 @@ class PostController {
     }
     async getPost(req, res) {
         try {
-            const result = await this.postService.getPost(req);
-            return JSON.stringify(result.recordset);
+            return JSON.stringify((await this.postService.getPost(req)).recordset);
         }
         catch {
             console.log(`There Was a Problem getting the post. error: ${error.message}`);

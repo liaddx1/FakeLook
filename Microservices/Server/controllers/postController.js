@@ -27,7 +27,7 @@ class PostController {
     }
     async getPost(req, res) {
         try {
-            await httpService.post(`${postRoute}/getPost`, req.body).then((response) => {
+            await httpService.get(`${postRoute}/getPost/${req.params.postId}`).then((response) => {
                 res.status(200).send(response.data);
             })
                 .catch((error) => { console.log(error) })

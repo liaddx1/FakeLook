@@ -19,7 +19,7 @@ postRouter.delete('/comments/:commentId/likes', commentController.removeCommentL
 postRouter.get('/comments/:commentId/likes', commentController.addCommentLike);
 
 postRouter.get('/:postId/likes', postLikesController.getPostLikes);
-postRouter.post('/:postId/likes', postLikesController.addPostLike);
+postRouter.put('/:postId/likes', postLikesController.addPostLike);
 postRouter.delete('/:postId/likes', postLikesController.removePostLike);
 
 module.exports = postRouter;

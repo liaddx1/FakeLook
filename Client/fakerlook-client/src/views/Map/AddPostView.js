@@ -39,14 +39,13 @@ const AddPost = props => {
 
         if (value) {
             await PostService.addPost(newPost).then(async (response) => {
-                if (response.recordset[0] > 0) {
-                    await PostService.getPost(response.recordset[0]).then(async (response) => {
-                        console.log(response);
+                if (response.recordset[0].postId >= 0) {
+                    await PostService.getPost(response.recordset[0].postId).then(async (response) => {
+                        dispatch(addPost(response[0]));
+                        props.onChangePage(0);
                     })
                 }
             });
-            // dispatch(addPost(newPost));
-            // props.onChangePage(0);
         }
 
     }

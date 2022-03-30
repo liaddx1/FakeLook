@@ -10,8 +10,8 @@ const PostService = {
     },
 
     async getPost(postId) {
-        console.log(postId);
-        return (await axios.get(`${serverPostRoute}/${postId}`)).data;
+        return (await axios.get(`${serverPostRoute}/${postId}`, 
+            { headers: { 'authToken': `${localStorage.getItem('authToken')}` } })).data;
     },
 
     async addPost(object) {

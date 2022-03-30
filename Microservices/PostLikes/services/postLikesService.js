@@ -12,7 +12,7 @@ class PostLikesService{
     async removePostLike(req){
         const pool = await poolPromise;
         const result = await pool.request()
-        .input('postId',sql.Int,req.params.postId)
+        .input('postId', sql.Int, req.params.postId)
         .input('userId' , sql.Int ,req.userId)
         .execute('removePostLike');
          return result;
