@@ -4,9 +4,9 @@ class PostController {
     }
 
     async getAllPosts(req, res) {
+        console.log('Getting All Posts');
         try {
-            const result = await this.postService.getAllPosts(req);
-            return JSON.stringify(result.recordset);
+            return JSON.stringify((await this.postService.getAllPosts(req)).recordset);
         }
         catch (error) {
             console.log(`There Was a Problem getting the posts. error: ${error.message}`);

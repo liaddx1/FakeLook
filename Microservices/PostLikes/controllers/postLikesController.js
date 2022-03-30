@@ -20,7 +20,7 @@ class PostLikesController {
         }
         catch (error) {
             console.log(`There Was a Problem getting post likes. error: ${error.message}`);
-            return (`Failed to add post likes, error: ${error.message}`);
+            return ({ message: `Cannot Like More Than Once!` });
         }
     } async removePostLike(req, res) {
         try {
@@ -29,7 +29,7 @@ class PostLikesController {
         }
         catch (error) {
             console.log(`There Was a Problem getting post likes. error: ${error.message}`);
-            return (`Failed to remove post likes, error: ${error.message}`);
+            return ({ message: `Cannot Dislike This Item!` });
         }
     }
 }

@@ -13,6 +13,7 @@ export const addPost = (newPost) => {
 export const fetchPosts = () => {
     return async (dispatch, getState) => {
         const posts = await PostService.getAllPosts();
+        console.log(posts);
         dispatch({ type: FETCH, newPosts: posts })
     }
 }

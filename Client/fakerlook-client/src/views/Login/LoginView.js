@@ -12,6 +12,7 @@ import './LoginView.css';
 import GoogleLoginBtn from "../../components/GoogleLoginBtn";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../Store/actions/user";
+import { fetchPosts } from "../../Store/actions/post";
 
 const LogInView = (props) => {
   const dispatch = useDispatch();
@@ -59,6 +60,7 @@ const LogInView = (props) => {
           localStorage.setItem('userId', response.data.userId);
           await UserService.getUserById(response.data.userId).then((response) => {
             localStorage.setItem('name', `${response.data.firstName} ${response.data.lastName}`);
+            dispatch(fetchPosts()); 
             dispatch(setUser(response.data));
             navigate('/map');
           });

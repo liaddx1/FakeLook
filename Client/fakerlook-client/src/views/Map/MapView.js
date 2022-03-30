@@ -32,7 +32,7 @@ export default function MapView() {
 
     //states
     const [markers, setMarkers] = useState([]);
-    const [posts, setPosts] = useState([]);
+    // const [posts, setPosts] = useState([]);
     const [selected, setSelected] = useState(null);
     const [lastLocationClicked, setLastLocationClicked] = useState(null);
     const [pages, setPages] = useState(0);
@@ -68,7 +68,7 @@ export default function MapView() {
             }
         }
 
-    }, [navigate, postsData]);
+    }, [navigate]);
 
     const onMapClick = useCallback((event) => {
         setLastLocationClicked({ lat: event.latLng.lat(), lng: event.latLng.lng() });

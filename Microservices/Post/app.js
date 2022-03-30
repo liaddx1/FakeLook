@@ -11,7 +11,7 @@ app.use(cors());
 app.use(bodyParser.json({ limit: '10mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
-app.get('/getAllPosts', async function(req, res) {
+app.get('/getAllPosts/:userId', async function(req, res) {
     res.send(await postController.getAllPosts(req)).status(200);
  });
 

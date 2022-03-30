@@ -1,37 +1,55 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Card, Form } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { RiHeartFill, RiHeartLine, RiMessage2Fill, RiSendPlane2Fill, } from "react-icons/ri";
 import { formatRelative } from "date-fns";
-import './Post.css'
 import PostLikeService from '../services/PostLikesService';
+import './Post.css'
 
 const Post = props => {
     const user = useSelector(state => state.users.users).find(u => u.userId === props.userId);
     const [commentStatus, setCommentStatus] = useState(false);
     const [likeStatus, setLikeStatus] = useState(props.liked);
-    const [likesCounter, setLikesCounter] = useState(props.postLikeAmount)
+    const [likesCounter, setLikesCounter] = useState(props.postLikeAmount);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleCommentButtonClick = () => {
         setCommentStatus(!commentStatus);
     }
 
     const handleLoveButtonClick = useCallback(async () => {
-        if(props.liked){
-            setLikeStatus(!likeStatus);
-            setLikesCounter(previous => { return previous - 1 })
+        console.log(props.liked);
+        console.log(likeStatus);
+        if(likeStatus){
             await PostLikeService.removeLike(props.postId, localStorage.getItem("userId")).then((response) => {
+                if(response.message){
+                    setErrorMessage(response.message);
+                    return;
+                }
                 console.log(response);
+                setLikeStatus(!likeStatus);
+                setLikesCounter(previous => { return previous - 1 })
             });
-        }
-        setLikeStatus(!likeStatus);
-        setLikesCounter(previous => { return previous + 1 })
+            return;
+        }       
 
         await PostLikeService.addLike(props.postId, localStorage.getItem("userId")).then((response) => {
-            console.log(response);
+            if(response.message){
+                setErrorMessage(response.message);
+                return;
+            }
+            setLikeStatus(!likeStatus);
+            setLikesCounter(previous => { return previous + 1 });
         });
 
-    }, [])
+    }, [likeStatus, props.postId, props.liked])
+
+    useEffect(() => {
+        setLikeStatus(props.liked);
+    },[props.liked])
+    useEffect(() => {
+        setTimeout(() => { setErrorMessage(''); }, 5000);
+    }, [setErrorMessage])
 
     return (
         <div key={Math.random().toString()} className="shadow rounded-3 border-primary p-3 mt-3" >
@@ -72,7 +90,7 @@ const Post = props => {
                             )}
                         </span>
                         <span>
-                            {props.postLikeAmount >= 0 ? props.postLikeAmount: null}
+                            {likesCounter >= 0 ? likesCounter : null}
                         </span>
                     </div>
 
@@ -87,8 +105,10 @@ const Post = props => {
 
                 </div>
 
+                {errorMessage.trim().length !== 0 && <div className='text-center mt-3 alert alert-danger'>{errorMessage}</div>}
+
                 {/* List of comments and comment input box */}
-                {commentStatus === true ? (
+                {commentStatus ? (
                     <div className="mt-3">
                         <div className="d-flex align-items-center">
                             <Form className="w-100 mx-1">

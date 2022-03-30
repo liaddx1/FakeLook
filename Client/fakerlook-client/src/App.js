@@ -6,7 +6,6 @@ import MapView from './views/Map/MapView';
 import ForgotPasswordView from './views/ForgotPassword/ForgotPasswordView';
 import { useDispatch } from "react-redux";
 import { fetchUsers } from "./Store/actions/user";
-import { fetchPosts } from "./Store/actions/post";
 import './App.css';
 
 function App() {
@@ -16,7 +15,6 @@ function App() {
 
   const loadData = useCallback(async () => {
     dispatch(fetchUsers());
-    dispatch(fetchPosts());
   }, [dispatch]);
 
   useEffect(() => {

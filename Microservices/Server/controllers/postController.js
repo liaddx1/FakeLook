@@ -3,7 +3,8 @@ const postRoute = `${process.env.BASE_URL}:${process.env.POST_PORT}`;
 class PostController {
     async getAllPosts(req, res) {
         try {
-            await httpService.get(`${postRoute}/getAllPosts`).then((response) => {
+            console.log("suppost to be userId >",req.params);
+            await httpService.get(`${postRoute}/getAllPosts/${req.params.userId}`).then((response) => {
                 res.status(200).send(response.data);
             })
                 .catch((error) => { console.log(error) })
