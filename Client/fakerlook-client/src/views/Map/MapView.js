@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { InfoWindow, useLoadScript, GoogleMap, Marker, Data } from "@react-google-maps/api";
+import { InfoWindow, useLoadScript, GoogleMap, Marker } from "@react-google-maps/api";
 import { useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import MapNavigator from "../../components/MapNavigator";
@@ -75,7 +75,7 @@ export default function MapView() {
         setLastLocationClicked({ lat: event.latLng.lat(), lng: event.latLng.lng() });
         setMarkers([{
             lat: event.latLng.lat(),
-            lng: event.latLng.lng(),
+            long: event.latLng.lng(),
             timePosted: new Date()
         }]);
     }, []);
@@ -112,20 +112,22 @@ export default function MapView() {
                     scrollWheelZoom={true}
                     onClick={onMapClick}
                     onLoad={onMapLoad}
-                    className="fixed-left"
                 >
                     {markers.map(marker =>
                         <Marker
                             key={Math.random().toString()}
-                            position={{ lat: marker.lat, lng: marker.lng }}
+                            position={{ lat: marker.lat ? marker.lat : marker.latGPS, lng: marker.long ? marker.long : marker.longGPS }}
+                            icon={{
+                                url: marker.picture ? marker.picture : 'https://www.google.com/intl/en_us/mapfiles/ms/micons/red-dot.png',
+                            }}
                             onLoad={() => { setLastLocationClicked(marker); }}
                             onClick={() => { setSelected(marker); setLastLocationClicked(marker); }}
                         />)}
-                    {console.log(posts)}
+
                     {posts.map(post =>
                         <Marker
-                            key={post.postId}
-                            position={{ lat: post.lat, lng: post.long }}
+                            key={Math.random().toString()}
+                            position={{lat: post.lat ? post.lat : post.latGPS, lng: post.long ? post.long : post.longGPS }}
                             icon={{
                                 url: post.picture,
                                 scaledSize: new window.google.maps.Size(45, 45),
@@ -136,15 +138,21 @@ export default function MapView() {
                         />)}
 
                     {selected &&
-                        (
-                            <InfoWindow position={{ lat: selected.lat, lng: selected.lng }} onCloseClick={() => { setSelected(null); }}>
-                                <Card className="border-0">
-                                    <h3 className="text-center">Post Something Here?</h3>
-                                    <p className="text-center">Post Time: {formatRelative(selected.timePosted, new Date())}</p>
-                                    <Button className="text-center" onClick={() => { changePageHandler(2) }}>Post Here</Button>
-                                </Card>
-                            </InfoWindow>
-                        )}
+                        (<InfoWindow position={{ lat: selected.lat ? selected.lat : selected.latGPS, lng: selected.long ? selected.long : selected.longGPS }} onCloseClick={() => { setSelected(null); }}>
+                                {selected.picture ?
+                                    <Card className="border-0">
+                                        <h3 className="text-center">Post Made By {selected.firstName? `${selected.firstName} ${selected.lastName}` : localStorage.getItem('name')}</h3>
+                                        <img className="m-1" height={"200px"} src={selected.picture} alt="preview" />
+                                        <h4 className="text-center">Content: {selected.description}</h4>
+                                        <p className="text-center">Post Time: {formatRelative(new Date(selected.timePosted), new Date())}</p>
+                                    </Card>
+                                    :
+                                    <Card className="border-0">
+                                        <h3 className="text-center">Post Something Here?</h3>
+                                        <p className="text-center">Post Time: {formatRelative(new Date(selected.timePosted), new Date())}</p>
+                                        <Button className="text-center" onClick={() => { changePageHandler(2) }}>Post Here</Button>
+                                    </Card>}
+                        </InfoWindow>)}
                 </GoogleMap>
             </div>);
     }

@@ -8,7 +8,8 @@ const reducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD:
             const posts = state.posts;
-            posts.push({ ...action.newPost, addedAt: new Date().toDateString() });
+            posts.push({ ...action.newPost, timePosted: new Date() });
+            console.log(posts);
             return { ...state, posts: posts };
 
         case FETCH:

@@ -56,8 +56,6 @@ const RegisterView = props => {
             if (response.data.message)
                 setErrorMessage(response.data.message);
 
-            console.log(response);
-
             if (response.data.auth) {
                 localStorage.setItem("authToken", response.data.authToken);
                 dispatch(addUser(newUser, response.data.userId));

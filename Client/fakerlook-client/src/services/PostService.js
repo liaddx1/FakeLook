@@ -10,6 +10,7 @@ const PostService = {
     },
 
     async getPost(postId) {
+        console.log(postId);
         return (await axios.get(`${serverPostRoute}/${postId}`)).data;
     },
 

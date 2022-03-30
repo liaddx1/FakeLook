@@ -5,17 +5,15 @@ import { faFile, faEnvelopeOpenText } from '@fortawesome/free-solid-svg-icons';
 import { Form, Input, InputGroupText, FormGroup, InputGroup, Button } from 'reactstrap';
 import PostOutput from "../../models/PostOutputModel";
 import { useDispatch } from 'react-redux';
-import './AddPostView.css';
 import { addPost } from '../../Store/actions/post';
 import PostService from '../../services/PostService';
-// import { useSelector } from 'react-redux';
+import './AddPostView.css';
 
 const AddPost = props => {
     const dispatch = useDispatch();
     const [errorMessage, setErrorMessage] = useState('');
     const [imagePreview, setImagePreview] = useState('');
 
-    // const user = useSelector(state => state.users.currentUser);
 
     fontawesome.library.add(faFile, faEnvelopeOpenText);
 
@@ -32,18 +30,23 @@ const AddPost = props => {
             setErrorMessage("Please Choose Post Location!");
             return;
         }
-
-        const newPost = new PostOutput(localStorage.getItem('userId'), description.value, imagePreview, props.location.lat, props.location.lng);
+        
+        const newPost = new PostOutput(localStorage.getItem('userId'), description.value, imagePreview, props.location.lat, props.location.long);
 
         const [value, message] = newPost.validate();
 
         setErrorMessage(message);
 
         if (value) {
-            console.log(newPost);
-            const response = await PostService.addPost(newPost);
-            if(response.length > 0)
-            dispatch(addPost(newPost));
+            await PostService.addPost(newPost).then(async (response) => {
+                if (response.recordset[0] > 0) {
+                    await PostService.getPost(response.recordset[0]).then(async (response) => {
+                        console.log(response);
+                    })
+                }
+            });
+            // dispatch(addPost(newPost));
+            // props.onChangePage(0);
         }
 
     }
@@ -106,8 +109,7 @@ const AddPost = props => {
                     <div className='mt-3'>
                         <h3>Image Preview:</h3>
                         <img height={"400px"} src={imagePreview} alt="Preview" />
-                    </div>
-                }
+                    </div>}
 
             </Form>
         </div>

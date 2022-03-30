@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Button, Card, Form } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { RiHeartFill, RiHeartLine, RiMessage2Fill, RiSendPlane2Fill, } from "react-icons/ri";
-import './Post.css'
 import { formatRelative } from "date-fns";
+import './Post.css'
 
 const Post = props => {
     const user = useSelector(state => state.users.users).find(u => u.userId === props.userId);
@@ -14,8 +14,8 @@ const Post = props => {
     }
 
     return (
-        < div className="shadow rounded-3 border-primary p-3 mt-3" >
-            {console.log(props)} {console.log(user)}
+        <div key={Math.random().toString()} className="shadow rounded-3 border-primary p-3 mt-3" >
+            {console.log(props)}
             <Card className="border-0">
                 <div className="d-flex align-items-center mb-3">
                     <div className="mx-3">
@@ -52,15 +52,12 @@ const Post = props => {
                             )}
                         </span>
                         <span>
-                            {/* {props.loveList.length > 0 ? props.loveList.length : null} */}1 {/** Number of Likes */}
+                            {props.postLikeAmount >= 0 ? props.postLikeAmount: null}
                         </span>
                     </div>
 
                     <div className="mx-3">
-                        <span
-                            className={`commentButton mx-1 fs-4`}
-                            onClick={handleCommentButtonClick} add comment
-                        >
+                        <span className="commentButton mx-1 fs-4" onClick={handleCommentButtonClick}>
                             <RiMessage2Fill className="text-primary" />
                         </span>
                         <span>

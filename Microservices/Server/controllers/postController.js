@@ -1,6 +1,5 @@
 const httpService = require('../Services/httpService')
 const postRoute = `${process.env.BASE_URL}:${process.env.POST_PORT}`;
-const axios = require('axios');
 class PostController {
     async getAllPosts(req, res) {
         try {

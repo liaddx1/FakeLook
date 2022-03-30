@@ -15,7 +15,7 @@ class PostController {
     }
     async addPost(req, res) {
         try {
-            return JSON.stringify((await this.postService.addPost(req)).rowsAffected);
+            return JSON.stringify((await this.postService.addPost(req)));
         }
         catch (error) {
             return (`Failed to add the post, error: ${error.message}`);
