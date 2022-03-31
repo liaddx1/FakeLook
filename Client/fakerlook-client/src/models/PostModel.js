@@ -1,5 +1,5 @@
-import { PostLikes } from "./PostLikesModel";
-class Post {
+import PostLikes from './PostLikesModel';
+class PostModel {
     constructor(postId, description, lat, long, timePosted, firstName, lastName, userPic, userId, postLikeAmount, liked) {
         this.postId = postId;
         this.description = description;
@@ -15,4 +15,4 @@ class Post {
         this.liked = liked;
     }
 }
-export default Post;
+export default PostModel;

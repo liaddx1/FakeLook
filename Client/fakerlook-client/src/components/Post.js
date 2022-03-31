@@ -1,19 +1,21 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Card, Form } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { /*useDispatch,*/ useSelector } from "react-redux";
 import { RiHeartFill, RiHeartLine, RiMessage2Fill, RiSendPlane2Fill, } from "react-icons/ri";
 import { formatRelative } from "date-fns";
 import PostLikeService from '../services/PostLikesService';
-import { updatePost } from '../Store/actions/post';
+// import { updatePost } from '../Store/actions/post';
+// import PostModel from '../models/PostModel';
 import './Post.css'
 
 const Post = props => {
     const user = useSelector(state => state.users.users).find(u => u.userId === props.userId);
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
     const [commentStatus, setCommentStatus] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    // const [postModelState, setPostModelState] = useState({});
     const [likeStatus, setLikeStatus] = useState(false);
     const [likesCounter, setLikesCounter] = useState(0);
-    const [errorMessage, setErrorMessage] = useState('');
 
     const handleCommentButtonClick = () => {
         setCommentStatus(!commentStatus);
@@ -25,11 +27,14 @@ const Post = props => {
                 if(response.message){
                     setErrorMessage(response.message);
                     return;
-                }
-                // dispatch(updatePost());
-                setLikeStatus(!likeStatus);
-                setLikesCounter(previous => { return previous - 1 })
+                }            
+
+            // setPostModelState(previous => { return { ...previous, previous: { postLikes: { postId: previous.postId, like: !previous.postLikes.liked, postLikeAmount: previous.postLikeAmount - 1 }
+            // } } })
+            // dispatch(updatePost(postModelState));
             });
+            setLikeStatus(!likeStatus);
+            setLikesCounter(previous => { return previous - 1 });
             return;
         }       
 
@@ -38,24 +43,37 @@ const Post = props => {
                 setErrorMessage(response.message);
                 return;
             }
-            // dispatch(updatePost());
-            setLikeStatus(!likeStatus);
-            setLikesCounter(previous => { return previous + 1 });
-        });
 
-    }, [likeStatus, props.postId, dispatch])
+            
+
+//             setPostModelState(previous => { return { ...previous, previous: { postLikes: { postId: previous.postId, like: !previous.postLikes.liked, postLikeAmount: previous.postLikeAmount + 1 }
+// } } })
+            // dispatch(updatePost(postModelState));
+        });
+        setLikeStatus(!likeStatus);
+        setLikesCounter(previous => { return previous + 1 });
+    }, [likeStatus, props.postId])
 
     useEffect(() => {
+        // let tempPost = new PostModel(props.postId, props.description, props.lat, props.long, props.timePosted, props.firstName, props.lastName, props.userPic, props.userId);
+        // tempPost.postLikes = { postId: props.postLikes.postId, postLikeAmount: props.postLikes.postLikeAmount, liked: props.postLikes.liked};
+        // delete (tempPost.postLikeAmount);
+        // delete (tempPost.liked);
+
+        // setPostModelState(tempPost);
+
+        // postModelState, props.description, props.firstName, props.lastName, props.lat, props.long, props.postId, props.postLikes.liked, props.postLikes.postId, props.postLikes.postLikeAmount, props.timePosted, props.userId, props.userPic
         setLikeStatus(props.postLikes.liked);
         setLikesCounter(props.postLikes.postLikeAmount);
-    },[props.postLikes.liked, props.postLikes.postLikeAmount])
+    }, [props.postLikes.postLikeAmount, props.postLikes.liked])
+
     useEffect(() => {
         setTimeout(() => { setErrorMessage(''); }, 5000);
     }, [setErrorMessage])
 
     return (
         <div key={Math.random().toString()} className="shadow rounded-3 border-primary p-3 mt-3" >
-            {console.log(props)}
+            {/* {console.log(props)} */}
             <Card className="border-0">
                 <div className="d-flex align-items-center mb-3">
                     <div className="mx-3">
@@ -107,7 +125,7 @@ const Post = props => {
 
                 </div>
 
-                {errorMessage.trim().length !== 0 && <div className='text-center mt-3 alert alert-danger'>{errorMessage}</div>}
+                {errorMessage && <div className='text-center mt-3 alert alert-danger'>{errorMessage}</div>}
 
                 {/* List of comments and comment input box */}
                 {commentStatus ? (

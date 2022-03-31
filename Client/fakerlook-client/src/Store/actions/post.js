@@ -20,6 +20,7 @@ export const fetchPosts = () => {
 
 export const updatePost = (newPost) => {
     return async (dispatch) => {
+        console.log(newPost);
         dispatch({ type: UPDATE, newPost: { ...newPost } })
     }
 }
