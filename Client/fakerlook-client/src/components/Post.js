@@ -1,16 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Card, Form } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RiHeartFill, RiHeartLine, RiMessage2Fill, RiSendPlane2Fill, } from "react-icons/ri";
 import { formatRelative } from "date-fns";
 import PostLikeService from '../services/PostLikesService';
+import { updatePost } from '../Store/actions/post';
 import './Post.css'
 
 const Post = props => {
     const user = useSelector(state => state.users.users).find(u => u.userId === props.userId);
+    const dispatch = useDispatch()
     const [commentStatus, setCommentStatus] = useState(false);
-    const [likeStatus, setLikeStatus] = useState(props.liked);
-    const [likesCounter, setLikesCounter] = useState(props.postLikeAmount);
+    const [likeStatus, setLikeStatus] = useState(false);
+    const [likesCounter, setLikesCounter] = useState(0);
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleCommentButtonClick = () => {
@@ -18,15 +20,13 @@ const Post = props => {
     }
 
     const handleLoveButtonClick = useCallback(async () => {
-        console.log(props.liked);
-        console.log(likeStatus);
         if(likeStatus){
             await PostLikeService.removeLike(props.postId, localStorage.getItem("userId")).then((response) => {
                 if(response.message){
                     setErrorMessage(response.message);
                     return;
                 }
-                console.log(response);
+                // dispatch(updatePost());
                 setLikeStatus(!likeStatus);
                 setLikesCounter(previous => { return previous - 1 })
             });
@@ -38,15 +38,17 @@ const Post = props => {
                 setErrorMessage(response.message);
                 return;
             }
+            // dispatch(updatePost());
             setLikeStatus(!likeStatus);
             setLikesCounter(previous => { return previous + 1 });
         });
 
-    }, [likeStatus, props.postId, props.liked])
+    }, [likeStatus, props.postId, dispatch])
 
     useEffect(() => {
-        setLikeStatus(props.liked);
-    },[props.liked])
+        setLikeStatus(props.postLikes.liked);
+        setLikesCounter(props.postLikes.postLikeAmount);
+    },[props.postLikes.liked, props.postLikes.postLikeAmount])
     useEffect(() => {
         setTimeout(() => { setErrorMessage(''); }, 5000);
     }, [setErrorMessage])
@@ -81,13 +83,13 @@ const Post = props => {
                     <div className="mx-3">
                         <span
                             className={`loveButton mx-1 fs-4`}
-                        onClick={handleLoveButtonClick} // add like
+                        onClick={handleLoveButtonClick}
                         >
-                            {props.liked ? (
+                            {likeStatus ? 
                                 <RiHeartFill className="text-danger" />
-                            ) : (
+                             : 
                                 <RiHeartLine className="text-danger" />
-                            )}
+                            }
                         </span>
                         <span>
                             {likesCounter >= 0 ? likesCounter : null}
@@ -157,4 +159,5 @@ const Post = props => {
         </div >
     );
 }
+
 export default Post;

@@ -5,14 +5,14 @@ const serverPostRoute = `${baseUrl}/posts`;
 
 const PostLikeService = {
     async addLike(postId, userId) {
-        console.log(userId);
         return (await axios.put(`${serverPostRoute}/${postId}/likes`, {userId: userId}, 
         { headers: { 'authToken': `${localStorage.getItem('authToken')}` } })).data;
     },
 
     async removeLike(postId, userId) {
-        return (await axios.remove(`${serverPostRoute}/${postId}/likes`, {userId: userId},
-            { headers: { 'authToken': `${localStorage.getItem('authToken')}` } })).data;
+        return (await axios.delete(`${serverPostRoute}/${postId}/likes`, 
+            { headers: { 'authToken': `${localStorage.getItem('authToken')}` } }, 
+            { data: { userId: userId } })).data;
     },
 
 };

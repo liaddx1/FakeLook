@@ -13,23 +13,23 @@ class PostLikesController {
             return (`Failed to get post likes, error: ${error.message}`);
         }
     }
+
     async addPostLike(req, res) {
         try {
-            const result = await this.postLikesService.addPostLike(req);
-            return JSON.stringify(result);
+            return JSON.stringify((await this.postLikesService.addPostLike(req)));
         }
         catch (error) {
             console.log(`There Was a Problem getting post likes. error: ${error.message}`);
-            return ({ message: `Cannot Like More Than Once!` });
+            return (`Failed to add post likes, error: ${error.message}`);
         }
+
     } async removePostLike(req, res) {
         try {
-            const result = await this.postLikesService.removePostLike(req);
-            return JSON.stringify(result);
+            return JSON.stringify((await this.postLikesService.removePostLike(req)));
         }
         catch (error) {
             console.log(`There Was a Problem getting post likes. error: ${error.message}`);
-            return ({ message: `Cannot Dislike This Item!` });
+            return (`Failed to remove post likes, error: ${error.message}`);
         }
     }
 }
