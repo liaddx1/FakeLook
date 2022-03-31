@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const key = process.env.KEY;
 const httpService = require('../Services/httpService')
-const authRoute = `${process.env.BASEURL}:${process.env.AUTH_PORT}`;
+const authRoute = `${process.env.BASE_URL}:${process.env.AUTH_PORT}`;
 const axios = require('axios');
 
 class AuthController {
