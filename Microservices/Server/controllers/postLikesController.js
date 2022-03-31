@@ -16,7 +16,7 @@ class PostLikesController {
     }
     async addPostLike(req, res) {
         try {
-            await httpService.post(`${postRoute}/addPostLike`, req.body).then((response) => {
+            await httpService.post(`${postRoute}/addPostLike`, { userId: req.body.userId, ...req.params }).then((response) => {
                 res.status(200).send(response.data);
             })
                 .catch((error) => { console.log(error) })
@@ -27,7 +27,8 @@ class PostLikesController {
         }
     } async removePostLike(req, res) {
         try {
-            await httpService.delete(`${postRoute}/deletePostLike`, req.body).then((response) => {
+            console.log({ userId: req.userId, ...req.params });
+            await httpService.delete(`${postRoute}/deletePostLike`, { data: { userId: req.userId, ...req.params } }).then((response) => {
                 res.status(200).send(response.data);
             })
                 .catch((error) => { console.log(error) })
