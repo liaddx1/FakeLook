@@ -22,7 +22,7 @@ app.get('/getUserId/:userId', async function(req, res) {
     res.send(await userController.getUserById(req)).status(200);
  });
 
-app.get('/searchUser', async function(req, res) {
+app.get('/searchUser:searchparams', async function(req, res) {
     res.send(await userController.searchUsers(req)).status(200);
  });
 
