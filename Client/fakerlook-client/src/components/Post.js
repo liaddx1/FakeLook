@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RiHeartFill, RiHeartLine, RiMessage2Fill, RiSendPlane2Fill, } from "react-icons/ri";
 import { formatRelative } from "date-fns";
 import PostLikeService from '../services/PostLikesService';
-import './Post.css'
 import { updatePost } from '../Store/actions/post';
+import './Post.css'
 
 const Post = props => {
     const user = useSelector(state => state.users.users).find(u => u.userId === props.userId);
