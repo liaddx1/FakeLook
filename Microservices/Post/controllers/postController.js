@@ -1,41 +1,44 @@
 class PostController {
-    constructor({ postService }) {
+    constructor({postService}) {
         this.postService = postService;
     }
 
-    async getAllPosts(req, res) {
-        console.log('Getting All Posts');
-        try {
-            return JSON.stringify((await this.postService.getAllPosts(req)).recordset);
+    async getAllPosts(req,res){
+        try{
+          const result = await this.postService.getAllPosts(req);
+          return JSON.stringify(result.recordset);
         }
-        catch (error) {
+        catch(error){
             console.log(`There Was a Problem getting the posts. error: ${error.message}`);
             return (`Failed to get posts, error: ${error.message}`);
         }
     }
-    async addPost(req, res) {
+    async addPost(req,res){
         try {
-            return JSON.stringify((await this.postService.addPost(req)));
+            const result = await this.postService.addPost(req);
+            JSON.stringify(result.rowsAffected);
         }
         catch (error) {
+            console.log(`There Was a Problem adding the post. error: ${error.message}`);
             return (`Failed to add the post, error: ${error.message}`);
-        }
+      }
     }
-    async getPost(req, res) {
+    async getPost(req,res){
         try {
-            return JSON.stringify((await this.postService.getPost(req)).recordset);
+            const result = await this.postService.getPost(req);
+            return JSON.stringify(result.recordset);
         }
-        catch {
+        catch{
             console.log(`There Was a Problem getting the post. error: ${error.message}`);
             return (`Failed to getting the post, error: ${error.message}`);
         }
     }
-    async searchPosts(req, res) {
-        try {
+    async searchPosts(req,res){
+        try{
             const result = await this.postService.SearchPosts(req);
             return JSON.stringify(result.recordset);
         }
-        catch (error) {
+        catch(error){
             console.log(`There Was a Problem searching for posts. error: ${error.message}`);
             return (`Failed to search for posts, error: ${error.message}`);
         }
