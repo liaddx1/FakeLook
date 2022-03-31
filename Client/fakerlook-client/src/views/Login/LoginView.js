@@ -12,7 +12,6 @@ import './LoginView.css';
 import GoogleLoginBtn from "../../components/GoogleLoginBtn";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../Store/actions/user";
-import { fetchPosts } from "../../Store/actions/post";
 
 const LogInView = (props) => {
   const dispatch = useDispatch();
@@ -48,7 +47,7 @@ const LogInView = (props) => {
     const { email, password } = e.target.elements;
 
     if (formValidation(email, password)) {
-      await UserService.LogIn({ email: email.value, password: password.value }).then(async (response) => {
+      await UserService.LogIn({ email: email.value, password: password.value }).then(response => {
 
         if (response.data.message) {
           setErrorMessage(response.data.message);
@@ -57,13 +56,8 @@ const LogInView = (props) => {
 
         if (response.data.auth) {
           localStorage.setItem("authToken", response.data.authToken);
-          localStorage.setItem('userId', response.data.userId);
-          await UserService.getUserById(response.data.userId).then((response) => {
-            localStorage.setItem('name', `${response.data.firstName} ${response.data.lastName}`);
-            dispatch(fetchPosts()); 
-            dispatch(setUser(response.data));
-            navigate('/map');
-          });
+          dispatch(setUser(response.data.userId));
+          navigate('/map');
         }
       })
     }

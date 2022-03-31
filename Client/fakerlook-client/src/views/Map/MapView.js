@@ -9,8 +9,6 @@ import "@reach/combobox/styles.css";
 import './MapView.css';
 import PostFeed from "./PostFeedView";
 import AddPost from "./AddPostView";
-import { Button, Card } from "reactstrap";
-import { useSelector } from "react-redux";
 
 const libraries = ["places"];
 const mapContainerStyle = {
@@ -23,18 +21,15 @@ const center = {
 }
 
 export default function MapView() {
-    const navigate = useNavigate();
-    const postsData = useSelector(state => state.posts.posts);
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
         libraries,
     })
+    const navigate = useNavigate();
 
     //states
     const [markers, setMarkers] = useState([]);
-    // const [posts, setPosts] = useState([]);
     const [selected, setSelected] = useState(null);
-    const [lastLocationClicked, setLastLocationClicked] = useState(null);
     const [pages, setPages] = useState(0);
 
     //refs
@@ -67,33 +62,15 @@ export default function MapView() {
                 navigate('/login');
             }
         }
-
     }, [navigate]);
 
     const onMapClick = useCallback((event) => {
-        setLastLocationClicked({ lat: event.latLng.lat(), lng: event.latLng.lng() });
-        setMarkers([{
+        setMarkers(current => [...current, {
             lat: event.latLng.lat(),
-            long: event.latLng.lng(),
-            timePosted: new Date()
+            lng: event.latLng.lng(),
+            time: new Date()
         }]);
     }, []);
-
-    const loadPosts = useCallback(() => {
-        return postsData.map(post =>
-            <Marker
-                key={post.postId}
-                position={{lat: post.lat , lng: post.long }}
-                icon={{
-                    url: post.picture,
-                    scaledSize: new window.google.maps.Size(45, 45),
-                    origin: new window.google.maps.Point(0, 0),
-                    anchor: new window.google.maps.Point(15, 15)
-                }}
-                onMouseOver={() => { setSelected(post); }}
-                onMouseOut={() => { setSelected(null); }}
-            />)
-    }, [postsData]);
 
     const onMapLoad = useCallback((map) => {
         mapRef.current = map;
@@ -127,35 +104,24 @@ export default function MapView() {
                     scrollWheelZoom={true}
                     onClick={onMapClick}
                     onLoad={onMapLoad}
+                    className="fixed-left"
                 >
                     {markers.map(marker =>
                         <Marker
                             key={Math.random().toString()}
-                            position={{ lat: marker.lat, lng: marker.long }}
-                            icon={{
-                                url: marker.picture ? marker.picture : 'https://www.google.com/intl/en_us/mapfiles/ms/micons/red-dot.png',
+                            position={{ lat: marker.lat, lng: marker.lng }}
+                            onClick={() => {
+                                setSelected(marker);
                             }}
-                            onClick={() => { setSelected(marker); setLastLocationClicked(marker); }}
                         />)}
 
-                    {loadPosts()}
-
-                    {selected &&
-                        (<InfoWindow position={{ lat: selected.lat, lng: selected.long }} onCloseClick={() => { setSelected(null); }}>
-                                {selected.picture ?
-                                    <Card className="border-0">
-                                        <h3 className="text-center">Post Made By {`${selected.firstName} ${selected.lastName}`}</h3>
-                                        <img className="m-1" height={"200px"} src={selected.picture} alt="preview" />
-                                        <h4 className="text-center">Content: {selected.description}</h4>
-                                        <p className="text-center">Post Time: {formatRelative(new Date(selected.timePosted), new Date())}</p>
-                                    </Card>
-                                    :
-                                    <Card className="border-0">
-                                        <h3 className="text-center">Post Something Here?</h3>
-                                        <p className="text-center">Post Time: {formatRelative(new Date(selected.timePosted), new Date())}</p>
-                                        <Button className="text-center" onClick={() => { changePageHandler(2) }}>Post Here</Button>
-                                    </Card>}
-                        </InfoWindow>)}
+                    {selected ?
+                        (<InfoWindow position={{ lat: selected.lat, lng: selected.lng }} onCloseClick={() => { setSelected(null); }}>
+                            <div>
+                                <h2>Post Something Here?</h2>
+                                <p>Post Time: {formatRelative(selected.time, new Date())}</p>
+                            </div>
+                        </InfoWindow>) : null}
                 </GoogleMap>
             </div>);
     }
@@ -172,7 +138,7 @@ export default function MapView() {
                 <div>
                     {pages === 0 && renderMap()}
                     {pages === 1 && <PostFeed />}
-                    {pages === 2 && <AddPost location={lastLocationClicked} onChangePage={changePageHandler} />}
+                    {pages === 2 && <AddPost onChangePage={changePageHandler} />}
                 </div>
             </div>
         </div>

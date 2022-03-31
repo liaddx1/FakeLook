@@ -2,10 +2,9 @@ const { sql, poolPromise } = require('./connectionHandler');
 
 class PostService {
     async getAllPosts(req) {
-        console.log(req.params.userId);
         const pool = await poolPromise;
         const result = await pool.request()
-            .input('userId', sql.Int, req.params.userId)
+            .input('userId', sql.Int, req.userId)
             .execute('allPosts');
         return result;
     }
@@ -25,7 +24,7 @@ class PostService {
     async getPost(req) {
         const pool = await poolPromise;
         const result = await pool.request()
-            .input('userId', sql.Int, req.params.userId)
+            .input('userId', sql.Int, req.userId)
             .input('postId', sql.Int, req.params.postId)
             .execute('getPostById');
         return result;
