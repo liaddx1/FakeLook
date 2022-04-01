@@ -1,19 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Card, Form } from "react-bootstrap";
-import { /*useDispatch,*/ useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RiHeartFill, RiHeartLine, RiMessage2Fill, RiSendPlane2Fill, } from "react-icons/ri";
 import { formatRelative } from "date-fns";
 import PostLikeService from '../services/PostLikesService';
-// import { updatePost } from '../Store/actions/post';
-// import PostModel from '../models/PostModel';
+import { updatePost } from '../Store/actions/post';
 import './Post.css'
 
 const Post = props => {
     const user = useSelector(state => state.users.users).find(u => u.userId === props.userId);
-    // const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const [commentStatus, setCommentStatus] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-    // const [postModelState, setPostModelState] = useState({});
     const [likeStatus, setLikeStatus] = useState(false);
     const [likesCounter, setLikesCounter] = useState(0);
 
@@ -27,14 +25,12 @@ const Post = props => {
                 if(response.message){
                     setErrorMessage(response.message);
                     return;
-                }            
-
-            // setPostModelState(previous => { return { ...previous, previous: { postLikes: { postId: previous.postId, like: !previous.postLikes.liked, postLikeAmount: previous.postLikeAmount - 1 }
-            // } } })
-            // dispatch(updatePost(postModelState));
+                }                
+                setLikeStatus(!likeStatus);
+                setLikesCounter(previous => { return previous - 1 });
             });
-            setLikeStatus(!likeStatus);
-            setLikesCounter(previous => { return previous - 1 });
+            const tempCounter = likesCounter - 1;
+            dispatch(updatePost(props.postId, false, tempCounter));
             return;
         }       
 
@@ -42,30 +38,18 @@ const Post = props => {
             if(response.message){
                 setErrorMessage(response.message);
                 return;
-            }
-
-            
-
-//             setPostModelState(previous => { return { ...previous, previous: { postLikes: { postId: previous.postId, like: !previous.postLikes.liked, postLikeAmount: previous.postLikeAmount + 1 }
-// } } })
-            // dispatch(updatePost(postModelState));
+            }            
+            setLikeStatus(!likeStatus);
+            setLikesCounter(previous => { return previous + 1 });
         });
-        setLikeStatus(!likeStatus);
-        setLikesCounter(previous => { return previous + 1 });
-    }, [likeStatus, props.postId])
+        const tempCounter = likesCounter + 1;
+        dispatch(updatePost(props.postId, true, tempCounter));
+    }, [likeStatus, props.postId, dispatch, likesCounter])
 
     useEffect(() => {
-        // let tempPost = new PostModel(props.postId, props.description, props.lat, props.long, props.timePosted, props.firstName, props.lastName, props.userPic, props.userId);
-        // tempPost.postLikes = { postId: props.postLikes.postId, postLikeAmount: props.postLikes.postLikeAmount, liked: props.postLikes.liked};
-        // delete (tempPost.postLikeAmount);
-        // delete (tempPost.liked);
-
-        // setPostModelState(tempPost);
-
-        // postModelState, props.description, props.firstName, props.lastName, props.lat, props.long, props.postId, props.postLikes.liked, props.postLikes.postId, props.postLikes.postLikeAmount, props.timePosted, props.userId, props.userPic
         setLikeStatus(props.postLikes.liked);
         setLikesCounter(props.postLikes.postLikeAmount);
-    }, [props.postLikes.postLikeAmount, props.postLikes.liked])
+    }, [props.postLikes.liked, props.postLikes.postLikeAmount])
 
     useEffect(() => {
         setTimeout(() => { setErrorMessage(''); }, 5000);

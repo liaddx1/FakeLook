@@ -6,7 +6,7 @@ export const UPDATE = 'UPDATEPOST';
 
 export const addPost = (newPost) => {
     return async (dispatch, getState) => {
-        dispatch({ type: ADD, newPost: { ...newPost } })
+        dispatch({ type: ADD, newPost: { ...newPost } });
     }
 }
 
@@ -14,13 +14,12 @@ export const fetchPosts = () => {
     return async (dispatch, getState) => {
         const posts = await PostService.getAllPosts();
         console.log(posts);
-        dispatch({ type: FETCH, newPosts: posts })
+        dispatch({ type: FETCH, newPosts: posts });
     }
 }
 
-export const updatePost = (newPost) => {
+export const updatePost = (postId, liked, counter) => {
     return async (dispatch) => {
-        console.log(newPost);
-        dispatch({ type: UPDATE, newPost: { ...newPost } })
+        dispatch({ type: UPDATE, postId: postId, liked: liked, counter: counter });
     }
 }
