@@ -18,9 +18,9 @@ const Post = props => {
     const [commentContent, setCommentContent] = useState("");
     const [sendButtonDisable, setSendButtonDisable] = useState(true);
 
-    const handleCommentButtonClick = useCallback(() => {
+    const handleCommentButtonClick = () => {
         setCommentStatus(!commentStatus);
-    }, [commentStatus])
+    }
 
     const handleLoveButtonClick = useCallback(async () => {
         if (likeStatus) {
@@ -49,7 +49,7 @@ const Post = props => {
         dispatch(updatePost(props.postId, true, tempCounter));
     }, [likeStatus, props.postId, dispatch, likesCounter])
 
-    const handleCommentContentChange = async (e) => {
+    const handleCommentContentChange = (e) => {
         e.preventDefault();
 
         setCommentContent(e.target.value);
@@ -61,9 +61,10 @@ const Post = props => {
         }
     }
 
-    const sendCommentHandler = useCallback(async () => {
+    const sendCommentHandler = async () => {
+        console.log(commentContent);
         console.log('Comment Added!');
-    }, [])
+    }
 
     useEffect(() => {
         setLikeStatus(props.postLikes.liked);
@@ -76,7 +77,7 @@ const Post = props => {
     }, [setErrorMessage])
 
     return (
-        <div key={Math.random().toString()} className="shadow rounded-3 border-primary p-3 mt-3" >
+        <div key={props.postId} className="shadow rounded-3 border-primary p-3 mt-4" >
             <Card className="border-0">
                 <div className="d-flex align-items-center mb-3">
                     <div className="mx-3">
@@ -156,6 +157,7 @@ const Post = props => {
                                 </Button>
                             </div>
                         </div>
+
                         {/* Existing Comments  */}
                         {/* <Hashicon value={commentItem.userId} size={30} />{" "} */}
                         {/* {props.commentList.map((commentItem) => (
@@ -180,5 +182,6 @@ const Post = props => {
         </div >
     );
 }
+
 
 export default Post;
