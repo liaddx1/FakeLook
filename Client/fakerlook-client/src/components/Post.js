@@ -10,35 +10,38 @@ import './Post.css'
 const Post = props => {
     const user = useSelector(state => state.users.users).find(u => u.userId === props.userId);
     const dispatch = useDispatch();
-    const [commentStatus, setCommentStatus] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [likeStatus, setLikeStatus] = useState(false);
     const [likesCounter, setLikesCounter] = useState(0);
+    const [commentStatus, setCommentStatus] = useState(false);
+    const [commentCounter, setCommentCounter] = useState(0);
+    const [commentContent, setCommentContent] = useState("");
+    const [sendButtonDisable, setSendButtonDisable] = useState(true);
 
-    const handleCommentButtonClick = () => {
+    const handleCommentButtonClick = useCallback(() => {
         setCommentStatus(!commentStatus);
-    }
+    }, [commentStatus])
 
     const handleLoveButtonClick = useCallback(async () => {
-        if(likeStatus){
+        if (likeStatus) {
             await PostLikeService.removeLike(props.postId, localStorage.getItem("userId")).then((response) => {
-                if(response.message){
+                if (response.message) {
                     setErrorMessage(response.message);
                     return;
-                }                
+                }
                 setLikeStatus(!likeStatus);
                 setLikesCounter(previous => { return previous - 1 });
             });
             const tempCounter = likesCounter - 1;
             dispatch(updatePost(props.postId, false, tempCounter));
             return;
-        }       
+        }
 
         await PostLikeService.addLike(props.postId, localStorage.getItem("userId")).then((response) => {
-            if(response.message){
+            if (response.message) {
                 setErrorMessage(response.message);
                 return;
-            }            
+            }
             setLikeStatus(!likeStatus);
             setLikesCounter(previous => { return previous + 1 });
         });
@@ -46,10 +49,27 @@ const Post = props => {
         dispatch(updatePost(props.postId, true, tempCounter));
     }, [likeStatus, props.postId, dispatch, likesCounter])
 
+    const handleCommentContentChange = async (e) => {
+        e.preventDefault();
+
+        setCommentContent(e.target.value);
+
+        if (commentContent.length - 1 > 0 && commentContent.length - 1 <= 100) {
+            setSendButtonDisable(false);
+        } else {
+            setSendButtonDisable(true);
+        }
+    }
+
+    const sendCommentHandler = useCallback(async () => {
+        console.log('Comment Added!');
+    }, [])
+
     useEffect(() => {
         setLikeStatus(props.postLikes.liked);
         setLikesCounter(props.postLikes.postLikeAmount);
-    }, [props.postLikes.liked, props.postLikes.postLikeAmount])
+        setCommentCounter(props.postCommentAmount);
+    }, [props.postLikes.liked, props.postLikes.postLikeAmount, props.postCommentAmount])
 
     useEffect(() => {
         setTimeout(() => { setErrorMessage(''); }, 5000);
@@ -57,7 +77,6 @@ const Post = props => {
 
     return (
         <div key={Math.random().toString()} className="shadow rounded-3 border-primary p-3 mt-3" >
-            {/* {console.log(props)} */}
             <Card className="border-0">
                 <div className="d-flex align-items-center mb-3">
                     <div className="mx-3">
@@ -85,11 +104,11 @@ const Post = props => {
                     <div className="mx-3">
                         <span
                             className={`loveButton mx-1 fs-4`}
-                        onClick={handleLoveButtonClick}
+                            onClick={handleLoveButtonClick}
                         >
-                            {likeStatus ? 
+                            {likeStatus ?
                                 <RiHeartFill className="text-danger" />
-                             : 
+                                :
                                 <RiHeartLine className="text-danger" />
                             }
                         </span>
@@ -103,7 +122,7 @@ const Post = props => {
                             <RiMessage2Fill className="text-primary" />
                         </span>
                         <span>
-                            {/* {props.commentList.length > 0 ? props.commentList.length : null} */}2 {/** Number of Comments */}
+                            {commentCounter >= 0 ? commentCounter : null} {/* Number of Comments */}
                         </span>
                     </div>
 
@@ -120,18 +139,18 @@ const Post = props => {
                                     <Form.Control
                                         type="text"
                                         placeholder="Write a comment..."
-                                    // value={commentContent}
-                                    // onChange={handleCommentContentChange}
+                                        value={commentContent}
+                                        onChange={handleCommentContentChange}
                                     />
                                 </Form.Group>
                             </Form>
-                            <span className="mx-1">/100</span> {/*{commentContent.length} */}
+                            <span className="mx-1">{commentContent.length}/100</span>
                             <div className="ms-auto">
                                 <Button
                                     variant="success"
                                     className="p-1"
-                                // disabled={sendButtonDisable}
-                                // onClick={sendComment}
+                                    disabled={sendButtonDisable}
+                                    onClick={sendCommentHandler}
                                 >
                                     <RiSendPlane2Fill className="fs-4" />
                                 </Button>

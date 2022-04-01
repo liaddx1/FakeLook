@@ -6,11 +6,11 @@ import MapNavigator from "../../components/MapNavigator";
 import { formatRelative } from "date-fns";
 import Options from "./Options";
 import "@reach/combobox/styles.css";
-import './MapView.css';
 import PostFeed from "./PostFeedView";
 import AddPost from "./AddPostView";
 import { Button, Card } from "reactstrap";
 import { useSelector } from "react-redux";
+import './MapView.css';
 
 const libraries = ["places"];
 const mapContainerStyle = {
