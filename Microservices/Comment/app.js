@@ -18,7 +18,7 @@ app.get('/getAllComments', async function(req, res) {
     res.send(await commentController.getAllComments(req)).status(200);
  });
 
-app.post('/addComment', async function(req, res) {
+app.post('/addComment/:postId', async function(req, res) {
     res.send(await commentController.addComment(req)).status(200);
  });
 

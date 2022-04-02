@@ -5,7 +5,9 @@ import { RiHeartFill, RiHeartLine, RiMessage2Fill, RiSendPlane2Fill, } from "rea
 import { formatRelative } from "date-fns";
 import PostLikeService from '../services/PostLikesService';
 import { updatePost } from '../Store/actions/post';
+import CommentService from '../services/CommentService';
 import './Post.css'
+import CommentOutput from '../models/CommentOutputModel';
 
 const Post = props => {
     const user = useSelector(state => state.users.users).find(u => u.userId === props.userId);
@@ -17,9 +19,7 @@ const Post = props => {
     const [commentCounter, setCommentCounter] = useState(0);
     const [commentContent, setCommentContent] = useState("");
 
-    const handleCommentButtonClick = () => {
-        setCommentStatus(!commentStatus);
-    }
+    const handleCommentButtonClick = () => setCommentStatus(!commentStatus);
 
     const handleLoveButtonClick = useCallback(async () => {
         if (likeStatus) {
@@ -59,8 +59,26 @@ const Post = props => {
     }, []);
 
     const sendCommentHandler = async () => {
-        console.log(commentContent);
-        console.log('Comment Added!');
+
+        const newComment = new CommentOutput(commentContent, user.firstName, user.lastName, user.userId, props.postId);
+
+        const [value, message] = newComment.validate();
+
+        setErrorMessage(message);
+
+        if (value) {
+            await CommentService.createComment(props.postId, user.userId, newComment).then(async (response) => {
+                if (response.message) {
+                    setErrorMessage(message);
+                    return;
+                }
+
+                console.log(response.recordset[0]);
+
+                setCommentContent('');
+                // dispatch(addPost(response[0]));
+            })
+        }
     }
 
     useEffect(() => {

@@ -18,14 +18,14 @@ class CommentController {
     }
     async addComment(req, res) {
         try {
-            await httpService.post(`${commentRoute}/addComment`, req.body).then((response) => {
+            await httpService.post(`${commentRoute}/addComment/${req.params.postId}`, req.body).then((response) => {
                 res.status(200).send(response.data);
             })
                 .catch((error) => { console.log(error) })
         }
         catch (error) {
             res.status(500)
-            res.send(error.message) //make it send error.stack in dev
+            res.send({ message: "Could not add your comment at this moment." })
         }
     }
 

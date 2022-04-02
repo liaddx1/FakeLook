@@ -9,17 +9,16 @@ class CommentController {
         }
         catch (error) {
             console.log(`There Was a Problem getting comments. error: ${error.message}`);
-            return ( `failed to get comments, error: ${error.message}`)
+            return (`failed to get comments, error: ${error.message}`)
         }
     }
     async addComment(req, res) {
         try {
-            const result = await this.commentService.addComment(req);
-            return JSON.stringify(result);
+            return JSON.stringify(await this.commentService.addComment(req));
         }
         catch (error) {
             console.log(`There Was a Problem adding comment. error: ${error.message}`);
-            return ( `failed to add comment, error: ${error.message}`)
+            return (`failed to add comment, error: ${error.message}`)
         }
     }
 
@@ -31,7 +30,7 @@ class CommentController {
         }
         catch (error) {
             console.log(`There Was a Problem adding comment like. error: ${error.message}`);
-            return ( `failed to add comment like, error: ${error.message}`)
+            return (`failed to add comment like, error: ${error.message}`)
         }
     }
     async removeCommentLike(req, res) {
@@ -42,7 +41,7 @@ class CommentController {
         }
         catch (error) {
             console.log(`There Was a Problem removing comment like. error: ${error.message}`);
-            return ( `failed to remove comment like, error: ${error.message}`)
+            return (`failed to remove comment like, error: ${error.message}`)
         }
     }
 }

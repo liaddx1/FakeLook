@@ -118,7 +118,7 @@ export default function MapView() {
     useEffect(() => {
         setTimeout(() => {
             isAuthorazied();
-        }, 150000);
+        }, 160000);
     }, [isAuthorazied])
 
     //renders

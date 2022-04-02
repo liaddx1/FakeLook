@@ -12,11 +12,12 @@ class commentService {
     }
 
     async addComment(req) {
+        console.log(req.body, req.params);
         const pool = await poolPromise;
         const result = await pool.request()
             .input('postId', sql.Int, req.params.postId)
-            .input('userId', sql.Int, req.userId)
-            .input('commentContent', sql.VarChar(50), req.body.commentContent)
+            .input('userId', sql.Int, req.body.userId)
+            .input('commentContent', sql.VarChar(50), req.body.comment.commentContent)
             .execute('addComment')
         return result;
     }
