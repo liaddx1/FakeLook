@@ -16,7 +16,7 @@ function App() {
 
   const loadData = useCallback(async () => {
     dispatch(fetchUsers());
-    dispatch(fetchPosts()); 
+    dispatch(fetchPosts());
   }, [dispatch]);
 
   useEffect(() => {
@@ -25,7 +25,6 @@ function App() {
       setIsLoading(false);
     });
   }, [loadData])
-
 
   return (
     isLoading ? (<div><h1 className="text-center">Our Servers Are Currently Down, Try Again Later!</h1></div>) :

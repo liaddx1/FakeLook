@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { InfoWindow, useLoadScript, GoogleMap, Marker } from "@react-google-maps/api";
 import { useNavigate } from "react-router-dom";
-import jwtDecode from "jwt-decode";
 import MapNavigator from "../../components/MapNavigator";
 import { formatRelative } from "date-fns";
 import Options from "./Options";
@@ -43,34 +42,6 @@ export default function MapView() {
     const mapRef = useRef();
 
     //handlers
-    const isAuthorazied = useCallback(() => {
-        const token = localStorage.getItem("authToken");
-        const facebookExp = localStorage.getItem('facebookExp')
-        if (!token && !facebookExp) {
-            navigate('/login');
-            return;
-        }
-
-        let currentDate = new Date();
-        if (token) {
-            let decodedToken = jwtDecode(token);
-            if (decodedToken) {
-                // console.log(decodedToken.exp * 1000, "<", currentDate.getTime());
-                if (decodedToken.exp * 1000 < currentDate.getTime()) {
-                    localStorage.clear();
-                    navigate('/login');
-                }
-            }
-        }
-
-        if (facebookExp) {
-            if (facebookExp * 1000 < currentDate.getTime()) {
-                localStorage.clear();
-                navigate('/login');
-            }
-        }
-
-    }, [navigate]);
 
     const onMapClick = useCallback((event) => {
         setLastLocationClicked({ lat: event.latLng.lat(), lng: event.latLng.lng() });
@@ -122,7 +93,7 @@ export default function MapView() {
 
     const logOutHandler = () => {
         localStorage.clear();
-        isAuthorazied();
+        navigate('/login');
     }
 
     const changePageHandler = (pageNumber) => setPages(pageNumber);
@@ -132,16 +103,6 @@ export default function MapView() {
         mapRef.current.setZoom(15);
     }, []);
 
-    //side effects
-    useEffect(() => {
-        isAuthorazied();
-    }, [isAuthorazied])
-
-    useEffect(() => {
-        setTimeout(() => {
-            isAuthorazied();
-        }, 160000);
-    }, [isAuthorazied])
 
     //renders
     const renderMap = () => {

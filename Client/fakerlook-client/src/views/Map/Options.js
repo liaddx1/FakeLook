@@ -1,13 +1,16 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { Button, FormGroup, InputGroup, InputGroupText, Input, Form } from "reactstrap";
 import fontawesome from '@fortawesome/fontawesome';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar, faCircleDot } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from "react-redux";
 import { applyFilter } from "../../Store/actions/post";
+import { useNavigate } from "react-router-dom";
+import jwtDecode from "jwt-decode";
 
 const Options = props => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const posts = useSelector(state => state.posts.posts);
     fontawesome.library.add(faCalendar, faCircleDot);
 
@@ -29,6 +32,45 @@ const Options = props => {
         dispatch(applyFilter(newList));
     }, [dispatch, posts])
 
+    const isAuthorazied = useCallback(() => {
+        const token = localStorage.getItem("authToken");
+        const facebookExp = localStorage.getItem('facebookExp');
+        if (!token && !facebookExp) {
+            navigate('/login');
+            return;
+        }
+
+        let currentDate = new Date();
+        if (token) {
+            let decodedToken = jwtDecode(token);
+            if (decodedToken) {
+                // console.log(decodedToken.exp * 1000, "<", currentDate.getTime());
+                if (decodedToken.exp * 1000 < currentDate.getTime()) {
+                    localStorage.clear();
+                    navigate('/login');
+                }
+            }
+        }
+
+        if (facebookExp) {
+            if (facebookExp * 1000 < currentDate.getTime()) {
+                localStorage.clear();
+                navigate('/login');
+            }
+        }
+
+    }, [navigate]);
+
+    //side effects
+    useEffect(() => {
+        isAuthorazied();
+    }, [isAuthorazied])
+
+    useEffect(() => {
+        setTimeout(() => {
+            isAuthorazied();
+        }, 60000);
+    }, [isAuthorazied])
 
     return (
         <div className="d-grid gap-2 mt-2">
