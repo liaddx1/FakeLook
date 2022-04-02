@@ -16,7 +16,6 @@ const Post = props => {
     const [commentStatus, setCommentStatus] = useState(false);
     const [commentCounter, setCommentCounter] = useState(0);
     const [commentContent, setCommentContent] = useState("");
-    const [sendButtonDisable, setSendButtonDisable] = useState(true);
 
     const handleCommentButtonClick = () => {
         setCommentStatus(!commentStatus);
@@ -47,19 +46,17 @@ const Post = props => {
         });
         const tempCounter = likesCounter + 1;
         dispatch(updatePost(props.postId, true, tempCounter));
-    }, [likeStatus, props.postId, dispatch, likesCounter])
+    }, [likeStatus, props.postId, dispatch, likesCounter]);
 
-    const handleCommentContentChange = (e) => {
+    const isDisabled = useCallback(() => {
+        return commentContent.trim().length <= 0 || commentContent.trim().length > 100;
+    }, [commentContent])
+
+    const handleCommentContentChange = useCallback((e) => {
         e.preventDefault();
 
         setCommentContent(e.target.value);
-
-        if (commentContent.length - 1 > 0 && commentContent.length - 1 <= 100) {
-            setSendButtonDisable(false);
-        } else {
-            setSendButtonDisable(true);
-        }
-    }
+    }, []);
 
     const sendCommentHandler = async () => {
         console.log(commentContent);
@@ -142,6 +139,7 @@ const Post = props => {
                                         placeholder="Write a comment..."
                                         value={commentContent}
                                         onChange={handleCommentContentChange}
+                                        maxLength="100"
                                     />
                                 </Form.Group>
                             </Form>
@@ -150,7 +148,7 @@ const Post = props => {
                                 <Button
                                     variant="success"
                                     className="p-1"
-                                    disabled={sendButtonDisable}
+                                    disabled={isDisabled()}
                                     onClick={sendCommentHandler}
                                 >
                                     <RiSendPlane2Fill className="fs-4" />

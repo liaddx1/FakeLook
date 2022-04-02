@@ -35,7 +35,7 @@ export default function MapView() {
     // const [posts, setPosts] = useState([]);
     const [selected, setSelected] = useState(null);
     const [lastLocationClicked, setLastLocationClicked] = useState(null);
-    const [pages, setPages] = useState(0);
+    const [pages, setPages] = useState(1);
 
     //refs
     const mapRef = useRef();
@@ -83,15 +83,14 @@ export default function MapView() {
         return postsData.map(post =>
             <Marker
                 key={post.postId}
-                position={{lat: post.lat , lng: post.long }}
+                position={{ lat: post.lat, lng: post.long }}
                 icon={{
                     url: post.picture,
                     scaledSize: new window.google.maps.Size(45, 45),
                     origin: new window.google.maps.Point(0, 0),
                     anchor: new window.google.maps.Point(15, 15)
                 }}
-                onMouseOver={() => { setSelected(post); }}
-                onMouseOut={() => { setSelected(null); }}
+                onClick={() => setSelected(post)}
             />)
     }, [postsData]);
 
@@ -114,6 +113,12 @@ export default function MapView() {
     //side effects
     useEffect(() => {
         isAuthorazied();
+    }, [isAuthorazied])
+
+    useEffect(() => {
+        setTimeout(() => {
+            isAuthorazied();
+        }, 150000);
     }, [isAuthorazied])
 
     //renders
@@ -142,19 +147,19 @@ export default function MapView() {
 
                     {selected &&
                         (<InfoWindow position={{ lat: selected.lat, lng: selected.long }} onCloseClick={() => { setSelected(null); }}>
-                                {selected.picture ?
-                                    <Card className="border-0">
-                                        <h3 className="text-center">Post Made By {`${selected.firstName} ${selected.lastName}`}</h3>
-                                        <img className="m-1" height={"200px"} src={selected.picture} alt="preview" />
-                                        <h4 className="text-center">Content: {selected.description}</h4>
-                                        <p className="text-center">Post Time: {formatRelative(new Date(selected.timePosted), new Date())}</p>
-                                    </Card>
-                                    :
-                                    <Card className="border-0">
-                                        <h3 className="text-center">Post Something Here?</h3>
-                                        <p className="text-center">Post Time: {formatRelative(new Date(selected.timePosted), new Date())}</p>
-                                        <Button className="text-center" onClick={() => { changePageHandler(2) }}>Post Here</Button>
-                                    </Card>}
+                            {selected.picture ?
+                                <Card className="border-0">
+                                    <h3 className="text-center">Post Made By {`${selected.firstName} ${selected.lastName}`}</h3>
+                                    <img className="m-1" height={"200px"} src={selected.picture} alt="preview" />
+                                    <h4 className="text-center">Content: {selected.description}</h4>
+                                    <p className="text-center">Post Time: {formatRelative(new Date(selected.timePosted), new Date())}</p>
+                                </Card>
+                                :
+                                <Card className="border-0">
+                                    <h3 className="text-center">Post Something Here?</h3>
+                                    <p className="text-center">Post Time: {formatRelative(new Date(selected.timePosted), new Date())}</p>
+                                    <Button className="text-center" onClick={() => { changePageHandler(2) }}>Post Here</Button>
+                                </Card>}
                         </InfoWindow>)}
                 </GoogleMap>
             </div>);
