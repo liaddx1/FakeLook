@@ -2,9 +2,10 @@ import Post from "../../components/Post";
 import { useSelector } from "react-redux";
 
 const PostFeed = props => {
-    const posts = useSelector(state => state.posts.posts);
+    const posts = useSelector(state => state.posts.filteredPosts);
 
     const renderPosts = () => {
+        console.log(posts);
         return posts?.map((post) => <Post key={post.postId} {...post} />)
     }
 

@@ -1,6 +1,7 @@
-import { ADD, FETCH, DELETE, UPDATE } from "../actions/post";
+import { ADD, FETCH, FILTER, UPDATE } from "../actions/post";
 const initialState = {
     posts: [],
+    filteredPosts: []
 }
 
 const reducer = (state = initialState, action) => {
@@ -14,11 +15,15 @@ const reducer = (state = initialState, action) => {
 
         case FETCH:
             if (action.newPosts) {
-                return { ...state, posts: action.newPosts };
+                return { ...state, posts: action.newPosts, filteredPosts: action.newPosts };
             }
             return state;
 
-        case DELETE: return state;
+        case FILTER:
+            if (action.newPosts) {
+                return { ...state, filteredPosts: action.newPosts };
+            }
+            return state;
 
         case UPDATE:
             const tempPosts = state.posts;

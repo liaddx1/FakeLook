@@ -3,6 +3,7 @@ export const ADD = 'ADDPOST';
 export const FETCH = 'FETCHPOST';
 export const DELETE = 'DELETEPOST';
 export const UPDATE = 'UPDATEPOST';
+export const FILTER = 'FILTERPOST';
 
 export const addPost = (newPost) => {
     return async (dispatch, getState) => {
@@ -24,8 +25,8 @@ export const updatePost = (postId, liked, counter) => {
     }
 }
 
-export const applyFilter = (filter) => {
+export const applyFilter = (newList) => {
     return async (dispatch, getState) => {
-        
-    }
+        dispatch({ type: FILTER, newPosts: newList });
+}
 }

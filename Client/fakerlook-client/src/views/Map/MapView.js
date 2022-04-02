@@ -24,7 +24,7 @@ const center = {
 
 export default function MapView() {
     const navigate = useNavigate();
-    const postsData = useSelector(state => state.posts.posts);
+    const postsData = useSelector(state => state.posts.filteredPosts);
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
         libraries,
@@ -104,11 +104,10 @@ export default function MapView() {
                     key={localStorage.getItem('userId')}
                     position={{ lat: myLocation.lat, lng: myLocation.long }}
                     icon={{ url: "https://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png" }}
-                    zIndex={-99}
                     onClick={() => { setToShowMyLocation(!toShowMyLocation) }}
                 />
             );
-    }, [myLocation])
+    }, [myLocation, toShowMyLocation])
 
     const onMapLoad = useCallback((map) => {
         mapRef.current = map;

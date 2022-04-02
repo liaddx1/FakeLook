@@ -1,9 +1,9 @@
+import { useCallback } from "react";
 import { Button, FormGroup, InputGroup, InputGroupText, Input, Form } from "reactstrap";
 import fontawesome from '@fortawesome/fontawesome';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar, faCircleDot } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from "react-redux";
-import { useCallback } from "react";
 import { applyFilter } from "../../Store/actions/post";
 
 const Options = props => {
@@ -14,18 +14,26 @@ const Options = props => {
     const filterApplyHandler = useCallback((e) => {
         e.preventDefault();
 
-        const { from, until, radius } = e.target.elements;
-        const tempPosts = posts;
+        const { from, until, /*radius*/ } = e.target.elements;
+        const tempPosts = [...posts];
+        console.log(tempPosts);
 
-        // const tempPosts.filter(post => )
+        let fromDate = from.value;
+        let untilDate = until.value;
 
-        dispatch(applyFilter(tempPosts));
-    }, [])
+        if (!fromDate) fromDate = new Date();
+        if (!untilDate) untilDate = new Date() + 20;
+
+        const newList = tempPosts.filter(post => (post.timePosted > fromDate && post.timePosted < untilDate));
+
+        dispatch(applyFilter(newList));
+    }, [dispatch, posts])
+
 
     return (
         <div className="d-grid gap-2 mt-2">
             <h5 className="text-center">Date Range</h5>
-            <div>
+            <div className="col text-center">
                 <Form onSubmit={filterApplyHandler}>
                     <FormGroup>
                         <InputGroup>
@@ -59,7 +67,7 @@ const Options = props => {
                     <Button type="submit" color="primary" >Apply Filters</Button>
                 </Form>
             </div>
-            <Button color="dark" size="lg" onClick={() => props.onChangePage(0)}>Show Map</Button>
+            <Button className="center" color="dark" size="lg" onClick={() => props.onChangePage(0)}>Show Map</Button>
             <Button color="dark" size="lg" onClick={() => props.onChangePage(1)}>Post Feed</Button>
             <Button color="dark" size="lg" onClick={() => props.onChangePage(2)}>Add Post</Button>
         </div>
