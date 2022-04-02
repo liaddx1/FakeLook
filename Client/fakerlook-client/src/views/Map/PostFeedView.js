@@ -12,7 +12,7 @@ const PostFeed = props => {
     return (
         <div>
             <h1 className="text-center">Posts Feed</h1>
-            {!posts.length <= 0 ? renderPosts() : <h2 className="text-center">Loading Posts...</h2>}
+            {!posts.length <= 0 ? renderPosts() : <h2 className="text-center">No Posts To Answer Your Criteria.</h2>}
         </div >
     );
 }
