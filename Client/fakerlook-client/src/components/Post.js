@@ -67,7 +67,7 @@ const Post = props => {
         setErrorMessage(message);
 
         if (value) {
-            await CommentService.createComment(props.postId, user.userId, newComment).then(async (response) => {
+            await CommentService.createComment(props.postId, localStorage.getItem("userId"), newComment).then(async (response) => {
                 if (response.message) {
                     setErrorMessage(message);
                     return;

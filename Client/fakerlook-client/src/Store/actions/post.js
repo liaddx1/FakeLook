@@ -23,3 +23,9 @@ export const updatePost = (postId, liked, counter) => {
         dispatch({ type: UPDATE, postId: postId, liked: liked, counter: counter });
     }
 }
+
+export const applyFilter = (filter) => {
+    return async (dispatch, getState) => {
+        
+    }
+}

@@ -35,7 +35,9 @@ export default function MapView() {
     // const [posts, setPosts] = useState([]);
     const [selected, setSelected] = useState(null);
     const [lastLocationClicked, setLastLocationClicked] = useState(null);
-    const [pages, setPages] = useState(1);
+    const [pages, setPages] = useState(0);
+    const [myLocation, setMyLocation] = useState(null);
+    const [toShowMyLocation, setToShowMyLocation] = useState(false);
 
     //refs
     const mapRef = useRef();
@@ -90,12 +92,33 @@ export default function MapView() {
                     origin: new window.google.maps.Point(0, 0),
                     anchor: new window.google.maps.Point(15, 15)
                 }}
+
                 onClick={() => setSelected(post)}
             />)
     }, [postsData]);
 
+    const loadMyLocation = useCallback(() => {
+        if (myLocation)
+            return (
+                <Marker
+                    key={localStorage.getItem('userId')}
+                    position={{ lat: myLocation.lat, lng: myLocation.long }}
+                    icon={{ url: "https://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png" }}
+                    zIndex={-99}
+                    onClick={() => { setToShowMyLocation(!toShowMyLocation) }}
+                />
+            );
+    }, [myLocation])
+
     const onMapLoad = useCallback((map) => {
         mapRef.current = map;
+
+        navigator.geolocation.getCurrentPosition((position) => {
+            setMyLocation({
+                lat: position.coords.latitude,
+                long: position.coords.longitude
+            })
+        }, () => null);
     }, []);
 
     const logOutHandler = () => {
@@ -107,7 +130,7 @@ export default function MapView() {
 
     const updateLocationHandler = useCallback(({ lat, lng }) => {
         mapRef.current.panTo({ lat, lng });
-        mapRef.current.setZoom(12);
+        mapRef.current.setZoom(15);
     }, []);
 
     //side effects
@@ -144,6 +167,7 @@ export default function MapView() {
                         />)}
 
                     {loadPosts()}
+                    {loadMyLocation()}
 
                     {selected &&
                         (<InfoWindow position={{ lat: selected.lat, lng: selected.long }} onCloseClick={() => { setSelected(null); }}>
@@ -161,6 +185,8 @@ export default function MapView() {
                                     <Button className="text-center" onClick={() => { changePageHandler(2) }}>Post Here</Button>
                                 </Card>}
                         </InfoWindow>)}
+
+                    {toShowMyLocation && <InfoWindow position={{ lat: myLocation.lat, lng: myLocation.long }} onCloseClick={() => { setToShowMyLocation(!toShowMyLocation) }}><h6>My Location</h6></InfoWindow>}
                 </GoogleMap>
             </div>);
     }
@@ -172,7 +198,7 @@ export default function MapView() {
             <MapNavigator updateLocation={updateLocationHandler} onChangePage={changePageHandler} logOut={logOutHandler} />
             <div name="grid-container" className="grid-container">
                 <div>
-                    <Options onChangePage={changePageHandler} />
+                    <Options myLocation={myLocation} onChangePage={changePageHandler} />
                 </div>
                 <div>
                     {pages === 0 && renderMap()}
