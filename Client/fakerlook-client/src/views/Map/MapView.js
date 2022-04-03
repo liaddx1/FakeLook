@@ -31,10 +31,9 @@ export default function MapView() {
 
     //states
     const [markers, setMarkers] = useState([]);
-    // const [posts, setPosts] = useState([]);
     const [selected, setSelected] = useState(null);
     const [lastLocationClicked, setLastLocationClicked] = useState(null);
-    const [pages, setPages] = useState(0);
+    const [pages, setPages] = useState(1);
     const [myLocation, setMyLocation] = useState(null);
     const [toShowMyLocation, setToShowMyLocation] = useState(false);
 

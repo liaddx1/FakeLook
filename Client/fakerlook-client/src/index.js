@@ -8,6 +8,7 @@ import ReduxThunk from 'redux-thunk';
 
 import userReducer from './Store/reducer/user';
 import postReducer from './Store/reducer/post';
+import commentReducer from './Store/reducer/comment';
 
 import "bootstrap/dist/css/bootstrap.css";
 import "./index.css";
@@ -15,6 +16,7 @@ import "./index.css";
 const rootReducer = combineReducers({
   users: userReducer,
   posts: postReducer,
+  comments: commentReducer,
 
 });
 

@@ -2,14 +2,14 @@ import { useCallback } from "react";
 import { Button, FormGroup, InputGroup, InputGroupText, Input, Form } from "reactstrap";
 import fontawesome from '@fortawesome/fontawesome';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendar, faCircleDot } from '@fortawesome/free-solid-svg-icons';
+import { faCalendar, faCircleDot, faTags } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from "react-redux";
 import { applyFilter } from "../../Store/actions/post";
 
 const Options = props => {
     const dispatch = useDispatch();
     const posts = useSelector(state => state.posts.posts);
-    fontawesome.library.add(faCalendar, faCircleDot);
+    fontawesome.library.add(faCalendar, faCircleDot, faTags);
 
     const degreeIntoRadius = (degree) => degree * (Math.PI / 180);
 
@@ -85,6 +85,17 @@ const Options = props => {
                             <Input id="radius" type="number" min="0" max={6371} placeholder="Radius" className="form-control text-center" />
                         </InputGroup>
                     </FormGroup>
+
+                    {/* <FormGroup>
+                        <InputGroup>
+                            <InputGroupText className='col-3'>
+                                <FontAwesomeIcon icon={faTags} />
+                                &nbsp;Tags
+                            </InputGroupText>
+                            <Input id="tags" type="text" placeholder="Tags Seperated By ','" className="form-control text-center" />
+                        </InputGroup>
+                    </FormGroup> */}
+
                     <Button type="submit" color="primary" >Apply Filters</Button>
                 </Form>
             </div>

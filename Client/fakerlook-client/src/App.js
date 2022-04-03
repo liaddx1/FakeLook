@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { fetchUsers } from "./Store/actions/user";
 import { fetchPosts } from "./Store/actions/post";
 import './App.css';
+import { fetchComments } from "./Store/actions/comment";
 
 function App() {
   const [isLoading, setIsLoading] = useState();
@@ -17,6 +18,7 @@ function App() {
   const loadData = useCallback(async () => {
     dispatch(fetchUsers());
     dispatch(fetchPosts());
+    dispatch(fetchComments());
   }, [dispatch]);
 
   useEffect(() => {

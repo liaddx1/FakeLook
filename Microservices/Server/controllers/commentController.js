@@ -6,6 +6,7 @@ class CommentController {
 
     async getAllComments(req, res) {
         try {
+            console.log(req.body, req.params);
             await httpService.get(`${commentRoute}/getAllComments`, req.body).then((response) => {
                 res.status(200).send(response.data);
             })
