@@ -38,6 +38,10 @@ getUserByEmail.mockReturnValue({
   email: "user@example.com",
 });
 
+changePassword.mockReturnValue({rowsAffected: {
+    password: "newpassword"
+}});
+
 SearchUsers.mockReturnValue({
   id: 1,
   name: "user",
@@ -51,7 +55,7 @@ userController = new UserController({
     getUserById,
     getUserByEmail,
     SearchUsers,
-    // changePassword,
+    changePassword,
     // ChangeUserPicture,
     // addUser
   },
@@ -117,19 +121,18 @@ describe("getuserbyemail", () => {
   });
 });
 
-describe("search users", () => {
-  test("should fetch a user from search ", async () => {
+
+describe("change password", () => {
+  test("should hash and change password ", async () => {
       //fails
     let req = mockRequest();
-    req.params.searchparams = "user";
+    req.body = "newpassword";
     let response = mockResponse();
-    await userController.searchUsers(req, response).then((res) => {
+    await userController.changePassword(req, response).then((res) => {
       response = JSON.parse(res);
     });
     expect(response).toMatchObject({
-      id: 1,
-      name: "user",
-      email: "user@example.com",
+        password: "newpassword"
     });
   });
 });
