@@ -9,7 +9,7 @@ const reducer = (state = initialState, action) => {
         case ADD:
             const comments = state.comments;
             comments.push({ ...action.newComment });
-            console.log(comments);
+            // console.log(comments);
             return { ...state, comments: comments };
 
         case FETCH:

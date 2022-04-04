@@ -89,7 +89,7 @@ const Post = props => {
             console.log(response.data.recordset);
             dispatch(addComment(response.data.recordset));
         })
-    }, [props.postId])
+    }, [props.postId, dispatch])
 
     useEffect(() => {
         setLikeStatus(props.postLikes.liked);
@@ -186,20 +186,25 @@ const Post = props => {
                         </div>
 
                         {/* Existing Comments  */}
-                        {/* <Hashicon value={commentItem.userId} size={30} />{" "} */}
-                        {/* {props.commentList.map((commentItem) => (
-                            <div className="border rounded border-info my-3 px-2 pb-2">
+                        {/* TODO 
+                            Add when comment was posted 
+                            Add Likes Funcionalaty to comments
+                        */}
+                        {comments.map((commentItem) => (
+                            <div key={commentItem.commentId} className="shadow-sm rounded-3 border-primary p-3 mt-4">
                                 <div className="d-flex align-items-center my-2">
                                     <div className="me-auto mx-1">
-                                        icon here
+                                        <div className="mx-3">
+                                            <img className="rounded-pill" src={commentItem.picture} height="35px" alt="profile" />
+                                        </div>
                                     </div>
                                     <div className="w-100 mx-1 fw-bold">
-                                        <span>{commentItem.userFullname}</span>
+                                        <span>{`${commentItem.firstName} ${commentItem.lastName}`}</span>
                                     </div>
                                 </div>
-                                <div>{commentItem.content}</div>
+                                <div className='text-center my-2'>{commentItem.commentContent}</div>
                             </div >
-                        ))} */}
+                        ))}
 
                     </div >
                 ) : (
