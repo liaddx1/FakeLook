@@ -7,8 +7,8 @@ import PostLikeService from '../services/PostLikesService';
 import { updatePost } from '../Store/actions/post';
 import CommentService from '../services/CommentService';
 import CommentOutput from '../models/CommentOutputModel';
-import './Post.css';
 import Comment from './Comment';
+import './Post.css';
 
 const Post = props => {
     const [, forceUpdate] = useReducer(x => x + 1, 0);
@@ -23,7 +23,10 @@ const Post = props => {
     const [commentCounter, setCommentCounter] = useState(0);
     const [commentContent, setCommentContent] = useState("");
 
-    const handleCommentButtonClick = () => setCommentStatus(!commentStatus);
+    const handleCommentButtonClick = async () => {
+        await getAllComments();
+        setCommentStatus(!commentStatus);
+    }
 
     const handleLoveButtonClick = useCallback(async () => {
         if (likeStatus) {
@@ -79,6 +82,7 @@ const Post = props => {
                 }
 
                 setCommentContent('');
+                setCommentCounter(previous => { return previous + 1 });
                 setComments([{ ...newComment, commentId: response.recordset[0].postId, commentLikeAmount: 0, liked: false, picture: currentUser.picture, timeCommented: new Date() }, ...comments]);
                 forceUpdate();
             })
@@ -95,8 +99,7 @@ const Post = props => {
         setLikeStatus(props.postLikes.liked);
         setLikesCounter(props.postLikes.postLikeAmount);
         setCommentCounter(props.postCommentAmount);
-        getAllComments();
-    }, [props.postLikes.liked, props.postLikes.postLikeAmount, props.postCommentAmount, getAllComments]);
+    }, [props.postLikes.liked, props.postLikes.postLikeAmount, props.postCommentAmount]);
 
     useEffect(() => {
         setInterval(() => {
@@ -109,7 +112,7 @@ const Post = props => {
             <Card className="border-0">
                 <div className="d-flex align-items-center mb-3">
                     <div className="mx-3">
-                        <img className="rounded-pill" src={user.picture} height="50px" width="50px" alt="profile" />
+                        <img className="rounded-pill" src={user?.picture} height="50px" width="50px" alt="profile" />
                     </div>
                     <div className="d-flex flex-column">
                         <div className="fw-bold">{props.firstName + " " + props.lastName}</div>
@@ -181,6 +184,7 @@ const Post = props => {
                                     variant="success"
                                     className="p-1"
                                     disabled={isDisabled()}
+                                    onClick={sendCommentHandler}
                                 >
                                     <RiSendPlane2Fill className="fs-4" />
                                 </Button>

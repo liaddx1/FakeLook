@@ -33,7 +33,7 @@ export default function MapView() {
     const [markers, setMarkers] = useState([]);
     const [selected, setSelected] = useState(null);
     const [lastLocationClicked, setLastLocationClicked] = useState(null);
-    const [pages, setPages] = useState(1);
+    const [pages, setPages] = useState(0);
     const [myLocation, setMyLocation] = useState(null);
     const [toShowMyLocation, setToShowMyLocation] = useState(false);
 

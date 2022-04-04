@@ -9,9 +9,8 @@ const reducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD:
             const posts = state.posts;
-            posts.push({ ...action.newPost });
+            posts.push({ ...action.newPost, postLikes: { liked: false, postId: action.newPost.postId, postLikeAmount: 0 } });
             return { ...state, posts: posts };
-
         case FETCH:
             if (action.newPosts) {
                 return { ...state, posts: action.newPosts, filteredPosts: action.newPosts };
