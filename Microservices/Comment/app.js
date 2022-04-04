@@ -26,7 +26,7 @@ app.delete('/removeLike', async function (req, res) {
     res.send(await commentController.removeCommentLike(req)).status(200);
 });
 
-app.get('/addLike', async function (req, res) {
+app.post('/addLike', async function (req, res) {
     res.send(await commentController.addCommentLike(req)).status(200);
 });
 

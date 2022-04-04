@@ -25,8 +25,8 @@ class commentService {
     async addCommentLike(req) {
         const pool = await poolPromise;
         const result = await pool.request()
-            .input('userId', sql.Int, req.userId)
-            .input('commentId', sql.Int, req.params.commentId)
+            .input('userId', sql.Int, req.body.userId)
+            .input('commentId', sql.Int, req.body.commentId)
             .execute('addCommentLike')
         return result;
     }
@@ -34,8 +34,8 @@ class commentService {
     async removeCommentLike(req) {
         const pool = await poolPromise;
         const result = await pool.request()
-            .input('userId', sql.Int, req.userId)
-            .input('commentId', sql.Int, req.params.commentId)
+            .input('userId', sql.Int, req.body.userId)
+            .input('commentId', sql.Int, req.body.commentId)
             .execute('removeCommentLike')
         return result;
     }

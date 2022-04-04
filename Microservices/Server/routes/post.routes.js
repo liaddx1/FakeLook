@@ -15,8 +15,8 @@ postRouter.get('/:postId', postController.getPost);
 postRouter.get('/:postId/comments/:userId', commentController.getAllComments);
 postRouter.post('/:postId/comments', commentController.addComment);
 
+postRouter.put('/comments/:commentId/likes', commentController.addCommentLike);
 postRouter.delete('/comments/:commentId/likes', commentController.removeCommentLike);
-postRouter.get('/comments/:commentId/likes', commentController.addCommentLike);
 
 postRouter.get('/:postId/likes', postLikesController.getPostLikes);
 postRouter.put('/:postId/likes', postLikesController.addPostLike);

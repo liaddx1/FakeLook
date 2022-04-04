@@ -31,26 +31,26 @@ class CommentController {
 
     async addCommentLike(req, res) {
         try {
-            await httpService.post(`${commentRoute}/addLike`, req.body).then((response) => {
+            await httpService.post(`${commentRoute}/addLike`, { userId: req.body.userId, ...req.params }).then((response) => {
                 res.status(200).send(response.data);
             })
                 .catch((error) => { console.log(error) })
         }
         catch (error) {
             res.status(500)
-            res.send(error.message) //make it send error.stack in dev
+            res.send(error.message) 
         }
     }
     async removeCommentLike(req, res) {
         try {
-            await httpService.delete(`${commentRoute}/removeLike`, req.body).then((response) => {
+            await httpService.delete(`${commentRoute}/removeLike`, { data: { userId: req.userId, ...req.params } }).then((response) => {
                 res.status(200).send(response.data);
             })
                 .catch((error) => { console.log(error) })
         }
         catch (error) {
             res.status(500)
-            res.send(error.message) //make it send error.stack in dev
+            res.send(error.message)
         }
     }
 }

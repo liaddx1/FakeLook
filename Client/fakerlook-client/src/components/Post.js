@@ -8,6 +8,7 @@ import { updatePost } from '../Store/actions/post';
 import CommentService from '../services/CommentService';
 import CommentOutput from '../models/CommentOutputModel';
 import './Post.css';
+import Comment from './Comment';
 
 const Post = props => {
     const [, forceUpdate] = useReducer(x => x + 1, 0);
@@ -174,36 +175,20 @@ const Post = props => {
                             </Form>
                             <span className="mx-1">{commentContent.length}/100</span>
                             <div className="ms-auto">
-                                    <Button
-                                        type='submit'
-                                        variant="success"
-                                        className="p-1"
-                                        disabled={isDisabled()}
-                                    >
-                                        <RiSendPlane2Fill className="fs-4" />
-                                    </Button>
+                                <Button
+                                    type='submit'
+                                    variant="success"
+                                    className="p-1"
+                                    disabled={isDisabled()}
+                                >
+                                    <RiSendPlane2Fill className="fs-4" />
+                                </Button>
                             </div>
                         </div>
 
                         {/* Existing Comments  */}
-                        {/* TODO 
-                            Add Likes Functionalaty to comments
-                        */}
                         {comments.map((commentItem) => (
-                            <div key={commentItem.commentId} className="shadow-sm rounded-3 border-primary p-3 mt-4">
-                                <div className="d-flex align-items-center my-2">
-                                    <div className="me-auto mx-1">
-                                        <div className="mx-3">
-                                            <img className="rounded-pill" src={commentItem.picture} height="40px" width="40" alt="profile" />
-                                        </div>
-                                    </div>
-                                    <div className="w-100 mx-1 fw-bold">
-                                        <span>{`${commentItem.firstName} ${commentItem.lastName}`}</span>
-                                        <div className="text-secondary">{formatRelative(new Date(commentItem.timeCommented), new Date())}</div>
-                                    </div>
-                                </div>
-                                <div className='text-center my-2'>{commentItem.commentContent}</div>
-                            </div >
+                            <Comment key={commentItem.commentId} {...commentItem} />
                         ))}
 
                     </div >

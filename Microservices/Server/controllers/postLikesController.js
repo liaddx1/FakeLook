@@ -27,7 +27,6 @@ class PostLikesController {
         }
     } async removePostLike(req, res) {
         try {
-            console.log({ userId: req.userId, ...req.params });
             await httpService.delete(`${postRoute}/deletePostLike`, { data: { userId: req.userId, ...req.params } }).then((response) => {
                 res.status(200).send(response.data);
             })

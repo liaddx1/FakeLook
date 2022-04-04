@@ -25,9 +25,7 @@ class CommentController {
 
     async addCommentLike(req, res) {
         try {
-            const result = await this.commentService.addCommentLike(req);
-            return JSON.stringify(result);
-            // console.log(res);
+            return JSON.stringify(await this.commentService.addCommentLike(req));
         }
         catch (error) {
             console.log(`There Was a Problem adding comment like. error: ${error.message}`);
@@ -36,9 +34,7 @@ class CommentController {
     }
     async removeCommentLike(req, res) {
         try {
-            const result = await this.commentService.removeCommentLike(req);
-            return JSON.stringify(result);
-            // console.log(res);
+            return JSON.stringify(await this.commentService.removeCommentLike(req));
         }
         catch (error) {
             console.log(`There Was a Problem removing comment like. error: ${error.message}`);
