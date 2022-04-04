@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import { Button, Card, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { RiHeartFill, RiHeartLine, RiMessage2Fill, RiSendPlane2Fill, } from "react-icons/ri";
@@ -7,10 +7,10 @@ import PostLikeService from '../services/PostLikesService';
 import { updatePost } from '../Store/actions/post';
 import CommentService from '../services/CommentService';
 import CommentOutput from '../models/CommentOutputModel';
-import { addComment } from '../Store/actions/comment';
-import './Post.css'
+import './Post.css';
 
 const Post = props => {
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
     const user = useSelector(state => state.users.users).find(u => u.userId === props.userId);
     const dispatch = useDispatch();
     const [comments, setComments] = useState([]);
@@ -60,7 +60,8 @@ const Post = props => {
         setCommentContent(e.target.value);
     }, []);
 
-    const sendCommentHandler = async () => {
+    const sendCommentHandler = async (e) => {
+        e.preventDefault();
 
         const newComment = new CommentOutput(commentContent, user.firstName, user.lastName, user.userId, props.postId);
 
@@ -75,10 +76,9 @@ const Post = props => {
                     return;
                 }
 
-                console.log(response.recordset[0]);
-
                 setCommentContent('');
-                // dispatch(addComment(response[0]));
+                setComments([{ ...newComment, commentId: response.recordset[0].postId, commentLikeAmound: 0, liked: false, picture: user.picture, timeCommented: new Date() }, ...comments]);
+                forceUpdate();
             })
         }
     }
@@ -86,10 +86,8 @@ const Post = props => {
     const getAllComments = useCallback(async () => {
         await CommentService.getComments(props.postId, localStorage.getItem('userId')).then((response) => {
             setComments(response.data.recordset);
-            console.log(response.data.recordset);
-            dispatch(addComment(response.data.recordset));
         })
-    }, [props.postId, dispatch])
+    }, [props.postId])
 
     useEffect(() => {
         setLikeStatus(props.postLikes.liked);
@@ -99,7 +97,9 @@ const Post = props => {
     }, [props.postLikes.liked, props.postLikes.postLikeAmount, props.postCommentAmount, getAllComments]);
 
     useEffect(() => {
-        setTimeout(() => { setErrorMessage(''); }, 5000);
+        setInterval(() => {
+            setErrorMessage('');
+        }, 15000);
     }, [setErrorMessage]);
 
     return (
@@ -107,7 +107,7 @@ const Post = props => {
             <Card className="border-0">
                 <div className="d-flex align-items-center mb-3">
                     <div className="mx-3">
-                        <img className="rounded-pill" src={user.picture} height="50px" alt="profile" />
+                        <img className="rounded-pill" src={user.picture} height="50px" width="50px" alt="profile" />
                     </div>
                     <div className="d-flex flex-column">
                         <div className="fw-bold">{props.firstName + " " + props.lastName}</div>
@@ -161,7 +161,7 @@ const Post = props => {
                 {commentStatus ? (
                     <div className="mt-3">
                         <div className="d-flex align-items-center">
-                            <Form className="w-100 mx-1">
+                            <Form className="w-100 mx-1" onSubmit={sendCommentHandler}>
                                 <Form.Group>
                                     <Form.Control
                                         type="text"
@@ -174,32 +174,32 @@ const Post = props => {
                             </Form>
                             <span className="mx-1">{commentContent.length}/100</span>
                             <div className="ms-auto">
-                                <Button
-                                    variant="success"
-                                    className="p-1"
-                                    disabled={isDisabled()}
-                                    onClick={sendCommentHandler}
-                                >
-                                    <RiSendPlane2Fill className="fs-4" />
-                                </Button>
+                                    <Button
+                                        type='submit'
+                                        variant="success"
+                                        className="p-1"
+                                        disabled={isDisabled()}
+                                    >
+                                        <RiSendPlane2Fill className="fs-4" />
+                                    </Button>
                             </div>
                         </div>
 
                         {/* Existing Comments  */}
                         {/* TODO 
-                            Add when comment was posted 
-                            Add Likes Funcionalaty to comments
+                            Add Likes Functionalaty to comments
                         */}
                         {comments.map((commentItem) => (
                             <div key={commentItem.commentId} className="shadow-sm rounded-3 border-primary p-3 mt-4">
                                 <div className="d-flex align-items-center my-2">
                                     <div className="me-auto mx-1">
                                         <div className="mx-3">
-                                            <img className="rounded-pill" src={commentItem.picture} height="35px" alt="profile" />
+                                            <img className="rounded-pill" src={commentItem.picture} height="40px" width="40" alt="profile" />
                                         </div>
                                     </div>
                                     <div className="w-100 mx-1 fw-bold">
                                         <span>{`${commentItem.firstName} ${commentItem.lastName}`}</span>
+                                        <div className="text-secondary">{formatRelative(new Date(commentItem.timeCommented), new Date())}</div>
                                     </div>
                                 </div>
                                 <div className='text-center my-2'>{commentItem.commentContent}</div>

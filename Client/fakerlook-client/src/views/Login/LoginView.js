@@ -60,8 +60,8 @@ const LogInView = (props) => {
           localStorage.setItem('userId', response.data.userId);
           await UserService.getUserById(response.data.userId).then((response) => {
             localStorage.setItem('name', `${response.data.firstName} ${response.data.lastName}`);
-            dispatch(fetchPosts()); 
             dispatch(setUser(response.data));
+            dispatch(fetchPosts());
             navigate('/map');
           });
         }
