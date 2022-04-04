@@ -20,7 +20,7 @@ const Search = (props) => {
                 const { lat, lng } = await getLatLng(results[0]);
                 props.updateLocation({ lat, lng });
             } catch (error) {
-                console.log('Error!');
+                console.log(`Error: ${error}`);
             }
         }}>
             <ComboboxInput

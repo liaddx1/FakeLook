@@ -13,6 +13,7 @@ import Comment from './Comment';
 const Post = props => {
     const [, forceUpdate] = useReducer(x => x + 1, 0);
     const user = useSelector(state => state.users.users).find(u => u.userId === props.userId);
+    const currentUser = useSelector(state => state.users.users).find(u => u.userId.toString() === localStorage.getItem("userId"));
     const dispatch = useDispatch();
     const [comments, setComments] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
@@ -64,7 +65,7 @@ const Post = props => {
     const sendCommentHandler = async (e) => {
         e.preventDefault();
 
-        const newComment = new CommentOutput(commentContent, user.firstName, user.lastName, user.userId, props.postId);
+        const newComment = new CommentOutput(commentContent, currentUser.firstName, currentUser.lastName, currentUser.userId, props.postId);
 
         const [value, message] = newComment.validate();
 
@@ -78,7 +79,7 @@ const Post = props => {
                 }
 
                 setCommentContent('');
-                setComments([{ ...newComment, commentId: response.recordset[0].postId, commentLikeAmound: 0, liked: false, picture: user.picture, timeCommented: new Date() }, ...comments]);
+                setComments([{ ...newComment, commentId: response.recordset[0].postId, commentLikeAmount: 0, liked: false, picture: currentUser.picture, timeCommented: new Date() }, ...comments]);
                 forceUpdate();
             })
         }

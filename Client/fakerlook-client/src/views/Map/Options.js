@@ -32,7 +32,6 @@ const Options = props => {
 
         const { from, until, radius } = e.target.elements;
         const tempPosts = [...posts];
-        console.log(tempPosts);
 
         let fromDate = new Date(from.value.toString());
         let untilDate = new Date(until.value.toString());

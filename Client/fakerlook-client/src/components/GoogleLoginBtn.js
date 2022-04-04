@@ -6,7 +6,6 @@ const GoogleLoginBtn = props => {
     const navigate = useNavigate();
 
     const responseGoogle = (response) => {
-        console.log(response);
         if (response.tokenObj.id_token) {
             // const pic = response.profileObj.imageUrl;
             // const email = response.profileObj.email;

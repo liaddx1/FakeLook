@@ -22,7 +22,6 @@ const Comment = props => {
         }
 
         await CommentService.addLike(props.commentId, localStorage.getItem("userId")).then((response) => {
-            console.log(response);
             if (response.message) {
                 setErrorMessage(response.message);
                 return;

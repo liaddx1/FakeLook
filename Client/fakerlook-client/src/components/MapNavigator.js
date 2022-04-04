@@ -21,7 +21,7 @@ const MapNavigator = props => {
     if (token) {
       let decodedToken = jwtDecode(token);
       if (decodedToken) {
-        // console.log(decodedToken.exp * 1000, "<", currentDate.getTime());
+        //// console.log(decodedToken.exp * 1000, "<", currentDate.getTime());
         if (decodedToken.exp * 1000 < currentDate.getTime()) {
           localStorage.clear();
           navigate('/login');

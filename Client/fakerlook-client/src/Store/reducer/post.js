@@ -10,7 +10,6 @@ const reducer = (state = initialState, action) => {
         case ADD:
             const posts = state.posts;
             posts.push({ ...action.newPost });
-            console.log(posts);
             return { ...state, posts: posts };
 
         case FETCH:
