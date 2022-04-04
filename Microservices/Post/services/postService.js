@@ -13,7 +13,7 @@ class PostService {
     async addPost(req) {
         const pool = await poolPromise;
         const result = await pool.request()
-            .input('userId', sql.Int, req.body.userId)
+            .input('userId', sql.Int, req.userId)
             .input('latGPS', sql.Float, req.body.latGPS)
             .input('longGPS', sql.Float, req.body.longGPS)
             .input('picture', sql.VarChar(sql.MAX), req.body.picture)

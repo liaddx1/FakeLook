@@ -28,6 +28,7 @@ export default function MapView() {
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
         libraries,
     })
+    const navigate = useNavigate();
 
     //states
     const [markers, setMarkers] = useState([]);
@@ -43,11 +44,10 @@ export default function MapView() {
     //handlers
 
     const onMapClick = useCallback((event) => {
-        setLastLocationClicked({ lat: event.latLng.lat(), lng: event.latLng.lng() });
-        setMarkers([{
+        setMarkers(current => [...current, {
             lat: event.latLng.lat(),
-            long: event.latLng.lng(),
-            timePosted: new Date()
+            lng: event.latLng.lng(),
+            time: new Date()
         }]);
     }, []);
 
@@ -114,15 +114,15 @@ export default function MapView() {
                     scrollWheelZoom={true}
                     onClick={onMapClick}
                     onLoad={onMapLoad}
+                    className="fixed-left"
                 >
                     {markers.map(marker =>
                         <Marker
                             key={Math.random().toString()}
-                            position={{ lat: marker.lat, lng: marker.long }}
-                            icon={{
-                                url: marker.picture ? marker.picture : 'https://www.google.com/intl/en_us/mapfiles/ms/micons/red-dot.png',
+                            position={{ lat: marker.lat, lng: marker.lng }}
+                            onClick={() => {
+                                setSelected(marker);
                             }}
-                            onClick={() => { setSelected(marker); setLastLocationClicked(marker); }}
                         />)}
 
                     {loadPosts()}
@@ -162,7 +162,7 @@ export default function MapView() {
                 <div>
                     {pages === 0 && renderMap()}
                     {pages === 1 && <PostFeed />}
-                    {pages === 2 && <AddPost location={lastLocationClicked} onChangePage={changePageHandler} />}
+                    {pages === 2 && <AddPost onChangePage={changePageHandler} />}
                 </div>
             </div>
         </div>

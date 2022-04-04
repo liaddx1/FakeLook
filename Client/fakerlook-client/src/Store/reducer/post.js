@@ -8,10 +8,9 @@ const reducer = (state = initialState, action) => {
 
     switch (action.type) {
         case ADD:
-            const posts = state.posts;
-            posts.push({ ...action.newPost });
-            console.log(posts);
-            return { ...state, posts: posts };
+            const users = state.users;
+            users.push({ ...action.newUser, addedAt: new Date().toDateString() });
+            return { ...state, users: users };
 
         case FETCH:
             if (action.newPosts) {

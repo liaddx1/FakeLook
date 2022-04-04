@@ -9,6 +9,7 @@ import CommentService from '../services/CommentService';
 import CommentOutput from '../models/CommentOutputModel';
 import { addComment } from '../Store/actions/comment';
 import './Post.css'
+import { updatePost } from '../Store/actions/post';
 
 const Post = props => {
     const user = useSelector(state => state.users.users).find(u => u.userId === props.userId);
@@ -43,6 +44,7 @@ const Post = props => {
                 setErrorMessage(response.message);
                 return;
             }
+            dispatch(updatePost());
             setLikeStatus(!likeStatus);
             setLikesCounter(previous => { return previous + 1 });
         });
@@ -209,6 +211,5 @@ const Post = props => {
         </div >
     );
 }
-
 
 export default Post;

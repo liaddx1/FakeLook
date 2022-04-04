@@ -12,8 +12,7 @@ module.exports = {
         POST_LIKES_PORT: 8084,
         USER_PORT: 8085,
         BASE_URL: 'http://localhost',
-        SqlConnectionString: 'server=(localdb)\\MSSQLLocalDB;Database=FakeLook;Trusted_Connection=Yes;',
-      },
+        SqlConnectionString: 'server=DESKTOP-7DMF7GM;Database=FakeLook;Trusted_Connection=Yes;',      },
     },
     {
       name: 'Auth',
@@ -21,8 +20,7 @@ module.exports = {
       env: {
         KEY: 'eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkFkbWluIiwiZXhwIjoxNzEwNjA3OTk0LCJpYXQiOjE2NDc0NDk1OTR9.4eUrDVvl9IfgAqXVOO_LCz399exb5A7Dw6Sd2KcZIAA',
         AUTH_PORT: 8081,
-        SqlConnectionString: 'server=(localdb)\\MSSQLLocalDB;Database=FakeLook;Trusted_Connection=Yes;',
-      },
+        SqlConnectionString: 'server=DESKTOP-7DMF7GM;Database=FakeLook;Trusted_Connection=Yes;',      },
     },
     {
       name: 'Comment',
@@ -30,8 +28,7 @@ module.exports = {
       env: {
         KEY: 'eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkFkbWluIiwiZXhwIjoxNzEwNjA3OTk0LCJpYXQiOjE2NDc0NDk1OTR9.4eUrDVvl9IfgAqXVOO_LCz399exb5A7Dw6Sd2KcZIAA',
         COMMENT_PORT: 8082,
-        SqlConnectionString: 'server=(localdb)\\MSSQLLocalDB;Database=FakeLook;Trusted_Connection=Yes;',
-      },
+        SqlConnectionString: 'server=DESKTOP-7DMF7GM;Database=FakeLook;Trusted_Connection=Yes;',      },
     },
     {
       name: 'Post',
@@ -39,8 +36,7 @@ module.exports = {
       env: {
         KEY: 'eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkFkbWluIiwiZXhwIjoxNzEwNjA3OTk0LCJpYXQiOjE2NDc0NDk1OTR9.4eUrDVvl9IfgAqXVOO_LCz399exb5A7Dw6Sd2KcZIAA',
         POST_PORT: 8083,
-        SqlConnectionString: 'server=(localdb)\\MSSQLLocalDB;Database=FakeLook;Trusted_Connection=Yes;',
-      },
+        SqlConnectionString: 'server=DESKTOP-7DMF7GM;Database=FakeLook;Trusted_Connection=Yes;',      },
     },
     {
       name: 'PostLikes',
@@ -48,8 +44,7 @@ module.exports = {
       env: {
         KEY: 'eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkFkbWluIiwiZXhwIjoxNzEwNjA3OTk0LCJpYXQiOjE2NDc0NDk1OTR9.4eUrDVvl9IfgAqXVOO_LCz399exb5A7Dw6Sd2KcZIAA',
         POST_LIKES_PORT: 8084,
-        SqlConnectionString: 'server=(localdb)\\MSSQLLocalDB;Database=FakeLook;Trusted_Connection=Yes;',
-      },
+        SqlConnectionString: 'server=DESKTOP-7DMF7GM;Database=FakeLook;Trusted_Connection=Yes;',      },
     },
     {
       name: 'User',
@@ -57,7 +52,7 @@ module.exports = {
       env: {
         KEY: 'eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkFkbWluIiwiZXhwIjoxNzEwNjA3OTk0LCJpYXQiOjE2NDc0NDk1OTR9.4eUrDVvl9IfgAqXVOO_LCz399exb5A7Dw6Sd2KcZIAA',
         USER_PORT: 8085,
-        SqlConnectionString: 'server=(localdb)\\MSSQLLocalDB;Database=FakeLook;Trusted_Connection=Yes;',
+        SqlConnectionString: 'server=DESKTOP-7DMF7GM;Database=FakeLook;Trusted_Connection=Yes;',
       },
     },
   ],
