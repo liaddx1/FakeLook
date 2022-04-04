@@ -14,21 +14,21 @@ app.use(bodyParser.json({ limit: '10mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
 
-app.get('/getAllComments', async function(req, res) {
+app.get('/getAllComments/:postId/:userId', async function (req, res) {
     res.send(await commentController.getAllComments(req)).status(200);
- });
+});
 
-app.post('/addComment/:postId', async function(req, res) {
+app.post('/addComment/:postId', async function (req, res) {
     res.send(await commentController.addComment(req)).status(200);
- });
+});
 
-app.delete('/removeLike', async function(req, res) {
+app.delete('/removeLike', async function (req, res) {
     res.send(await commentController.removeCommentLike(req)).status(200);
- });
+});
 
-app.get('/addLike', async function(req, res) {
+app.get('/addLike', async function (req, res) {
     res.send(await commentController.addCommentLike(req)).status(200);
- });
+});
 
 
 module.exports = app;

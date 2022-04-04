@@ -12,9 +12,9 @@ export const addComment = (newComment) => {
 
 export const fetchComments = () => {
     return async (dispatch, getState) => {
-        const comments = await CommentService.getComments();
-        console.log('all comments >', comments);
-        dispatch({ type: FETCH, newComments: comments });
+        // const comments = await CommentService.getComments()
+        // console.log('all comments >', comments);
+        // dispatch({ type: FETCH, newComments: comments });
     }
 }
 

@@ -6,7 +6,7 @@ const serverCommentLikeRoute = `${baseUrl}/posts/comments`; //commentId, /likes
 
 const CommentService = {
   async getComments(postId, userId) {
-    return await axios.get(`${serverCommentRoute}/${postId}/comments`,
+    return await axios.get(`${serverCommentRoute}/${postId}/comments/${userId}`,
       { headers: { 'authToken': `${localStorage.getItem('authToken')}` } });
   },
 

@@ -6,15 +6,14 @@ class CommentController {
 
     async getAllComments(req, res) {
         try {
-            console.log(req.body, req.params);
-            await httpService.get(`${commentRoute}/getAllComments`, req.body).then((response) => {
+            await axios.get(`${commentRoute}/getAllComments/${req.params.postId}/${req.params.userId}`).then((response) => {
                 res.status(200).send(response.data);
             })
                 .catch((error) => { console.log(error) })
         }
         catch (error) {
             res.status(500)
-            res.send(error.message) //make it send error.stack in dev
+            res.send(error.message)
         }
     }
     async addComment(req, res) {

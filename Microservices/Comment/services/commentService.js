@@ -4,7 +4,7 @@ class commentService {
     async getAllComments(req) {
         const pool = await poolPromise;
         const result = await pool.request()
-            .input('userId', sql.Int, req.userId)
+            // .input('userId', sql.Int, req.userId)
             .input('postId', sql.Int, req.params.postId)
             .input('userId', sql.Int, req.params.userId)
             .execute('allComments')

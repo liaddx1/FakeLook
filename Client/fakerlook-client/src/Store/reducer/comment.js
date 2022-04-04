@@ -14,7 +14,9 @@ const reducer = (state = initialState, action) => {
 
         case FETCH:
             if (action.newComments) {
-                return { ...state, comments: action.newComments, filteredComments: action.newComments };
+                const comments = state.comments;
+                comments.push({ ...action.newComment })
+                return { ...state, comments: action.newComments };
             }
             return state;
 

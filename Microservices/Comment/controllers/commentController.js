@@ -4,8 +4,9 @@ class CommentController {
     }
     async getAllComments(req, res) {
         try {
+            console.log(`Getting All Comments For Post No. ${req.params.postId}`);
             const result = await this.commentService.getAllComments(req);
-            return JSON.stringify(result.recordset);
+            return JSON.stringify(result);
         }
         catch (error) {
             console.log(`There Was a Problem getting comments. error: ${error.message}`);

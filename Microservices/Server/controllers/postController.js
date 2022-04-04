@@ -1,10 +1,10 @@
 const httpService = require('../Services/httpService')
 const postRoute = `${process.env.BASE_URL}:${process.env.POST_PORT}`;
+const axios = require('axios');
 class PostController {
     async getAllPosts(req, res) {
         try {
-            console.log("suppost to be userId >",req.params);
-            await httpService.get(`${postRoute}/getAllPosts/${req.params.userId}`).then((response) => {
+            await axios.get(`${postRoute}/getAllPosts/${req.params.userId}`).then((response) => {
                 res.status(200).send(response.data);
             })
                 .catch((error) => { console.log(error) })

@@ -6,12 +6,14 @@ import { formatRelative } from "date-fns";
 import PostLikeService from '../services/PostLikesService';
 import { updatePost } from '../Store/actions/post';
 import CommentService from '../services/CommentService';
-import './Post.css'
 import CommentOutput from '../models/CommentOutputModel';
+import { addComment } from '../Store/actions/comment';
+import './Post.css'
 
 const Post = props => {
     const user = useSelector(state => state.users.users).find(u => u.userId === props.userId);
     const dispatch = useDispatch();
+    const [comments, setComments] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
     const [likeStatus, setLikeStatus] = useState(false);
     const [likesCounter, setLikesCounter] = useState(0);
@@ -76,20 +78,29 @@ const Post = props => {
                 console.log(response.recordset[0]);
 
                 setCommentContent('');
-                // dispatch(addPost(response[0]));
+                // dispatch(addComment(response[0]));
             })
         }
     }
+
+    const getAllComments = useCallback(async () => {
+        await CommentService.getComments(props.postId, localStorage.getItem('userId')).then((response) => {
+            setComments(response.data.recordset);
+            console.log(response.data.recordset);
+            dispatch(addComment(response.data.recordset));
+        })
+    }, [props.postId])
 
     useEffect(() => {
         setLikeStatus(props.postLikes.liked);
         setLikesCounter(props.postLikes.postLikeAmount);
         setCommentCounter(props.postCommentAmount);
-    }, [props.postLikes.liked, props.postLikes.postLikeAmount, props.postCommentAmount])
+        getAllComments();
+    }, [props.postLikes.liked, props.postLikes.postLikeAmount, props.postCommentAmount, getAllComments]);
 
     useEffect(() => {
         setTimeout(() => { setErrorMessage(''); }, 5000);
-    }, [setErrorMessage])
+    }, [setErrorMessage]);
 
     return (
         <div key={props.postId} className="shadow rounded-3 border-primary p-3 mt-4" >
