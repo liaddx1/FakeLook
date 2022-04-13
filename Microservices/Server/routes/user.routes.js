@@ -23,8 +23,77 @@ userRouter.use(authMiddleware);
 *                           $ref: '#/components/schemas/User'
 */
 userRouter.get('/all', userController.getAllUsers);
+
+/**
+ * @swagger
+ * /api/users/{userId}:
+ *  get:
+ *      summary: get a spesific user by userId
+ *      tags: [Users]
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *              type: string
+ *          required: true
+ *          description: The user id
+ *      responses:
+ *          200:
+ *              description: The user description by id
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/User'
+ *          400:
+ *              description: The user was not found
+ */
 userRouter.get('/:userId', userController.getUserById);
+
+/**
+ * @swagger
+ * /api/users/{searchParams}:
+ *  get:
+ *      summary: get a list of users by params
+ *      tags: [Users]
+ *      parameters:
+ *        - in: path
+ *          name: params
+ *          schema:
+ *              type: string
+ *          required: true
+ *          description: Params
+ *      responses:
+ *          200:
+ *              description: Array of users that match the params
+ *              contens:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/User'
+ *          400:
+ *              description: No users was found
+ */
 userRouter.get('/:searchParams', userController.searchUsers);
+
+
+/**
+ * @swagger
+ * /api/users/changePic
+ *  post:
+ *      summary: Changes user's profile picture
+ *      tags: [Users]
+ *      requestBody:
+ *          required: true
+ *          name: base64 picture
+ *          content:
+ *              text/plain:
+ *                  schema:
+ *                      type: string
+ *      responses:
+ *          200:
+ *              description: The picture was succssfully changed
+ *          500:
+ *              description: Some Server Error
+ */
 userRouter.post('/changePic', userController.changeUserPicture);
 
 module.exports = userRouter;
