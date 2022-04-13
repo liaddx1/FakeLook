@@ -6,8 +6,6 @@ const app = express();
 const { container } = require('./app-container')
 const commentController = container.resolve('commentController');
 
-
-
 app.use(cookieParser());
 app.use(cors());
 app.use(bodyParser.json({ limit: '10mb', extended: true }));

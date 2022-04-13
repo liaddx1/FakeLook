@@ -3,6 +3,7 @@ module.exports = {
     {
       name: 'Server',
       script: './Server/index.js',
+      watch: true,
       env: {
         KEY: 'eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkFkbWluIiwiZXhwIjoxNzEwNjA3OTk0LCJpYXQiOjE2NDc0NDk1OTR9.4eUrDVvl9IfgAqXVOO_LCz399exb5A7Dw6Sd2KcZIAA',
         SERVER_PORT: 8080,

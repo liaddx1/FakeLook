@@ -6,14 +6,10 @@ const app = express();
 const { container } = require('./app-container');
 const postLikesController = container.resolve('postLikesController');
 
-
-
 app.use(cookieParser());
 app.use(cors());
 app.use(bodyParser.json({ limit: '10mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
-
-
 
 app.get('/getPostLikes', async function(req, res) {
     res.send(await postLikesController.getPostLikes(req)).status(200);

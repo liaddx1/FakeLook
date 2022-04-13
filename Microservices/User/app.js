@@ -6,12 +6,10 @@ const app = express();
 const { container } = require('./app-container');
 const userController = container.resolve('userController');
 
-
 app.use(cookieParser());
 app.use(cors());
 app.use(bodyParser.json({ limit: '10mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
-
 
 
 app.get('/all', async function(req, res) {

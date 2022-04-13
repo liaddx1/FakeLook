@@ -27,7 +27,4 @@ app.get('/getPost/:postId', async function(req, res) {
     res.send(await postController.getPost(req)).status(200);
  });
 
-
-
-
 module.exports = app;
