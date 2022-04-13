@@ -62,10 +62,10 @@ useEffect(() => {
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="#" disabled><span className="link-primary">{localStorage.getItem('name')}</span></Nav.Link>
             <NavDropdown title="Options" id="navbarScrollingDropdown">
-              <NavDropdown.Item href="#action3">Update Profile Picture</NavDropdown.Item>
-              <NavDropdown.Item href="#action4">Change Password</NavDropdown.Item>
+              <NavDropdown.Item className='text-center' href="#action3">Update Profile Picture</NavDropdown.Item>
+              <NavDropdown.Item className='text-center' href="#action4">Change Password</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item onClick={() => props.logOut()}>
+              <NavDropdown.Item className='text-center' onClick={() => props.logOut()}>
                 Log Out
               </NavDropdown.Item>
             </NavDropdown>
