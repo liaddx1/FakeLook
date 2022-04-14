@@ -10,8 +10,9 @@ import User from "../../models/UserModel";
 import Navigator from "../../components/Navigator";
 import FacebookLoginBtn from "../../components/FacebookLoginBtn";
 import GoogleLoginBtn from "../../components/GoogleLoginBtn";
-import './RegisterView.css';
 import { addUser } from "../../Store/actions/user";
+import './RegisterView.css';
+
 
 const RegisterView = props => {
     const dispatch = useDispatch();
@@ -44,6 +45,7 @@ const RegisterView = props => {
         }
 
         const pic = await getBase64(picture.files[0]);
+        console.log(pic);
 
         const newUser = new User(firstName.value, lastName.value, email.value, address.value, birthDate.value, job.value, password.value, pic);
 
@@ -83,7 +85,7 @@ const RegisterView = props => {
         <div>
             <Navigator />
 
-            <Form className="register-form" onSubmit={handleSubmit}>
+            <Form className="register-form" encType="multipart/form-data" onSubmit={handleSubmit}>
                 <h2 className='card-title mt-3 text-center'>Create Account</h2>
                 <p className="text-center">Get Started With FakeLook Today!</p>
 

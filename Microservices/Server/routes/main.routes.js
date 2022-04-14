@@ -146,7 +146,7 @@ const mainRouter = express.Router();
  *                  description: Password
  * 
  *  securitySchemes:
- *      authToken:
+ *      authorization:
  *          type: http
  *          scheme: bearer
  *          bearerFormat: JWT

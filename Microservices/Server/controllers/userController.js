@@ -4,8 +4,10 @@ const userRoute = `${process.env.BASE_URL}:${process.env.USER_PORT}`;
 class UserController {
     async getAllUsers(req, res) {
         try {
+            console.log('in getting all users');
             await httpService.get(`${userRoute}/all`).then((response) => {
                 res.status(200).send(response.data);
+                console.log(response.data);
             })
                 .catch((error) => { console.log(error) })
         }
