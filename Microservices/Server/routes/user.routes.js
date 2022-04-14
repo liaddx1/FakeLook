@@ -4,7 +4,7 @@ const authMiddleware = require('../middlewares/auth-user');
 const userController = container.resolve('userController');
 
 userRouter.use(authMiddleware);
-//routs:
+
 /**
 * @swagger
 * /api/users/all:
@@ -68,7 +68,9 @@ userRouter.get('/:userId', userController.getUserById);
  *              contens:
  *                  application/json:
  *                      schema:
- *                          $ref: '#/components/schemas/User'
+ *                          type: array
+ *                          items:
+ *                              $ref: '#/components/schemas/User'
  *          400:
  *              description: No users was found
  */
@@ -77,23 +79,31 @@ userRouter.get('/:searchParams', userController.searchUsers);
 
 /**
  * @swagger
- * /api/users/changePic
- *  post:
+ * /api/users/changePic:
+ *  put:
  *      summary: Changes user's profile picture
  *      tags: [Users]
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *              type: string
+ *          required: true;
+ *          description: The user id
  *      requestBody:
  *          required: true
- *          name: base64 picture
  *          content:
- *              text/plain:
+ *              application/json:
  *                  schema:
- *                      type: string
+ *                      $ref: '#/components/schemas/User'
  *      responses:
  *          200:
  *              description: The picture was succssfully changed
+ *          404:
+ *              description: The user was not found
  *          500:
  *              description: Some Server Error
  */
-userRouter.post('/changePic', userController.changeUserPicture);
+userRouter.put('/changePic', userController.changeUserPicture);
 
 module.exports = userRouter;

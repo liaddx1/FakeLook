@@ -58,8 +58,108 @@ const mainRouter = express.Router();
  *              address: Bet Shemesh
  *              job: Programmer
  *              picture: g56dsf4g5sd4g5sd4g35sd4gs354g3s5
- *              email: liadd109@gmail.com 
+ *              email: liadd109@gmail.com
+ * 
+ *      Post:
+ *          type: object
+ *          required:
+ *              - userId
+ *              - latGPS
+ *              - longGPS
+ *              - picture
+ *              - description
+ *          properties:
+ *              userId:
+ *                  type: number
+ *                  description: The auto-generated id from the db
+ *              latGPS:
+ *                  type: string
+ *                  description: The post lattitude data
+ *              longGPS:
+ *                  type: string
+ *                  description: The post longtitude data
+ *              picture:
+ *                  type: string
+ *                  description: The posted picture in base64 format
+ *              description:
+ *                  type: string
+ *                  description: The post description
+ *          example:
+ *              userId: 2375
+ *              latGPS: 37.41512
+ *              longGPS: 42.48244
+ *              picture: 4dgdg4sdf65g4fsdgfds2g4sd5
+ *              description: post description goes right here, yay
+ * 
+ *      Auth:
+ *          type: object
+ *          required:
+ *              - auth
+ *              - userId
+ *              - authToken
+ *              - user
+ *          properties:
+ *              auth:
+ *                  type: bool
+ *                  description: Is authorized to login
+ *              userId:
+ *                  type: number
+ *                  description: Logined userId
+ *              authToken:
+ *                  type: string
+ *                  description: Logined user authToken
+ *              user:
+ *                  type:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/components/schemas/User'
+ *                  description: User
+ *      
+ *      Comment:
+ *          type: object
+ *          required:
+ *              - postId
+ *              - userId
+ *              - commentContent
+ *          properties:
+ *              postId:
+ *                  type: number
+ *                  description: Post id
+ *              userId:
+ *                  type: number
+ *                  description: User id
+ *              commentContent:
+ *                  type: string
+ *                  description: comment content
+ *      
+ *      Login:
+ *          type: object
+ *          required:
+ *              - email
+ *              - password
+ *          properties:
+ *              email:
+ *                  type: string
+ *                  description: Email
+ *              password:
+ *                  type: string
+ *                  description: Password
+ * 
+ *  securitySchemes:
+ *      authToken:
+ *          type: http
+ *          scheme: bearer
+ *          bearerFormat: JWT
  */
+
+
+/**
+ * @swagger
+ * tags:
+ *  name: Auth
+ *  description: The auth managing API
+ */
+mainRouter.use('/api/auth', authRouter);
 
 /**
  * @swagger
@@ -67,11 +167,24 @@ const mainRouter = express.Router();
  *  name: Users
  *  description: The users managing API
  */
-
-mainRouter.use('/api/posts', postRouter);
-mainRouter.use('/api/noAuthPosts', noAuthpostRouter);
 mainRouter.use('/api/users', userRouter);
+
+/**
+ * @swagger
+ * tags:
+ *  name: Posts
+ *  description: The posts managing API
+ */
+
+/**
+ * @swagger
+ * tags:
+ *  name: Comments
+ *  description: The comments managing API
+ */
+mainRouter.use('/api/posts', postRouter);
+
+mainRouter.use('/api/noAuthPosts', noAuthpostRouter);
 mainRouter.use('/api/noAuthUser', noAuthUserRouter);
-mainRouter.use('/api/auth', authRouter);
 
 module.exports = mainRouter;
