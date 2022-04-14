@@ -132,13 +132,158 @@ postRouter.get('/:postId', postController.getPost);
 *           description: Comments was not found
 */
 postRouter.get('/:postId/comments/:userId', commentController.getAllComments);
+
+/**
+ * @swagger
+ * /api/posts/{postId}/comments:
+ *  post:
+ *      summary: Add new comment
+ *      tags: [Comments]
+ *      parameters:
+ *          - in: path
+ *            name: postId
+ *            schema:
+ *                  type: string
+ *            required: true
+ *            description: Post id to add the comment into
+ *      requestBody:
+ *          required: true
+ *          name: New Comment
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/Comment'
+ *      responses:
+ *          200:
+ *              description: The comment was succssfully added
+ *          500:
+ *              description: Some Server Error
+ */
 postRouter.post('/:postId/comments', commentController.addComment);
 
+/**
+ * @swagger
+ * /api/posts/comments/{commentId}/likes:
+ *  put:
+ *      summary: Add a like into a comment
+ *      tags: [Comments]
+ *      parameters:
+ *        - in: path
+ *          name: commentId
+ *          schema:
+ *              type: string
+ *          required: true;
+ *          description: Comment Id
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/Comment'
+ *      responses:
+ *          200:
+ *              description: The comment was succssfully changed
+ *          404:
+ *              description: The comment was not found
+ *          500:
+ *              description: Some Server Error
+ */
 postRouter.put('/comments/:commentId/likes', commentController.addCommentLike);
+
+/**
+ * @swagger
+ * /api/posts/comments/{commentId}/likes:
+ *  delete:
+ *         summary: Removes a like from a comment
+ *         tags: [Comments]
+ *         parameters:
+ *           - in: path
+ *             name: commentId
+ *             schema:
+ *                 type: string
+ *             required: true;
+ *             description: Comment Id
+ *         responses:
+ *             200:
+ *                 description: The comment was succssfully changed
+ *             404:
+ *                 description: The comment was not found
+ *             500:
+ *                 description: Some Server Error
+ */
 postRouter.delete('/comments/:commentId/likes', commentController.removeCommentLike);
 
+/**
+* @swagger
+* /api/posts/{postId}/likes:
+*   get:
+*    summary: Get all likes by postId
+*    tags: [Posts]
+*    description:  Get array of post likes that is related to spesific postId
+*    responses:
+*       '200': 
+*           description: a successful response
+*           content:
+*               application/json:
+*                   schema:
+*                       type: array
+*                       items:
+*                           $ref: '#/components/schemas/Post'
+*       404:
+*           description: post was not found
+*/
 postRouter.get('/:postId/likes', postLikesController.getPostLikes);
+
+/**
+ * @swagger
+ * /api/posts/{postId}/likes:
+ *  put:
+ *      summary: Add a like into a post
+ *      tags: [Posts]
+ *      parameters:
+ *        - in: path
+ *          name: postId
+ *          schema:
+ *              type: string
+ *          required: true;
+ *          description: Post Id
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/Post'
+ *      responses:
+ *          200:
+ *              description: The post was succssfully changed
+ *          404:
+ *              description: The post was not found
+ *          500:
+ *              description: Some Server Error
+ */
 postRouter.put('/:postId/likes', postLikesController.addPostLike);
+
+/**
+ * @swagger
+ * /api/posts/{postId}/likes:
+ *  delete:
+ *         summary: Removes a like from a post
+ *         tags: [Posts]
+ *         parameters:
+ *           - in: path
+ *             name: postId
+ *             schema:
+ *                 type: string
+ *             required: true;
+ *             description: Comment Id
+ *         responses:
+ *             200:
+ *                 description: The post was succssfully changed
+ *             404:
+ *                 description: The post was not found
+ *             500:
+ *                 description: Some Server Error
+ */
 postRouter.delete('/:postId/likes', postLikesController.removePostLike);
 
 module.exports = postRouter;
